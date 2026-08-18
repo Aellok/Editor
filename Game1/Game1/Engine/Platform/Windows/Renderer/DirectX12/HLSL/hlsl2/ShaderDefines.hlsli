@@ -1,0 +1,10 @@
+#define CBV
+#define INPUT
+#define INST_INPUT
+#define OUTPUT
+#define SAMPLER
+#define TEXTURE
+#define UAV
+#define VS_OUTPUT
+#define VS_INPUT
+#define PS_INPUT

@@ -5,7 +5,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -43,7 +42,10 @@
 build/
 Build/
 build-*/
-
+.vs/
+x64/
+Debug/
+Release/
 # CMake generated files
 CMakeFiles/
 CMakeCache.txt

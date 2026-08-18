@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Application">
+      <UniqueIdentifier>{fc54b951-671a-4013-88a2-e4b7039b68e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Network">
+      <UniqueIdentifier>{b2a8a88d-2a13-49c8-97d1-fd49cd8c7401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Enemies">
+      <UniqueIdentifier>{e401f3be-b9e1-4dde-9ae8-be95e07be464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{90ed8009-cccf-40f6-ac32-defa2ce40a8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System">
+      <UniqueIdentifier>{3de1d35a-de18-4421-b936-198c054bbf21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Renderer">
+      <UniqueIdentifier>{e63188bf-5426-4dfd-a97a-7d718d7b7c96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Renderer\Font">
+      <UniqueIdentifier>{32c78f59-049d-441b-8583-77089f0bc3d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Utils">
+      <UniqueIdentifier>{1cbb0b90-3b78-4587-bb5d-9a7f9e0a2650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Physics">
+      <UniqueIdentifier>{670d041a-4a5b-4196-8c56-661389d3f579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Camera">
+      <UniqueIdentifier>{ec7d024c-b252-4747-b5a7-79748cd53dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Network">
+      <UniqueIdentifier>{b186770c-8936-4a27-86bd-972453e03a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform">
+      <UniqueIdentifier>{411bff8c-2e7c-48f7-a91b-2370eba8ec13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows">
+      <UniqueIdentifier>{118031d4-5078-42b9-a47d-70887e09a555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows\Renderer">
+      <UniqueIdentifier>{fbbd9fa2-25d9-48cd-88fb-61de4f267b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows\Renderer\DirectX12">
+      <UniqueIdentifier>{58b157d9-df1e-49d2-968b-ee6687c29b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows\Renderer\DirectX12\HLSL">
+      <UniqueIdentifier>{2781d393-2556-4033-87d9-5093077b229a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows\Networking">
+      <UniqueIdentifier>{e6725d47-dd05-49af-b90b-07390b1f8efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ThirdParty">
+      <UniqueIdentifier>{28119584-eda5-4e02-932e-dc11ca5843ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Map">
+      <UniqueIdentifier>{7e4ab8e9-8bfc-4bf3-ad09-c49a8dad0fe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\UI">
+      <UniqueIdentifier>{6d2f02f3-4cad-4925-b6a6-b30869f7f0ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application">
+      <UniqueIdentifier>{0bc7aeb6-ca3d-4ad6-81fe-6a413b5a6361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Memory">
+      <UniqueIdentifier>{8707ad8d-383d-4fb7-afaa-9e79b51ecc1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Player">
+      <UniqueIdentifier>{b4db58b9-19e5-413d-b699-93924f0950ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Weapons">
+      <UniqueIdentifier>{1c3ad858-0102-43d0-afc2-e29705940979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Barriers">
+      <UniqueIdentifier>{011d41a1-5e70-43a3-ae81-b510dac9e174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\UI">
+      <UniqueIdentifier>{3a6ef09a-28e8-47f3-a4f2-bf32b410efdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\UI">
+      <UniqueIdentifier>{fb5c3a71-e7bf-4427-9cda-c751ff4b1474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\S">
+      <UniqueIdentifier>{32a5fa80-91d0-4ea3-9409-81d151c8cc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Platform\Windows\Utils">
+      <UniqueIdentifier>{bf3895d7-96c1-48d6-b617-0fdd7c20c3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor">
+      <UniqueIdentifier>{9a84b09c-ac9c-4dd0-bfd4-c3cf4d8dc378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor">
+      <UniqueIdentifier>{773d70d6-e070-4dbc-9367-a09e4b2c5380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler">
+      <UniqueIdentifier>{0eaa1fda-1d34-4933-898f-1b6f6798e1f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders">
+      <UniqueIdentifier>{28e844a0-2633-442c-82f6-b3eb1346b4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer">
+      <UniqueIdentifier>{f64b8cf8-0e01-4bb7-9040-59a65b5467e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser">
+      <UniqueIdentifier>{6e8d8921-a36d-4c9a-ae02-afb5cde64de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout">
+      <UniqueIdentifier>{5fe0e1a4-8f2c-4e2d-9042-e7ec16b46463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\MaterialEditor">
+      <UniqueIdentifier>{ae0ca8fc-b7f3-4c78-a394-f81c77eab9f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout">
+      <UniqueIdentifier>{331945e3-53f1-4bfa-a150-3e3839e96c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Application\Editor\EditorLayout">
+      <UniqueIdentifier>{7a503709-543d-406c-a10f-fa714e4e31e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\ApplicationMain.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Network\Server.cpp">
+      <Filter>Application\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Network\Client.cpp">
+      <Filter>Application\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Win32Window.cpp">
+      <Filter>Engine\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\WinMain.cpp">
+      <Filter>Engine\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DirectX.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Object2D.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Object3D.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Texture.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Pipeline.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\Shader.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\KeyboardManager.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\MouseManager.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\String.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Vector.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Window.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Camera\CameraManager.cpp">
+      <Filter>Engine\System\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Camera\FreeCamera.cpp">
+      <Filter>Engine\System\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Network\UDPClient.cpp">
+      <Filter>Engine\System\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Network\UDPServer.cpp">
+      <Filter>Engine\System\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\AABB.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\Object3D.cpp">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\ObjectManager2D.cpp">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\ObjectManager3D.cpp">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\Font\FontRenderer.cpp">
+      <Filter>Engine\System\Renderer\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Utils\File.cpp">
+      <Filter>Engine\System\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Utils\ObjLoader.cpp">
+      <Filter>Engine\System\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Utils\PNG.cpp">
+      <Filter>Engine\System\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Utils\Timer.cpp">
+      <Filter>Engine\System\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Networking\UPnP.cpp">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Networking\Win_UDPClient.cpp">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Networking\Win_UDPServer.cpp">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\Colliders.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\Ray.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Engine.cpp">
+      <Filter>Engine\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12VertexBuffer.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Memory\Arena.cpp">
+      <Filter>Engine\System\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\ScreenCapture.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Player.cpp">
+      <Filter>Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\Object2D.cpp">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Weapons\Bullet.cpp">
+      <Filter>Application\Weapons</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemies\MeleeEnemy.cpp">
+      <Filter>Application\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\PhysicsManager2D.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\PhysicsObject2D.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\AABB2D.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemies\EnemyManager.cpp">
+      <Filter>Application\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Barriers\Barrier.cpp">
+      <Filter>Application\Barriers</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Utils\Hash.cpp">
+      <Filter>Engine\System\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Network\NetworkManager.cpp">
+      <Filter>Engine\System\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Network\NetworkObject.cpp">
+      <Filter>Engine\System\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameState.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12CommandQueue.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Resource.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12IndexBuffer.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12RenderTarget.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Compute.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12UAV.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\Font\String2D.cpp">
+      <Filter>Engine\System\Renderer\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12String2D.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\UI\Button.cpp">
+      <Filter>Engine\Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Viewport.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Camera.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Renderer\Viewport.cpp">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\UI\TextEditor.cpp">
+      <Filter>Engine\Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Physics\QuadTree.cpp">
+      <Filter>Engine\System\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Types.cpp">
+      <Filter>Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Temp.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Memory\DynamicArray.cpp">
+      <Filter>Engine\System\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Utils\WinSaveInterface.cpp">
+      <Filter>Engine\Platform\Windows\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Utils\MonitorScale.cpp">
+      <Filter>Engine\Platform\Windows\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12PipelineManager.cpp">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\UI\TextBox.cpp">
+      <Filter>Engine\Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\UI\FileSelector.cpp">
+      <Filter>Engine\Application\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.cpp">
+      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderEditor.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.cpp">
+      <Filter>Engine\Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\EditorLayout\TabPanel.cpp">
+      <Filter>Engine\Application\Editor\EditorLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\Editor.cpp">
+      <Filter>Engine\Application\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.cpp">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\ApplicationMain.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Network\ServerEvents.h">
+      <Filter>Application\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Network\Server.h">
+      <Filter>Application\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Network\Client.h">
+      <Filter>Application\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Network\ClientEvents.h">
+      <Filter>Application\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Win32Window.h">
+      <Filter>Engine\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\d3dx12.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DirectX.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Object2D.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Object3D.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Texture.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Pipeline.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\Shader.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\ShaderBuffers.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\VertexDef.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\KeyboardManager.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\MouseManager.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\String.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Types.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Vector.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Window.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Camera\CameraManager.h">
+      <Filter>Engine\System\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Camera\FreeCamera.h">
+      <Filter>Engine\System\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Network\UDPClient.h">
+      <Filter>Engine\System\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Network\UDPServer.h">
+      <Filter>Engine\System\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\AABB.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\Object2D.h">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\Object3D.h">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\ObjectManager2D.h">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\ObjectManager3D.h">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\Font\FontRenderer.h">
+      <Filter>Engine\System\Renderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Utils\File.h">
+      <Filter>Engine\System\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Utils\ObjLoader.h">
+      <Filter>Engine\System\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Utils\PNG.h">
+      <Filter>Engine\System\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Utils\Timer.h">
+      <Filter>Engine\System\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ThirdParty\stb_truetype.h">
+      <Filter>Engine\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Networking\UPnP.h">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Networking\Win_UDPClient.h">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Networking\Win_UDPServer.h">
+      <Filter>Engine\Platform\Windows\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\Colliders.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\Ray.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Engine.h">
+      <Filter>Engine\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12VertexBuffer.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Memory\Arena.h">
+      <Filter>Engine\System\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\ScreenCapture.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Player.h">
+      <Filter>Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Weapons\Bullet.h">
+      <Filter>Application\Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemies\MeleeEnemy.h">
+      <Filter>Application\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\PhysicsManager2D.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\PhysicsObject2D.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\AABB2D.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemies\EnemyManager.h">
+      <Filter>Application\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Barriers\Barrier.h">
+      <Filter>Application\Barriers</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PhysicsObjectTypes.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Utils\Hash.h">
+      <Filter>Engine\System\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Network\NetworkManager.h">
+      <Filter>Engine\System\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Network\NetworkObject.h">
+      <Filter>Engine\System\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameState.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12CommandQueue.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Resource.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12IndexBuffer.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12RenderTarget.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Compute.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12UAV.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\Font\String2D.h">
+      <Filter>Engine\System\Renderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12String2D.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\UI\Button.h">
+      <Filter>Engine\Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Viewport.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12Camera.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Renderer\Viewport.h">
+      <Filter>Engine\System\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\UI\TextEditor.h">
+      <Filter>Engine\Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Physics\QuadTree.h">
+      <Filter>Engine\System\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Temp.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Memory\DynamicArray.h">
+      <Filter>Engine\System\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\d3dcompiler.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Utils\WinSaveInterface.h">
+      <Filter>Engine\Platform\Windows\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Utils\MonitorScale.h">
+      <Filter>Engine\Platform\Windows\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\RenderDefines.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12PipelineManager.h">
+      <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\UI\TextBox.h">
+      <Filter>Engine\Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\UI\FileSelector.h">
+      <Filter>Engine\Application\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.h">
+      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditor.h">
+      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureTypes.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.h">
+      <Filter>Engine\Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\EditorLayout\TabPanel.h">
+      <Filter>Engine\Application\Editor\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\Editor.h">
+      <Filter>Engine\Application\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.h">
+      <Filter>Engine\Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditorCallbackDefines.h">
+      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditorCallbackDefines.h">
+      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

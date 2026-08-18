@@ -1,0 +1,2 @@
+
+#define MULTI_SAMPLE_COUNT 1
