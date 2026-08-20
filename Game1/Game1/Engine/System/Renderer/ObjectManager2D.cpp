@@ -69,29 +69,59 @@ void ObjectManager2D::Init(void* pPlatformInterface,DX12PipelineManager* Pipelin
 	TextureCount = 0;
 	StringCount = 0;
 	pipelineManager = PipelineManager;
-	PipelineObjects2D.Init(pipelineManager->PipelineList.elementCount, sizeof(DynamicArray));
-	PipelineObjects3D.Init(pipelineManager->PipelineList.elementCount, sizeof(DynamicArray));
-	PipelineStrings.Init(pipelineManager->PipelineList.elementCount, sizeof(DynamicArray));
+	PipelineObjects2D.Init(pipelineManager->PipelineList2D.elementCount, sizeof(DynamicArray));
+	PipelineObjects3D.Init(pipelineManager->PipelineList3D.elementCount, sizeof(DynamicArray));
+	PipelineStrings.Init(pipelineManager->PipelineList2D.elementCount, sizeof(DynamicArray));
 
 	Arena.Create(64 * 1024 * 1024); // 32 mb
-	ObjectPipelineNames = (char**)Arena.Allocate(pipelineManager->PipelineList.elementCount * sizeof(char*));
-	StringPipelineNames = (char**)Arena.Allocate(pipelineManager->PipelineList.elementCount * sizeof(char*));
-	for (u32 i = 0; i < pipelineManager->PipelineList.elementCount; i++)
+
+	for (u32 i = 0; i < pipelineManager->PipelineList2D.elementCount; i++)
 	{
-		ObjectPipelineNames[i] = (char*)Arena.Allocate(sizeof(char) * 32);
-		StringPipelineNames[i] = (char*)Arena.Allocate(sizeof(char) * 32);
 		DynamicArray arr = {0};
 		PipelineObjects2D.Add(&arr);
-		PipelineObjects3D.Add(&arr);
 		PipelineStrings.Add(&arr);
-
 	}
+	for (u32 i = 0; i < pipelineManager->PipelineList3D.elementCount; i++)
+	{
+		DynamicArray arr = { 0 };
+		PipelineObjects3D.Add(&arr);
+	}
+	
 #if !SERVER_MODE
 
 	CreateNewDefaultCenteredMesh(this, pPlatformInterface, &Arena);
 	CreateNewDefaultTopLeftMesh(this, pPlatformInterface, &Arena);
 #endif
 	VecList = (Vector*)GEngine.Global.Allocate(10240 * sizeof(Vector));
+}
+void ObjectManager2D::AddMesh3D(const char* MeshName,void* VertexData,u32 VertexCount,u32 VertexSize,void* IndexData,u32 IndexCount,u32 IndexSize)
+{
+	DirectX12* DX12 = (DirectX12*)PlatformInterface;
+	DX12VertexBufferDesc VDesc = { VertexCount,VertexData,VertexSize,VertexSize / VertexCount };
+	VDesc.ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(VDesc.Size);
+	DX12IndexBufferDesc IDesc = { IndexCount,(u32*)IndexData, IndexSize };
+	IDesc.ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(IDesc.Size);
+
+	Instance3DDataDesc IDDesc;
+	IDDesc.InstanceData = nullptr;
+	IDDesc.InstanceDataSize = 0;
+	IDDesc.InstanceElementSize = 0;
+
+	Meshes3D[MeshCount3D].Init(DX12, &GEngine.Global, VDesc, IDesc, IDDesc);
+
+	LoadedMeshList3D[MeshCount3D++] = MeshName;
+}
+void ObjectManager2D::AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA)
+{
+	pipelineManager->AddPipeline3D(((DirectX12*)PlatformInterface)->device,Name,fileName,Depth,MSAA );
+	DynamicArray arr = {0};
+	PipelineObjects3D.Add(&arr);
+}
+void ObjectManager2D::AddPipeline2D(const char* Name, const char* fileName, bool Depth, bool MSAA)
+{
+	pipelineManager->AddPipeline3D(((DirectX12*)PlatformInterface)->device, Name, fileName, Depth, MSAA);
+	DynamicArray arr = { 0 };
+	PipelineObjects3D.Add(&arr);
 }
 void ObjectManager2D::AddTexture(void* Texture,const char* TextureName,u32 TextureWidth,u32 TextureHeight)
 {
@@ -124,8 +154,12 @@ void ObjectManager2D::AddTexture(DX12Texture* Texture)
 Object2D* ObjectManager2D::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName,const char* PipelineName)
 {
 	DynamicArray* PipelineObjectList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineObjects2D);
-	u32 PipelineIndex = pipelineManager->GetPipelineIndex(PipelineName);
-
+	s32 PipelineIndex = pipelineManager->GetPipelineIndex2D(PipelineName);
+	if (PipelineIndex == -1)
+	{
+		printf("Error: AddObject: Failed to find pipeline %s\n", PipelineName);
+		return nullptr;
+	}
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	s32 MeshID = GetStringIndex(LoadedMeshList, MeshCount, ModelFileName);
 	if (MeshID == -1) 
@@ -147,8 +181,8 @@ Object2D* ObjectManager2D::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector 
 	Obj->MeshID = MeshID;
 	Obj->TextureID = TextureID;
 	Obj->PipelineID = PipelineIndex;
-
-	if (!SearchPipelines(ObjectPipelineNames,ObjPipelineNamesCount, PipelineName))
+	
+	if (!PipelineObjectList[PipelineIndex].data)
 	{
 		u32 NameLength = strlen(PipelineName);
 		if (NameLength >= 32)
@@ -156,7 +190,6 @@ Object2D* ObjectManager2D::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector 
 			printf("Error: Pipeline name longer than buffer\n");
 		}
 		PipelineObjectList[PipelineIndex].Init(MAX_OBJECTS, sizeof(u32));
-		memcpy(ObjectPipelineNames[ObjPipelineNamesCount++], PipelineName, NameLength);
 	}
 
 	PipelineObjectList[PipelineIndex].Add(&ObjectCount);
@@ -209,8 +242,12 @@ Object3D* ObjectManager2D::AddObject3D(ObjectDesc Desc)
 Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName)
 {
 	DynamicArray* PipelineObjectList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineObjects3D);
-	u32 PipelineIndex = pipelineManager->GetPipelineIndex(PipelineName);
-
+	s32 PipelineIndex = pipelineManager->GetPipelineIndex3D(PipelineName);
+	if (PipelineIndex == -1)
+	{
+		printf("Error: AddObject3D: Failed to find pipeline %s\n", PipelineName);
+		return nullptr;
+	}
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	s32 MeshID = GetStringIndex(LoadedMeshList3D, MeshCount3D, ModelFileName);
 	if (MeshID == -1)
@@ -266,7 +303,7 @@ Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vecto
 	Obj->TextureID = TextureID;
 	Obj->PipelineID = PipelineIndex;
 	Obj->Color = Color;
-	if (!SearchPipelines(ObjectPipelineNames, ObjPipelineNamesCount, PipelineName))
+	if (!PipelineObjectList[PipelineIndex].data)
 	{
 		u32 NameLength = strlen(PipelineName);
 		if (NameLength >= 32)
@@ -274,7 +311,6 @@ Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vecto
 			printf("Error: Pipeline name longer than buffer\n");
 		}
 		PipelineObjectList[PipelineIndex].Init(MAX_OBJECTS, sizeof(u32));
-		memcpy(ObjectPipelineNames[ObjPipelineNamesCount++], PipelineName, NameLength);
 	}
 
 	PipelineObjectList[PipelineIndex].Add(&ObjectCount3D);
@@ -354,9 +390,15 @@ String2D* ObjectManager2D::AddString(const char* String, Vector Pos, u32 Size,co
 	String2D* Result = &Strings[StringCount];
 	DynamicArray* PipelineList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineStrings);
 
-	u32 PipelineIndex = pipelineManager->GetPipelineIndex(PipelineName);
+	s32 PipelineIndex = pipelineManager->GetPipelineIndex2D(PipelineName);
 
-	if (!SearchPipelines(StringPipelineNames, StrPipelineNamesCount,PipelineName))
+	if (PipelineIndex == -1)
+	{
+		printf("Error: AddString: Failed to find pipeline %s\n", PipelineName);
+		return nullptr;
+	}
+
+	if (!PipelineList[PipelineIndex].data)
 	{
 		u32 NameLength = strlen(PipelineName);
 		if (NameLength >= 32)
@@ -364,13 +406,12 @@ String2D* ObjectManager2D::AddString(const char* String, Vector Pos, u32 Size,co
 			printf("Error: Pipeline name longer than buffer\n");
 		}
 		PipelineList[PipelineIndex].Init(8, sizeof(u32));
-		memcpy(StringPipelineNames[StrPipelineNamesCount++], PipelineName, NameLength);
 	}
 	
 	
 	PipelineList[PipelineIndex].Add(&StringCount);
 
-	DX12String->Init(String, pipelineManager->GetPipeline(PipelineIndex)->InstanceBufferElementSize);
+	DX12String->Init(String, pipelineManager->GetPipeline2D(PipelineIndex)->InstanceBufferElementSize);
 
 	Result->TextSize = Size;
 	Result->Pos = Pos;
@@ -389,6 +430,7 @@ String2D* ObjectManager2D::AddString(const char* String, Vector Pos, u32 Size,co
 }
 void ObjectManager2D::Draw(DX12CommandQueue* Queue)
 { 
+	Update();
 #if !SERVER_MODE
 	DirectX12* DX12 = GEngine.pRendererInterface;
 	//3D
@@ -402,7 +444,7 @@ void ObjectManager2D::Draw(DX12CommandQueue* Queue)
 			continue;
 		}
 
-		pipelineManager->SetPipeline(Queue, DX12->frameIndex, i, true);
+		pipelineManager->SetPipeline3D(Queue, DX12->frameIndex, i, true);
 
 		for (u32 ObjIndex = 0; ObjIndex < PipelineLists[i].elementCount; ObjIndex++)
 		{
@@ -429,7 +471,7 @@ void ObjectManager2D::Draw(DX12CommandQueue* Queue)
 			continue;
 		}
 
-		pipelineManager->SetPipeline(Queue, DX12->frameIndex, i, true);
+		pipelineManager->SetPipeline2D(Queue, DX12->frameIndex, i, true);
 
 		for (u32 ObjIndex = 0; ObjIndex < PipelineLists[i].elementCount;ObjIndex++)
 		{
@@ -454,7 +496,7 @@ void ObjectManager2D::Draw(DX12CommandQueue* Queue)
 			continue;
 		}
 		
-		pipelineManager->SetPipeline(Queue, DX12->frameIndex, i, true);
+		pipelineManager->SetPipeline2D(Queue, DX12->frameIndex, i, true);
 
 		for (u32 ObjIndex = 0; ObjIndex < PipelineLists[i].elementCount; ObjIndex++)
 		{
@@ -488,14 +530,12 @@ u32 ObjectManager2D::GetStringLength(const char* String,const char* FontName,u32
 	
 	
 }
-bool ObjectManager2D::SearchPipelines(char** List,u32 Length,const char* PipelineName)
+
+void ObjectManager2D::Update()
 {
-	for (u32 i = 0; i < Length; i++)
-	{
-		if (!strcmp(List[i], PipelineName))
-		{
-			return true;
-		}
-	}
-	return false;
+	//DX12Pipeline* pipelines = DYNAMIC_ARR_GET_CAST_DATA();
+	//for (u32 i = 0; i < )
+	//{
+		
+	//}
 }

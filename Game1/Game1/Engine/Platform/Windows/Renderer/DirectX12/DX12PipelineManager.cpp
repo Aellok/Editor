@@ -3,30 +3,32 @@
 
 void DX12PipelineManager::Init()
 {
-	PipelineList.Init(32, sizeof(DX12Pipeline)); // dont want this reallocating because points will be invalid
+	PipelineList2D.Init(32, sizeof(DX12Pipeline)); // dont want this reallocating because points will be invalid
+	PipelineList3D.Init(32, sizeof(DX12Pipeline)); // dont want this reallocating because points will be invalid
 }
-void DX12PipelineManager::SetPipeline(DX12CommandQueue* Queue,u32 FrameIndex,u32 Index,bool Reset)
+void DX12PipelineManager::SetPipeline2D(DX12CommandQueue* Queue,u32 FrameIndex,u32 Index,bool Reset)
 {
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
 	
 	Pipelines[Index].Bind(Queue,FrameIndex,Reset);
 	CurrentPipeline = &Pipelines[Index];
 }
-void DX12PipelineManager::AddPipeline(DX12Pipeline* pipeline)
+void DX12PipelineManager::AddPipeline2D(DX12Pipeline* pipeline)
 {
-	PipelineList.Add(pipeline);
+	PipelineList2D.Add(pipeline);
 }
-void DX12PipelineManager::AddPipeline(ID3D12Device* Device,const char* Name, const char* fileName,bool Depth,bool MSAA)
+void DX12PipelineManager::AddPipeline2D(ID3D12Device* Device,const char* Name, const char* fileName,bool Depth,bool MSAA)
 {
 	DX12Pipeline Pipeline;
 	Pipeline.Create(Device,Name, fileName, Depth, MSAA);
-	PipelineList.Add(&Pipeline);
+	PipelineList2D.Add(&Pipeline);
 }
-u32 DX12PipelineManager::GetPipelineIndex(DX12Pipeline* pipeline)
-{
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
 
-	for (u32 i = 0; i < PipelineList.elementCount; i++)
+u32 DX12PipelineManager::GetPipelineIndex2D(DX12Pipeline* pipeline)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
+
+	for (u32 i = 0; i < PipelineList2D.elementCount; i++)
 	{
 		if (pipeline == &Pipelines[i])
 		{
@@ -34,11 +36,11 @@ u32 DX12PipelineManager::GetPipelineIndex(DX12Pipeline* pipeline)
 		}
 	}
 }
-u32 DX12PipelineManager::GetPipelineIndex(const char* PipelineName)
+s32 DX12PipelineManager::GetPipelineIndex2D(const char* PipelineName)
 {
 	//TODO: Hash map would be better
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
-	for (u32 i = 0; i < PipelineList.elementCount; i++)
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
+	for (u32 i = 0; i < PipelineList2D.elementCount; i++)
 	{
 		if (!strcmp(Pipelines[i].PipelineName,PipelineName))
 		{
@@ -47,20 +49,77 @@ u32 DX12PipelineManager::GetPipelineIndex(const char* PipelineName)
 	}
 	return -1;
 }
-DX12Pipeline* DX12PipelineManager::GetPipeline(u32 Index)
+DX12Pipeline* DX12PipelineManager::GetPipeline2D(u32 Index)
 {
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
 	return &Pipelines[Index];
 }
-DX12Pipeline* DX12PipelineManager::GetPipeline(const char* Name)
+DX12Pipeline* DX12PipelineManager::GetPipeline2D(const char* Name)
 {
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
-	return &Pipelines[GetPipelineIndex(Name)];
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
+	return &Pipelines[GetPipelineIndex2D(Name)];
 }
-void DX12PipelineManager::Update(u32 FrameIndex,void* OnResizeBuffer, u32 Index)
+void DX12PipelineManager::Update2D(u32 FrameIndex,void* OnResizeBuffer, u32 Index)
 {
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList);
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
 	Pipelines[Index].FrameIndex = FrameIndex;
 	Pipelines[Index].UpdateVSOnResize(OnResizeBuffer);
 }
+u32 DX12PipelineManager::GetPipelineIndex3D(DX12Pipeline* pipeline)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
 
+	for (u32 i = 0; i < PipelineList3D.elementCount; i++)
+	{
+		if (pipeline == &Pipelines[i])
+		{
+			return i;
+		}
+	}
+}
+s32 DX12PipelineManager::GetPipelineIndex3D(const char* PipelineName)
+{
+	//TODO: Hash map would be better
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
+	for (u32 i = 0; i < PipelineList3D.elementCount; i++)
+	{
+		if (!strcmp(Pipelines[i].PipelineName, PipelineName))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+DX12Pipeline* DX12PipelineManager::GetPipeline3D(u32 Index)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
+	return &Pipelines[Index];
+}
+DX12Pipeline* DX12PipelineManager::GetPipeline3D(const char* Name)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
+	return &Pipelines[GetPipelineIndex3D(Name)];
+}
+void DX12PipelineManager::Update3D(u32 FrameIndex, void* OnResizeBuffer, u32 Index)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
+	Pipelines[Index].FrameIndex = FrameIndex;
+	Pipelines[Index].UpdateVSOnResize(OnResizeBuffer);
+}
+void DX12PipelineManager::AddPipeline3D(DX12Pipeline* pipeline)
+{
+	PipelineList3D.Add(pipeline);
+}
+void DX12PipelineManager::AddPipeline3D(ID3D12Device* Device, const char* Name, const char* fileName, bool Depth, bool MSAA)
+{
+	DX12Pipeline Pipeline;
+	Pipeline.Create(Device, Name, fileName, Depth, MSAA);
+	PipelineList3D.Add(&Pipeline);
+}
+void DX12PipelineManager::SetPipeline3D(DX12CommandQueue* Queue, u32 FrameIndex, u32 Index, bool Reset)
+{
+	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
+
+	Pipelines[Index].Bind(Queue, FrameIndex, Reset);
+	CurrentPipeline = &Pipelines[Index];
+}

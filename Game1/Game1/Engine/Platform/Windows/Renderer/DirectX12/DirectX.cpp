@@ -127,15 +127,15 @@ bool DirectX12::LoadPipeline(HWND hwnd, u32 Width, u32 Height)
 void DirectX12::LoadPipelines()
 {
 	
-	PipelineManager->AddPipeline(device,"Main3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Main3DPipeline.desc",true,false);
-	PipelineManager->AddPipeline(device, "NewMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/NewMain3D.desc", true, false);
-	PipelineManager->AddPipeline(device, "BasicMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/BasicMain3DPipeline.desc", true, false);
-	PipelineManager->AddPipeline(device,"Instance3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstancePipeline.desc", true,false);
+	PipelineManager->AddPipeline3D(device,"Main3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Main3DPipeline.desc",true,false);
+	PipelineManager->AddPipeline3D(device, "NewMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/NewMain3D.desc", true, false);
+	PipelineManager->AddPipeline3D(device, "BasicMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/BasicMain3DPipeline.desc", true, false);
+	PipelineManager->AddPipeline3D(device,"Instance3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstancePipeline.desc", true,false);
 
-	PipelineManager->AddPipeline(device,"InstnaceOrtho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstanceOrthoPipeline.desc", true,false);
-	PipelineManager->AddPipeline(device,"Ortho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/OrthoPipeline.desc", true,false);
-	PipelineManager->AddPipeline(device,"Font", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/FontPipeline.desc", false,false);
-	PipelineManager->AddPipeline(device, "Font2", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Font2Pipeline.desc", false, false);
+	PipelineManager->AddPipeline2D(device,"InstnaceOrtho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstanceOrthoPipeline.desc", true,false);
+	PipelineManager->AddPipeline2D(device,"Ortho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/OrthoPipeline.desc", true,false);
+	PipelineManager->AddPipeline2D(device,"Font", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/FontPipeline.desc", false,false);
+	PipelineManager->AddPipeline2D(device, "Font2", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Font2Pipeline.desc", false, false);
 }
 
 void DirectX12::WaitForPreviousFrame()
@@ -143,10 +143,16 @@ void DirectX12::WaitForPreviousFrame()
 	MainCommandQueue.WaitForGPU();
 
 	frameIndex = swapChain->GetCurrentBackBufferIndex();
-	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineManager->PipelineList);
-	for (u32 i = 0; i < PipelineManager->PipelineList.elementCount; i++)
+	DX12Pipeline* Pipelines3D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineManager->PipelineList3D);
+	DX12Pipeline* Pipelines2D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineManager->PipelineList2D);
+
+	for (u32 i = 0; i < PipelineManager->PipelineList3D.elementCount; i++)
 	{
-		Pipelines->FrameIndex = frameIndex;
+		Pipelines3D->FrameIndex = frameIndex;
+	}
+	for (u32 i = 0; i < PipelineManager->PipelineList2D.elementCount; i++)
+	{
+		Pipelines2D->FrameIndex = frameIndex;
 	}
 }
 
@@ -155,8 +161,8 @@ void DirectX12::StartRender2D()
 	ID3D12DescriptorHeap* descHeaps[1] = { TextureHeap };
 	MainCommandQueue.SetDescriptorHeaps(1, descHeaps);
 	
-	u32 Index = PipelineManager->GetPipelineIndex("Ortho");
-	PipelineManager->SetPipeline(&MainCommandQueue, frameIndex, Index,false);
+	u32 Index = PipelineManager->GetPipelineIndex2D("Ortho");
+	PipelineManager->SetPipeline2D(&MainCommandQueue, frameIndex, Index,false);
 	
 	renderTargets[frameIndex]->SetTarget(&MainCommandQueue, true);
 
@@ -165,8 +171,8 @@ void DirectX12::StartRender3D(Vector BackgroundColor)
 {
 	renderTargets[frameIndex]->Reset(&MainCommandQueue);
 
-	u32 Index = PipelineManager->GetPipelineIndex("Main3D");
-	PipelineManager->SetPipeline(&MainCommandQueue, frameIndex, Index,true);
+	u32 Index = PipelineManager->GetPipelineIndex3D("Main3D");
+	PipelineManager->SetPipeline3D(&MainCommandQueue, frameIndex, Index,true);
 
 	renderTargets[frameIndex]->SetTarget(&MainCommandQueue,true);
 	//MainCommandQueue.SetRenderTarget(, CD3DX12_CPU_DESCRIPTOR_HANDLE(pipeline.dsDescriptorHeap->GetCPUDescriptorHandleForHeapStart()), true);

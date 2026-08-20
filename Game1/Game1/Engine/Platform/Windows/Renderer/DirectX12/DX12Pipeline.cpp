@@ -120,6 +120,7 @@ void DX12Pipeline::Create(ID3D12Device* Device, D3D12_INPUT_ELEMENT_DESC* VSInpu
 
 void DX12Pipeline::Create(ID3D12Device* Device, const s8* Name,const s8* FileName, bool DepthTesting, bool MultiSample)
 {
+	memcpy(FilePath, FileName, strlen(FileName) + 1);
 	memcpy(PipelineName, Name, strlen(Name) + 1);
 	DX12PipelineDesc2 desc;
 	File file;

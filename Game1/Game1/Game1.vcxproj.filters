@@ -118,6 +118,9 @@
     <Filter Include="Engine\Application\Editor\EditorLayout">
       <UniqueIdentifier>{7a503709-543d-406c-a10f-fa714e4e31e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Application\Asset">
+      <UniqueIdentifier>{a0f9ed88-a40c-4de6-90ae-85409192e4a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\ApplicationMain.cpp">
@@ -377,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.cpp">
       <Filter>Engine\Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Application\Asset\Asset.cpp">
+      <Filter>Engine\Application\Asset</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +679,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditorCallbackDefines.h">
       <Filter>Engine\Application\Editor\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\Asset\Asset.h">
+      <Filter>Engine\Application\Asset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

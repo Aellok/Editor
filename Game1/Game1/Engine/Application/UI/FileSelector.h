@@ -34,6 +34,8 @@ struct FileSelector
 	DynamicArray LabelString;
 	//Char
 	DynamicArray Contents;
+	
+	char FilePath[MAX_PATH];
 
 	u32 textSize;
 	ObjectManager2D* ObjectManager;

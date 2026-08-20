@@ -84,7 +84,7 @@ void Engine::StartFrame()
 		((Win32_Window*)pWindow->platformWindow)->Resized = false;
 	}
 
-	pRendererInterface->MainCommandQueue.Reset(pPipelineManager->GetPipeline("Main3D"));
+	pRendererInterface->MainCommandQueue.Reset(pPipelineManager->GetPipeline3D("Main3D"));
 	
 #endif;
 }

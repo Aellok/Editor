@@ -78,7 +78,7 @@ void DX12Object2D::DrawInstanced(DX12CommandQueue* Queue,void* Buffer,u32 Instan
 	buffer.Model = DirectX::XMMatrixTranspose(Model);
 	buffer.Color = { 0.0f,0.0f,0.0f,0.0f };
 
-	DX12->PipelineManager->GetPipeline(PipelineIndex)->UpdateVSPerFrame(Queue,&buffer);
+	DX12->PipelineManager->GetPipeline2D(PipelineIndex)->UpdateVSPerFrame(Queue,&buffer);
 
 	DX12->MainCommandQueue.DrawInstanced(6, InstanceNum, 0, 0);
 }

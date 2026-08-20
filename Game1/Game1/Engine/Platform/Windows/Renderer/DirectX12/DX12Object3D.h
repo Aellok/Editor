@@ -38,6 +38,9 @@ struct DX12Object3D
 	void* VertList;
 	u32 VertCount;
 
+	u32 IndexCount;
+	void* IndexList;
+	
 	void Init(DirectX12* Context, MemoryArena* Arena, DX12VertexBufferDesc VDesc, DX12IndexBufferDesc IDesc, Instance3DDataDesc IDDesc);
 	void DrawInstanced(DX12CommandQueue* Queue, void* Buffer, u32 InstanceNum, u32 PipelineIndex);
 	void Draw(DX12CommandQueue* Queue, DX12Pipeline* Pipeline);

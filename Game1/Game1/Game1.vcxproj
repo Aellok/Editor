@@ -151,6 +151,7 @@
     <ClInclude Include="Application\PhysicsObjectTypes.h" />
     <ClInclude Include="Application\Player\Player.h" />
     <ClInclude Include="Application\Weapons\Bullet.h" />
+    <ClInclude Include="Engine\Application\Asset\Asset.h" />
     <ClInclude Include="Engine\Application\Editor\Editor.h" />
     <ClInclude Include="Engine\Application\Editor\EditorLayout\TabPanel.h" />
     <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Application\Network\Server.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
     <ClCompile Include="Application\Weapons\Bullet.cpp" />
+    <ClCompile Include="Engine\Application\Asset\Asset.cpp" />
     <ClCompile Include="Engine\Application\Editor\Editor.cpp" />
     <ClCompile Include="Engine\Application\Editor\EditorLayout\TabPanel.cpp" />
     <ClCompile Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.cpp" />

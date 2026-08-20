@@ -13,9 +13,13 @@ void DX12Object3D::Init(DirectX12* Context, MemoryArena* Arena, DX12VertexBuffer
 	VertexBuffer.Initialize(DX12->device, &DX12->LoadCommandQueue, VDesc);
 	IndexBuffer.Initialize(DX12->device, &DX12->LoadCommandQueue, IDesc);
 
+	VertCount = VDesc.Count;
 	VertList = Arena->Allocate(VDesc.Size);
 	memcpy(VertList, VDesc.Data, VDesc.Size);
-	VertCount = VDesc.Count;
+	
+	IndexCount = IDesc.Count;
+	IndexList = Arena->Allocate(IDesc.Size);
+	memcpy(IndexList, IDesc.Data, IDesc.Size);
 
 	if (IDDesc.InstanceData && IDDesc.InstanceElementSize)
 	{
@@ -62,7 +66,7 @@ void DX12Object3D::DrawInstanced(DX12CommandQueue* Queue, void* Buffer, u32 Inst
 	buffer.Model = DirectX::XMMatrixTranspose(Model);
 	buffer.Color = { 0.0f,0.0f,0.0f,0.0f };
 
-	DX12->PipelineManager->GetPipeline(PipelineIndex)->UpdateVSPerFrame(Queue, &buffer);
+	DX12->PipelineManager->GetPipeline3D(PipelineIndex)->UpdateVSPerFrame(Queue, &buffer);
 
 	DX12->MainCommandQueue.DrawInstanced(6, InstanceNum, 0, 0);
 }

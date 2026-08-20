@@ -132,8 +132,8 @@ void ApplicationMain()
 		Object2DOnResizeBuffer OnResize;
 		OnResize.Ortho = DirectX::XMMatrixTranspose(DirectX::XMMatrixOrthographicOffCenterLH(0, GEngine.pWindow->width, GEngine.pWindow->height, 0, 0.0f, 100.0f));
 
-		GEngine.pPipelineManager->GetPipeline("Ortho")->UpdateVSOnResize(&OnResize);
-		GEngine.pPipelineManager->GetPipeline("Font")->UpdateVSOnResize(&OnResize);
+		GEngine.pPipelineManager->GetPipeline2D("Ortho")->UpdateVSOnResize(&OnResize);
+		GEngine.pPipelineManager->GetPipeline2D("Font")->UpdateVSOnResize(&OnResize);
 
 		//GEngine.pObjManager2D->UpdateString(FPSString,GEngine.FPSStr,32);
 		//GEngine.pObjManager2D->UpdateString(FrameTimeString, GEngine.FrameTimeStr, 32);

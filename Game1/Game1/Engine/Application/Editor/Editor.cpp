@@ -1,5 +1,14 @@
 #include "Editor.h"
 #include "Application\Engine.h"
+#include "Application\Asset\Asset.h"
+void Editor_OnKeyDown(void* Parent, u32 Key)
+{
+	Editor* editor = (Editor*)Parent;
+	if (Key == VK_F5)
+	{
+		editor->SaveAsset("Assets/Test.asset");
+	}
+}
 void Editor::Init()
 {
 	
@@ -21,8 +30,8 @@ void Editor::Init()
 
 
 	SceneViewport.Initialize(GEngine.pRendererInterface->device, ViewportPosition.m128_f32[0], ViewportPosition.m128_f32[1], ViewportDim.m128_f32[0], ViewportDim.m128_f32[1], "SceneViewport");
-	SceneViewport.SetPipeline(SceneViewport.PipelineManager.GetPipeline("Ortho"));
-	SceneViewport.PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Default", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/BasicMain3DPipeline.desc", true, false);
+	SceneViewport.SetPipeline(SceneViewport.PipelineManager.GetPipeline2D("Ortho"));
+	SceneViewport.PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Default", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/BasicMain3DPipeline.desc", true, false);
 
 	GEngine.pObjManager2D->AddTexture(&SceneViewport.Texture);
 	ViewportObject = GEngine.pObjManager2D->AddObject(ViewportPosition, ViewportDim, { 0.0f,0.0f }, { 0,0,0,1 }, "TopLeft", "SceneViewport", "Ortho");
@@ -30,12 +39,19 @@ void Editor::Init()
 	ObjectManager->Init(GEngine.pRendererInterface, &SceneViewport.PipelineManager);
 	
 	shaderEditor.Init(&SceneViewport.MManager, &SceneViewport.KManager, ObjectManager, PanelWidth, {0,HeaderHeight,1},ViewportDim,Color);
-	materialEditor.Init(&SceneViewport.MManager,ObjectManager, { 0.0f, HeaderHeight, 1.0f }, { PanelWidth,(float)GEngine.pWindow->height - HeaderHeight },Color);
+	materialEditor.Init(&SceneViewport.MManager,ObjectManager, this,{ 0.0f, HeaderHeight, 1.0f }, { PanelWidth,(float)GEngine.pWindow->height - HeaderHeight },Color);
 	OnRegisterChangedParams params;
 	params.Parent = &materialEditor;
 	
 	shaderEditor.RegisterOnPSRegisterChanged(MaterialEditor_OnPSRegistersChanged,params);
 	materialEditor.MaterialOptions.AddOnPropertyAddedCallback(&shaderEditor,ShaderEditor_OnPropertyChanged);
+	kCallbacks.IsEnabled = true;
+	kCallbacks.OnKeyDown = Editor_OnKeyDown;
+	kCallbacks.OnKeyUp = NULL;
+	kCallbacks.Parent = this;
+
+	GEngine.pWindow->keyboardManager.Register(&kCallbacks);
+
 }
 void Editor::Update()
 {
@@ -78,4 +94,48 @@ void Editor::Draw()
 	ViewportObject->Draw();
 	OptionsPanel->Draw();
 	tabPanel.Draw();
+}
+
+void Editor::SaveAsset(const char* FilePath)
+{
+	Asset* asset;
+	DX12Object3D* Obj = &ObjectManager->Meshes3D[materialEditor.Object->MeshID];
+
+	File file;
+	file.Open(FilePath, "wb");
+	//write header.
+	for (u32 i = 0; i < SPBCount; i++)
+	{
+		file.Write(&shaderEditor.Editors[i].Contents.elementCount, sizeof(u32));
+	}
+
+	u32 VertexSize = Obj->VertCount * sizeof(Vertex);
+	file.Write(&VertexSize, sizeof(u32));
+	file.Write(&Obj->VertCount, sizeof(u32));
+
+	u32 IndexSize = Obj->IndexCount * sizeof(u32);
+	file.Write(&IndexSize, sizeof(u32));
+	file.Write(&Obj->IndexCount, sizeof(u32));
+
+	u32 TextureCount = materialEditor.MaterialOptions.Selectors.elementCount;
+	file.Write(&TextureCount, sizeof(u32));
+	//shaders
+	for (u32 i = 0; i < SPBCount; i++)
+	{
+		file.Write(shaderEditor.Editors[i].Contents.data, shaderEditor.Editors[i].Contents.elementCount);
+	}
+	DX12Pipeline* List = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, SceneViewport.PipelineManager.PipelineList3D);
+	file.Write(&List[materialEditor.Object->PipelineID].FilePath, MAX_PATH);
+
+	file.Write(Obj->VertList, VertexSize);
+	file.Write(Obj->IndexList,IndexSize);
+
+	FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, materialEditor.MaterialOptions.Selectors);
+	for (u32 i = 0; i < TextureCount; i++)
+	{
+		file.Write(&Selectors[i].ContentFileInfo.FilePath, MAX_PATH);
+	}
+	file.Close();
+
+	
 }

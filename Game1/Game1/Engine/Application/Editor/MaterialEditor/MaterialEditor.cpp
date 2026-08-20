@@ -1,9 +1,17 @@
 #include "MaterialEditor.h"
 #include "Application\Engine.h"
 #include "System/Utils/PNG.h"
-#include "Application\Editor\ShaderEditor\ShaderEditor.h"
+#include "Application\Editor\Editor.h"
 #include "System/Utils/ObjLoader.h"
 #include "System\Utils\File.h"
+#include "Application/Asset/Asset.h"
+
+enum MaterialEditor_DragDropTypes
+{
+	eME_Obj,
+	eME_Asset,
+	eME_Total
+};
 void MaterialEditor_OnPropertyChanged(PropertyChangeInfo Info)
 {
 	MaterialEditor* Editor = (MaterialEditor*)Info.Parent;
@@ -27,12 +35,40 @@ void MaterialEditor_OnPropertyChanged(PropertyChangeInfo Info)
 		}
 	}
 }
-enum MaterialEditor_DragDropTypes
+void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 {
-	eME_Obj,
-	eME_Asset,
-	eME_Total
-};
+	MaterialEditor* Editor = (MaterialEditor*)params.Parent;
+	DataString* Names = DYNAMIC_ARR_GET_CAST_DATA(DataString, params.RegisterNames);
+
+	for (s32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i >= (s32)params.RegisterCount; i--)
+	{
+		//delete the other ones.
+		Editor->MaterialOptions.Selectors.Delete(i);
+	}
+	for (u32 i = Editor->MaterialOptions.Selectors.elementCount; i < params.RegisterCount; i++)
+	{
+		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
+		Vector BasePos = { 0,20,0.1 };
+		if (i > 0)
+		{
+			BasePos = Selectors[i - 1].BasePosition;
+			BasePos.m128_f32[1] += 60;
+		}
+
+		Editor->MaterialOptions.AddSelector(&GEngine.pWindow->mouseManager, BasePos, Names[i].Buffer, "");
+
+		Selectors[i].AddPropertyChangeCallback(params.Parent, MaterialEditor_OnPropertyChanged);
+	}
+
+
+	for (u32 i = 0; i < params.RegisterCount; i++)
+	{
+		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
+		Selectors[i].UpdateLabel(Names[i].Buffer, strlen(Names[i].Buffer));
+	}
+
+}
+
 
 const char* FileExtensions[eTotal] =
 {
@@ -55,7 +91,7 @@ u32 GetFileExtensionType(const char* FilePath)
 }
 void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 {
-	MaterialEditor* Editor = (MaterialEditor*)Parent;
+	MaterialEditor* MatEditor = (MaterialEditor*)Parent;
 	switch(GetFileExtensionType(FileName))
 	{
 		case eME_Obj:
@@ -67,18 +103,34 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			desc.TextureName = "Textures/BlankTextureSheet.png";
 			desc.PipelineName = "Default";
 			desc.ModelFileName = FileName;
-			Editor->Object = Editor->ObjManager->AddObject3D(desc);
+			MatEditor->Object = MatEditor->ObjManager->AddObject3D(desc);
 			break;
 		}
 		case eME_Asset:
 		{
+			Asset* asset = LoadAsset(FileName);
+			
+			ObjectDesc desc = { 0 };
+			desc.Dim = { 1,1,1 };
+			desc.Pos = { 0,0,0 };
+			desc.Color = { 1,1,1,1 };
+			desc.TextureName = asset->Textures[0];
+			desc.PipelineName = "Test";
+			desc.ModelFileName = FileName;
+
+			MatEditor->ObjManager->AddMesh3D(FileName, asset->Verticies, asset->Header.VertexCount, asset->Header.VertexSize, asset->Indicies, asset->Header.IndexCount, asset->Header.IndexSize);
+			MatEditor->ObjManager->AddTexture(asset->Textures[0]);
+			//add pipeline.
+			MatEditor->ObjManager->AddPipeline3D("Test", asset->PipelineName, true, false);
+			MatEditor->Object = MatEditor->ObjManager->AddObject3D(desc);
 			break;
 		}
 	}
 }
 
-void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager2D* Manager, Vector Pos, Vector Dim, Vector Color)
+void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager2D* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color)
 {
+	editor = InEditor;
 	ObjManager = Manager;
 	Object = Manager->AddObject3D({ 0,0,0 }, { 0.5f,0.5f,0.5f }, { 0,0,0 }, { 1,1,1,1 }, "Models/Sphere.obj", "Textures/BlankTextureSheet.png", "Default");
 	MaterialOptions.Init(GEngine.pObjManager2D, Pos, Dim, Color);
@@ -106,39 +158,7 @@ void MaterialEditor::Update(bool Enabled)
 };
 void MaterialEditor::Draw()
 {
-	MaterialOptions.Draw();
+	MaterialOptions.Draw(); 
 	Object->Draw();
 };
-void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
-{
-	MaterialEditor* Editor = (MaterialEditor*)params.Parent;
-	DataString* Names = DYNAMIC_ARR_GET_CAST_DATA(DataString, params.RegisterNames);
 
-	for (s32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i >= (s32)params.RegisterCount;i--)
-	{
-		//delete the other ones.
-		Editor->MaterialOptions.Selectors.Delete(i);
-	}
-	for (u32 i = Editor->MaterialOptions.Selectors.elementCount; i < params.RegisterCount; i++)
-	{
-		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
-		Vector BasePos = { 0,20,0.1 };
-		if (i > 0)
-		{
-			BasePos = Selectors[i - 1].BasePosition;
-			BasePos.m128_f32[1] += 60;
-		}
-		
-		Editor->MaterialOptions.AddSelector(&GEngine.pWindow->mouseManager, BasePos, Names[i].Buffer, "");
-		
-		Selectors[i].AddPropertyChangeCallback(params.Parent, MaterialEditor_OnPropertyChanged);
-	}
-
-	
-	for (u32 i = 0; i < params.RegisterCount; i++)
-	{
-		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
-		Selectors[i].UpdateLabel(Names[i].Buffer, strlen(Names[i].Buffer));
-	}
-	
-}

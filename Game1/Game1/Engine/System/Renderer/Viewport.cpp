@@ -90,14 +90,16 @@ void Viewport::Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u
 {
 	PipelineManager.Init();
 	//Engine specific pipelines.
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Main3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Main3DPipeline.desc", true, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "NewMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/NewMain3D.desc", true, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Instance3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstancePipeline.desc", true, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "InstanceOrtho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstanceOrthoPipeline.desc", true, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Ortho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/OrthoPipeline.desc", true, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Font", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/FontPipeline.desc", false, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Font2", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Font2Pipeline.desc", false, false);
-	PipelineManager.AddPipeline(GEngine.pRendererInterface->device, "Default", "Engine/Application/Shaders/CompiledShaders/DefaultShader.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Main3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Main3DPipeline.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "NewMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/NewMain3D.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Instance3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstancePipeline.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "InstanceOrtho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstanceOrthoPipeline.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Default", "Engine/Application/Shaders/CompiledShaders/DefaultShader.desc", true, false);
+
+	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Ortho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/OrthoPipeline.desc", true, false);
+	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Font", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/FontPipeline.desc", false, false);
+	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Font2", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Font2Pipeline.desc", false, false);
+
 	Focused = false;
 	Pos = { (f32)x,(f32)y };
 	Dim = { (f32)ScreenWidth,(f32)ScreenWidth };
@@ -172,12 +174,12 @@ void Viewport::StartRender(bool RenderToTexture)
 	DX12Camera* cam = CManager.GetCamera(Camera2D);
 	OnResize.Ortho = cam->PMatrix;
 
-	const char* Pipelines2D[3] = {"Ortho","Font","Font2"};
-	const char* Pipelines3D[3] = {"Main3D","NewMain3D","Default"};
+	DX12Pipeline* pipeline2D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineManager.PipelineList2D);
+	DX12Pipeline* pipeline3D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineManager.PipelineList3D);
 
-	for (u32 i = 0; i < 3; i++)
+	for (u32 i = 0; i < PipelineManager.PipelineList2D.elementCount; i++)
 	{
-		PipelineManager.GetPipeline(Pipelines2D[i])->UpdateVSOnResize(&OnResize);
+		PipelineManager.GetPipeline2D(pipeline2D[i].PipelineName)->UpdateVSOnResize(&OnResize);
 	}
 	DX12Camera* Cam = CManager.GetCamera(Camera3D);
 	DefaultOnResizeBuffer OnResize3D;
@@ -186,9 +188,9 @@ void Viewport::StartRender(bool RenderToTexture)
 	OnResize3D.View = DirectX::XMMatrixTranspose(Cam->VMatrix);
 
 	//3d
-	for (u32 i = 0; i < 3; i++)
+	for (u32 i = 0; i < PipelineManager.PipelineList3D.elementCount; i++)
 	{
-		PipelineManager.GetPipeline(Pipelines3D[i])->UpdateVSOnResize(&OnResize3D);
+		PipelineManager.GetPipeline3D(pipeline3D[i].PipelineName)->UpdateVSOnResize(&OnResize3D);
 	}
 }
 void Viewport::StopRender()

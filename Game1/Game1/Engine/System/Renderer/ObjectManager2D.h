@@ -82,8 +82,6 @@ struct ObjectManager2D
 	u32 ObjPipelineNamesCount;
 	u32 StrPipelineNamesCount;
 
-	char** ObjectPipelineNames;
-	char** StringPipelineNames;
 	//DynamicArray
 	DynamicArray PipelineObjects2D;
 	//DynamicArray
@@ -99,13 +97,14 @@ struct ObjectManager2D
 	Object3D*	  AddObject3D(ObjectDesc Desc);
 	Object3D*	  AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName);
 	Object2D*     AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, DX12Texture* Texture);
-	
 	String2D*	  AddString(const char* String, Vector Pos, u32 Size, const char* PipelineName);
+	void		  AddMesh3D(const char* MeshName,void* VertexData, u32 VertexCount, u32 VertexSize, void* IndexData, u32 IndexCount, u32 IndexSize);
+	void		  AddPipeline2D( const char* Name, const char* fileName, bool Depth, bool MSAA);
+	void		  AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA);
 	void          UpdateString(String2D* StringObj, char* String, u32 Size);
 	void		  RemoveObject(Object2D* Obj);
 	u32           GetStringLength( const char* String, const char* FontName, u32 Size);
 	void		  AddTexture(const char* TextureName);
 	void		  AddTexture(DX12Texture* Texture);
 	void		  AddTexture(void* Texture, const char* TextureName, u32 TextureWidth, u32 TextureHeight);
-	bool		  SearchPipelines(char** List, u32 Length, const char* PipelineName);
 };

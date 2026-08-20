@@ -10,9 +10,10 @@
 #include "Platform/Windows/Renderer/DirectX12/DX12PipelineManager.h"
 #include "ShaderEditor\ShaderEditor.h"
 #include "MaterialEditor\MaterialEditor.h"
-
+#include "System/KeyboardManager.h"
 struct Editor
 {
+	KeyboardCallbacks kCallbacks;
 	ShaderEditor shaderEditor;
 	MaterialEditor materialEditor;
 
@@ -33,4 +34,5 @@ struct Editor
 	void Update();
 	void Draw();
 
+	void SaveAsset(const char* FilePath);
 };

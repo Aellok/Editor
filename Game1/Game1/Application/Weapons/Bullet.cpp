@@ -32,7 +32,7 @@ void Bullet_OnCollide(void* Parent,PhysicsObject2D* Other)
 
 void Bullet::Init(Vector Pos, f32 Rotation, Vector Dim, f32 Speed)
 {
-	ObjectDesc desc = {this, Pos, Dim, { 0,0,Rotation }, { 1,1,1,1 }, "Centered", NULL, false, false, true, true};
+	ObjectDesc desc = {this, Pos, Dim, { 0,0,Rotation }, { 1,1,1,1 },"Ortho", "Centered", NULL, false, false, true, true};
 	
 	Obj = GEngine.pObjManager2D->AddObject(desc);
 	

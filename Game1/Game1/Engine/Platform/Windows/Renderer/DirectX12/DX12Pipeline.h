@@ -93,8 +93,9 @@ struct DX12PipelineDesc2
 
 struct DX12Pipeline
 {
+	char FilePath[MAX_PATH];
 	char PipelineName[32];
-
+	
 	ID3D12Device* device;
 	ID3D12PipelineState* pipelineState;
 

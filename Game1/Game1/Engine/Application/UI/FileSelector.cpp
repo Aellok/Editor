@@ -11,6 +11,7 @@ void FileSelector_LButtonDown(void* Parent,Mouse mouse)
 	u32 SlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '/');
 	u32 BackSlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '\\');
 	u32 Start = (SlashIndex == 0 ? BackSlashIndex : SlashIndex) + 1;
+	
 	fs->UpdateContent(&fs->ContentFileInfo.FilePath[Start], ExtIndex - Start);
 
 	for (u32 i = 0; i < fs->Callbacks.elementCount;i++)
@@ -37,7 +38,7 @@ void FileSelector::Init(MouseManager* MManager,ObjectManager2D* Manager, Vector 
 	Pos.m128_f32[0] += Label->PixelLength + 10;
 
 	FileString = ObjectManager->AddString(FileName, Pos, TextSize, "Font");
-	Contents.Init(8, sizeof(char*));
+	Contents.Init(32, sizeof(char*));
 	UpdateContent((char*)FileName, strlen(FileName));
 
 	LabelString.Init(8, sizeof(char*));
