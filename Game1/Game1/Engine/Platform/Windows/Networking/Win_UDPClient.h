@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../System/Types.h"
+#include "System/Types.h"
 struct Win_UDPClient
 {
 	s32 RecvSize;

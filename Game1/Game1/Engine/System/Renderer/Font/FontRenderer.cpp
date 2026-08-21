@@ -1,9 +1,9 @@
 #include "FontRenderer.h"
-#include "../../Utils/File.h"
-#include "../../../Platform/Windows/Renderer/DirectX12/VertexDef.h"
+#include "System/Utils/File.h"
+#include "Platform/Windows/Renderer/DirectX12/VertexDef.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
-#include "../../../ThirdParty/stb_truetype.h"
+#include "ThirdParty/stb_truetype.h"
 
 #include "System\String.h"
 #include "Application\Engine.h"

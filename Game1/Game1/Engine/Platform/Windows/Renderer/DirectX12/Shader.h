@@ -1,8 +1,8 @@
 #pragma once
-#include "../../../../System/Types.h"
+#include "System/Types.h"
 #include "ShaderBuffers.h"
 #include "DX12.h"
-#include "../../../../System/Utils/File.h"
+#include "System/Utils/File.h"
 #define CONSTANT_BUFFER_COUNT 2
 #define CONSTANT_BUFFER_SIZE  1024 * 1024 
 

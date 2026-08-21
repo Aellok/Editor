@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Platform/Windows/Renderer/DirectX12/DX12Object2D.h"
-#include "../Types.h"
+#include "Platform/Windows/Renderer/DirectX12/DX12Object2D.h"
+#include "System/Types.h"
 struct Object2D
 {
 	Vector Pos;

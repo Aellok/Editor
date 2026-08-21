@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Platform/Windows/Networking/Win_UDPClient.h"
+#include "Platform/Windows/Networking/Win_UDPClient.h"
 
 struct UDPClient
 {

@@ -1,8 +1,8 @@
 #include "ObjectManager3D.h"
 #include <string.h>
-#include "../Utils/ObjLoader.h"
-#include "../../Platform/Windows/Renderer/DirectX12/VertexDef.h"
-#include "../String.h"
+#include "System/Utils/ObjLoader.h"
+#include "Platform/Windows/Renderer/DirectX12/VertexDef.h"
+#include "System/String.h"
 #include "Application\Engine.h"
 /*
 void ObjectManager3D::Init(void* PlatformInterface)

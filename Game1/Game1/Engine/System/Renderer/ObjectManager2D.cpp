@@ -1,6 +1,6 @@
 #include "ObjectManager2D.h"
-#include "../String.h"
-#include "../../Platform/Windows/Renderer/DirectX12/VertexDef.h"
+#include "System/String.h"
+#include "Platform/Windows/Renderer/DirectX12/VertexDef.h"
 #include "Application\Engine.h"
 #include "System\Utils\ObjLoader.h"
 #define STATIC_INSTANCED_DATA_OFFSET MAX_TEXTURES * OBJECT2D_MAX_STATIC_INSTANCE

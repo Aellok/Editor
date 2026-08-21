@@ -4,12 +4,6 @@
     <Filter Include="Application">
       <UniqueIdentifier>{fc54b951-671a-4013-88a2-e4b7039b68e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Network">
-      <UniqueIdentifier>{b2a8a88d-2a13-49c8-97d1-fd49cd8c7401}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Enemies">
-      <UniqueIdentifier>{e401f3be-b9e1-4dde-9ae8-be95e07be464}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{90ed8009-cccf-40f6-ac32-defa2ce40a8b}</UniqueIdentifier>
     </Filter>
@@ -55,26 +49,11 @@
     <Filter Include="Engine\ThirdParty">
       <UniqueIdentifier>{28119584-eda5-4e02-932e-dc11ca5843ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Map">
-      <UniqueIdentifier>{7e4ab8e9-8bfc-4bf3-ad09-c49a8dad0fe6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\UI">
-      <UniqueIdentifier>{6d2f02f3-4cad-4925-b6a6-b30869f7f0ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Application">
       <UniqueIdentifier>{0bc7aeb6-ca3d-4ad6-81fe-6a413b5a6361}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\System\Memory">
       <UniqueIdentifier>{8707ad8d-383d-4fb7-afaa-9e79b51ecc1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Player">
-      <UniqueIdentifier>{b4db58b9-19e5-413d-b699-93924f0950ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Weapons">
-      <UniqueIdentifier>{1c3ad858-0102-43d0-afc2-e29705940979}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application\Barriers">
-      <UniqueIdentifier>{011d41a1-5e70-43a3-ae81-b510dac9e174}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\System\UI">
       <UniqueIdentifier>{3a6ef09a-28e8-47f3-a4f2-bf32b410efdd}</UniqueIdentifier>
@@ -82,40 +61,37 @@
     <Filter Include="Engine\Application\UI">
       <UniqueIdentifier>{fb5c3a71-e7bf-4427-9cda-c751ff4b1474}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\S">
-      <UniqueIdentifier>{32a5fa80-91d0-4ea3-9409-81d151c8cc42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Platform\Windows\Utils">
       <UniqueIdentifier>{bf3895d7-96c1-48d6-b617-0fdd7c20c3db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor">
+    <Filter Include="Application\Editor">
       <UniqueIdentifier>{9a84b09c-ac9c-4dd0-bfd4-c3cf4d8dc378}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor">
+    <Filter Include="Application\Editor\ShaderEditor">
       <UniqueIdentifier>{773d70d6-e070-4dbc-9367-a09e4b2c5380}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler">
+    <Filter Include="Application\Editor\ShaderEditor\ShaderCompiler">
       <UniqueIdentifier>{0eaa1fda-1d34-4933-898f-1b6f6798e1f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders">
+    <Filter Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders">
       <UniqueIdentifier>{28e844a0-2633-442c-82f6-b3eb1346b4e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer">
+    <Filter Include="Application\Editor\ShaderEditor\ShaderCompiler\Lexer">
       <UniqueIdentifier>{f64b8cf8-0e01-4bb7-9040-59a65b5467e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser">
+    <Filter Include="Application\Editor\ShaderEditor\ShaderCompiler\Parser">
       <UniqueIdentifier>{6e8d8921-a36d-4c9a-ae02-afb5cde64de7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout">
+    <Filter Include="Application\Editor\ShaderEditor\ShaderEditorLayout">
       <UniqueIdentifier>{5fe0e1a4-8f2c-4e2d-9042-e7ec16b46463}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\MaterialEditor">
+    <Filter Include="Application\Editor\MaterialEditor">
       <UniqueIdentifier>{ae0ca8fc-b7f3-4c78-a394-f81c77eab9f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout">
+    <Filter Include="Application\Editor\MaterialEditor\MaterialEditorLayout">
       <UniqueIdentifier>{331945e3-53f1-4bfa-a150-3e3839e96c08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Application\Editor\EditorLayout">
+    <Filter Include="Application\Editor\EditorLayout">
       <UniqueIdentifier>{7a503709-543d-406c-a10f-fa714e4e31e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Application\Asset">
@@ -125,12 +101,6 @@
   <ItemGroup>
     <ClCompile Include="Application\ApplicationMain.cpp">
       <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Network\Server.cpp">
-      <Filter>Application\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Network\Client.cpp">
-      <Filter>Application\Network</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Platform\Windows\Win32Window.cpp">
       <Filter>Engine\Platform\Windows</Filter>
@@ -237,17 +207,8 @@
     <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\ScreenCapture.cpp">
       <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
-      <Filter>Application\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Renderer\Object2D.cpp">
       <Filter>Engine\System\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Weapons\Bullet.cpp">
-      <Filter>Application\Weapons</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemies\MeleeEnemy.cpp">
-      <Filter>Application\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Physics\PhysicsManager2D.cpp">
       <Filter>Engine\System\Physics</Filter>
@@ -258,12 +219,6 @@
     <ClCompile Include="Engine\System\Physics\AABB2D.cpp">
       <Filter>Engine\System\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemies\EnemyManager.cpp">
-      <Filter>Application\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Barriers\Barrier.cpp">
-      <Filter>Application\Barriers</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Utils\Hash.cpp">
       <Filter>Engine\System\Utils</Filter>
     </ClCompile>
@@ -272,9 +227,6 @@
     </ClCompile>
     <ClCompile Include="Engine\System\Network\NetworkObject.cpp">
       <Filter>Engine\System\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GameState.cpp">
-      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Platform\Windows\Renderer\DirectX12\DX12CommandQueue.cpp">
       <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
@@ -342,64 +294,52 @@
     <ClCompile Include="Engine\Application\UI\FileSelector.cpp">
       <Filter>Engine\Application\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.cpp">
-      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderEditor.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.cpp">
-      <Filter>Engine\Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\EditorLayout\TabPanel.cpp">
-      <Filter>Engine\Application\Editor\EditorLayout</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\Editor.cpp">
-      <Filter>Engine\Application\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.cpp">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Application\Asset\Asset.cpp">
       <Filter>Engine\Application\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\Editor.cpp">
+      <Filter>Application\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\EditorLayout\TabPanel.cpp">
+      <Filter>Application\Editor\EditorLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\MaterialEditor\MaterialEditor.cpp">
+      <Filter>Application\Editor\MaterialEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.cpp">
+      <Filter>Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderEditor.cpp">
+      <Filter>Application\Editor\ShaderEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.cpp">
+      <Filter>Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\ApplicationMain.h">
       <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Network\ServerEvents.h">
-      <Filter>Application\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Network\Server.h">
-      <Filter>Application\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Network\Client.h">
-      <Filter>Application\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Network\ClientEvents.h">
-      <Filter>Application\Network</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Platform\Windows\Win32Window.h">
       <Filter>Engine\Platform\Windows</Filter>
@@ -524,15 +464,6 @@
     <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\ScreenCapture.h">
       <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
-      <Filter>Application\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Weapons\Bullet.h">
-      <Filter>Application\Weapons</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemies\MeleeEnemy.h">
-      <Filter>Application\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Physics\PhysicsManager2D.h">
       <Filter>Engine\System\Physics</Filter>
     </ClInclude>
@@ -542,15 +473,6 @@
     <ClInclude Include="Engine\System\Physics\AABB2D.h">
       <Filter>Engine\System\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemies\EnemyManager.h">
-      <Filter>Application\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Barriers\Barrier.h">
-      <Filter>Application\Barriers</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\PhysicsObjectTypes.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Utils\Hash.h">
       <Filter>Engine\System\Utils</Filter>
     </ClInclude>
@@ -559,9 +481,6 @@
     </ClInclude>
     <ClInclude Include="Engine\System\Network\NetworkObject.h">
       <Filter>Engine\System\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GameState.h">
-      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Platform\Windows\Renderer\DirectX12\DX12CommandQueue.h">
       <Filter>Engine\Platform\Windows\Renderer\DirectX12</Filter>
@@ -632,56 +551,56 @@
     <ClInclude Include="Engine\Application\UI\FileSelector.h">
       <Filter>Engine\Application\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditor.h">
-      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditor.h">
-      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureTypes.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderCompiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.h">
-      <Filter>Engine\Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\EditorLayout\TabPanel.h">
-      <Filter>Engine\Application\Editor\EditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\Editor.h">
-      <Filter>Engine\Application\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.h">
-      <Filter>Engine\Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\ShaderEditor\ShaderEditorCallbackDefines.h">
-      <Filter>Engine\Application\Editor\ShaderEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Application\Editor\MaterialEditor\MaterialEditorCallbackDefines.h">
-      <Filter>Engine\Application\Editor\MaterialEditor</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Application\Asset\Asset.h">
       <Filter>Engine\Application\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\Editor.h">
+      <Filter>Application\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\EditorLayout\TabPanel.h">
+      <Filter>Application\Editor\EditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\MaterialEditor\MaterialEditor.h">
+      <Filter>Application\Editor\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\MaterialEditor\MaterialEditorCallbackDefines.h">
+      <Filter>Application\Editor\MaterialEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\MaterialEditor\MaterialEditorLayout\MaterialOptionsPanel.h">
+      <Filter>Application\Editor\MaterialEditor\MaterialEditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderEditor.h">
+      <Filter>Application\Editor\ShaderEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderEditorCallbackDefines.h">
+      <Filter>Application\Editor\ShaderEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders\InputLayoutBuilder.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureBuilder.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Builders\RootSignatureTypes.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Lexer\Lexer.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Lexer\LexerDataTypes.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Parser\Parser.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderCompiler\Parser\ParserDataTypes.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderCompiler\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.h">
+      <Filter>Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

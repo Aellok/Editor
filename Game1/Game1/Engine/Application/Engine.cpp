@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "../Platform/Windows/Win32Window.h"
+#include "Platform/Windows/Win32Window.h"
 #include "System\Network\UDPClient.h"
 #include "System\Network\UDPServer.h"
 
@@ -24,19 +24,25 @@ void Engine::Init(EngineSpec spec)
 	Global.Create(1024 * 1024 * 1024); // allocate 1 GB
 	pWindow = (Window*)Global.Allocate( sizeof(Window));
 	
+	if (spec.EnableNetworking)
+	{
 #if SERVER_MODE
-	pServer = (UDPServer*)Global.Allocate(sizeof(UDPServer));
+		pServer = (UDPServer*)Global.Allocate(sizeof(UDPServer));
+		pServer->Init(spec.ServerInternalIP, spec.ServerIP, spec.ServerPort);
 #else
-	pClient = (UDPClient*)Global.Allocate(sizeof(UDPClient));
+		pClient = (UDPClient*)Global.Allocate(sizeof(UDPClient));
+		pClient->Init(spec.ServerIP, spec.Port, spec.ServerPort);
 #endif
+		pNetworkManager = (NetworkManager*)Global.Allocate(sizeof(NetworkManager));
+		pNetworkManager->Init();
+	}
 
 	pRendererInterface = (DirectX12*)Global.Allocate(sizeof(DirectX12));
 	pPipelineManager = (DX12PipelineManager*)Global.Allocate(sizeof(DX12PipelineManager));
 	pObjManager3D = (ObjectManager3D*)Global.Allocate(sizeof(ObjectManager3D));
 	pObjManager2D = (ObjectManager2D*)Global.Allocate(sizeof(ObjectManager2D));
 	pPhysicsManager2D = (PhysicsManager2D*)Global.Allocate(sizeof(PhysicsManager2D));
-	pNetworkManager = (NetworkManager*)Global.Allocate(sizeof(NetworkManager));
-
+	
 	pCamManager = (CameraManager*)Global.Allocate(sizeof(CameraManager));
 
 	WindowSpec winSpec;
@@ -46,32 +52,22 @@ void Engine::Init(EngineSpec spec)
 	winSpec.windowName = spec.windowName;
 
 	pWindow->Create(winSpec);
-#if !SERVER_MODE
 	pPipelineManager->Init();
 	pRendererInterface->OnInit(((Win32_Window*)pWindow->platformWindow)->hwnd, pWindow->width, pWindow->height);
-	
-#endif
 	pObjManager3D->Init(pRendererInterface);
 	pObjManager2D->Init(pRendererInterface,pRendererInterface->PipelineManager);
 	pPhysicsManager2D->Init();
-	pNetworkManager->Init();
-#if !SERVER_MODE //Client
-	pClient->Init(spec.ServerIP, spec.Port, spec.ServerPort);
+	
 	pCamManager->Init(&pWindow->mouseManager, &pWindow->keyboardManager);
-	//pCamManager->SetCamera(pCamManager->AddCamera(45.0f * (PI / 180.0f), pWindow->width, pWindow->height, { 0.0,0.0f,-3.0f },  eFreeCam),eFreeCam);
 
 	for (u32 i = 0; i < eTotal; i++)
 	{
 		DefaultFont[i].Init(pRendererInterface, &Global);
 		DefaultFont[i].LoadFont(pRendererInterface, "Textures/Roboto-Black.ttf", DefaultFontSizes[i]);
-		//DefaultFont[i].LoadFont(pRendererInterface, "Textures/CascadiaMono-VariableFont_wght.ttf", DefaultFontSizes[i]);
-		//DefaultFont[i].LoadFont(pRendererInterface, "Textures/JetBrainsMono_Bold.ttf", DefaultFontSizes[i]);
-
 	}
 
-#else
-	pServer->Init(spec.ServerInternalIP, spec.ServerIP, spec.ServerPort);
-#endif
+	Camera2D = pCamManager->AddCamera(45 * (PI / 180), pWindow->width, pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eOrthoCam);
+	Camera3D = pCamManager->AddCamera(45 * (PI / 180), pWindow->width, pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eFreeCam);
 }
 void Engine::StartFrame()
 {
@@ -85,7 +81,31 @@ void Engine::StartFrame()
 	}
 
 	pRendererInterface->MainCommandQueue.Reset(pPipelineManager->GetPipeline3D("Main3D"));
+	Object2DOnResizeBuffer OnResize;
 	
+	DX12Camera* Cam2D = pCamManager->GetCamera(Camera2D);
+	DX12Camera* Cam3D = pCamManager->GetCamera(Camera2D);
+
+	OnResize.Ortho = Cam2D->PMatrix;
+
+	DX12Pipeline* pipeline2D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, pPipelineManager->PipelineList2D);
+	DX12Pipeline* pipeline3D = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, pPipelineManager->PipelineList3D);
+
+	for (u32 i = 0; i < pPipelineManager->PipelineList2D.elementCount; i++)
+	{
+		pipeline2D[i].UpdateVSOnResize(&OnResize);
+	}
+	DefaultOnResizeBuffer OnResize3D;
+	OnResize3D.CamPos = Cam3D->Position;
+	OnResize3D.Proj = DirectX::XMMatrixTranspose(Cam3D->PMatrix);
+	OnResize3D.View = DirectX::XMMatrixTranspose(Cam3D->VMatrix);
+
+	//3d
+	for (u32 i = 0; i < pPipelineManager->PipelineList3D.elementCount; i++)
+	{
+		pPipelineManager->GetPipeline3D(pipeline3D[i].PipelineName)->UpdateVSOnResize(&OnResize3D);
+	}
+
 #endif;
 }
 

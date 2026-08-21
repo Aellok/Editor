@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Types.h"
-#include "../Vector.h"
+#include "System/Types.h"
+#include "System/Vector.h"
 struct AABB
 {
 	Vector Min;

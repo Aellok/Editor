@@ -51,12 +51,12 @@ void DX12Camera::Update(f32 FrameTime)
 }
 void DX12Camera::Resize(u32 ScreenWidth, u32 ScreenHeight)
 {
-	if (IsOrtho)
+	if (!IsOrtho)
 	{
-		PMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixOrthographicOffCenterLH(0, ScreenWidth, ScreenHeight, 0, 0.0f, 100.0f));
+		PMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, (f32)ScreenWidth / (f32)ScreenHeight, 0.1f, 1000);
 	}
 	else
 	{
-		PMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, (f32)ScreenWidth / (f32)ScreenHeight, 0, 1000);
+		PMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixOrthographicOffCenterLH(0, ScreenWidth, ScreenHeight, 0, 0.0f, 100.0f));
 	}
 }

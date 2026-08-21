@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Types.h"
-#include "../../../Platform/Windows/Renderer/DirectX12/DX12Texture.h"
-#include "../../../Platform/Windows/Renderer/DirectX12/DirectX.h"
-#include "../Object2D.h"
+#include "System/Types.h"
+#include "Platform/Windows/Renderer/DirectX12/DX12Texture.h"
+#include "Platform/Windows/Renderer/DirectX12/DirectX.h"
+#include "System/Renderer/Object2D.h"
 #include "System\Memory\DynamicArray.h"
 struct Glyph
 {

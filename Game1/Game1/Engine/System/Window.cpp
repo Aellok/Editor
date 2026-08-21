@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "../Platform/Windows/Win32Window.h"
+#include "Platform/Windows/Win32Window.h"
 void Window::Create(WindowSpec spec)
 {
 	width = spec.width;

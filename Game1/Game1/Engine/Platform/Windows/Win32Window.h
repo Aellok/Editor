@@ -1,8 +1,8 @@
 #pragma once
 #include "windows.h"
-#include "../../System/Types.h"
-#include "../../System/MouseManager.h"
-#include "../../System/KeyboardManager.h"
+#include "System/Types.h"
+#include "System/MouseManager.h"
+#include "System/KeyboardManager.h"
 
 struct Win32_WindowSpec
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include "../../../../System/Types.h"
-#include "../../../../System/Vector.h"
+#include "System/Types.h"
+#include "System/Vector.h"
 
 //NOTE: All these need to be 256 aligned
 struct DefaultOnResizeBuffer

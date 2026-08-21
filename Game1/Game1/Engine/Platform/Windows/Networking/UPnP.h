@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../System/Types.h"
+#include "System/Types.h"
 struct UPnPEntry
 {
 	wchar_t InternalIp[128];

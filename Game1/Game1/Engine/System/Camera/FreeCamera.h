@@ -1,5 +1,5 @@
 #pragma once
-#include "../MouseManager.h"
+#include "System/MouseManager.h"
 
 void FreeCamera_LButtonDown(void* Parent, Mouse mouse);
 void FreeCamera_LButtonUp(void* Parent, Mouse mouse);

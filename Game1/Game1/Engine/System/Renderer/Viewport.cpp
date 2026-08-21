@@ -94,7 +94,7 @@ void Viewport::Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u
 	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "NewMain3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/NewMain3D.desc", true, false);
 	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Instance3D", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstancePipeline.desc", true, false);
 	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "InstanceOrtho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/InstanceOrthoPipeline.desc", true, false);
-	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Default", "Engine/Application/Shaders/CompiledShaders/DefaultShader.desc", true, false);
+	PipelineManager.AddPipeline3D(GEngine.pRendererInterface->device, "Default", "Application/Shaders/CompiledShaders/DefaultShader.desc", true, false);
 
 	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Ortho", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/OrthoPipeline.desc", true, false);
 	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Font", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/FontPipeline.desc", false, false);

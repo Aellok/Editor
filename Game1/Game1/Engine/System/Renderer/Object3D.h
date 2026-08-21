@@ -1,7 +1,7 @@
 #pragma once
-#include "../Vector.h"
-#include "../Types.h"
-#include "../Physics/AABB.h"
+#include "System/Vector.h"
+#include "System/Types.h"
+#include "System/Physics/AABB.h"
 struct Object3D
 {
 	Vector Pos;

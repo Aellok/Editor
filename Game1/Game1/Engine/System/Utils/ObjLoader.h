@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Types.h"
-#include "../Vector.h"
-#include "../Physics/AABB.h"
+#include "System/Types.h"
+#include "System/Vector.h"
+#include "System/Physics/AABB.h"
 struct ObjData
 {
 	u32 VertexListSize;

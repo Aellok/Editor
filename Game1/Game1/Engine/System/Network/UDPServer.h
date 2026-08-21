@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Platform/Windows/Networking/Win_UDPServer.h"
+#include "Platform/Windows/Networking/Win_UDPServer.h"
 #include <mutex>
 #define UDPSERVER_MSG_SIZE 255
 

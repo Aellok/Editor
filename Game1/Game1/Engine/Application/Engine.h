@@ -25,7 +25,7 @@ struct EngineSpec
 	u32 width;
 	u32 height;
 	
-	
+	bool EnableNetworking;
 	u32 Port;
 	u32 ServerPort;
 
@@ -76,6 +76,9 @@ struct Engine
 	char MemoryStr[255] = {0};
 
 	Font DefaultFont[eTotal];
+
+	CameraIndex Camera2D;
+	CameraIndex Camera3D;
 
 	void Init(EngineSpec spec);
 

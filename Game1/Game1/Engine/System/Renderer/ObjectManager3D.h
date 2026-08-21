@@ -1,8 +1,8 @@
 #pragma once
 #include "Object3D.h"
 
-#include "../../Platform/Windows/Renderer/DirectX12/DX12Object3D.h"
-#include "../../Platform/Windows/Renderer/DirectX12/DX12Texture.h"
+#include "Platform/Windows/Renderer/DirectX12/DX12Object3D.h"
+#include "Platform/Windows/Renderer/DirectX12/DX12Texture.h"
 #define MAX_OBJECTS 255 * 255
 #define MAX_MESHES  16
 
