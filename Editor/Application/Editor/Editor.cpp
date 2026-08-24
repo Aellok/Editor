@@ -4,14 +4,48 @@
 void Editor_OnKeyDown(void* Parent, u32 Key)
 {
 	Editor* editor = (Editor*)Parent;
-	if (Key == VK_F5)
+	if (Key == VK_CONTROL)
 	{
-		editor->SaveAsset("Assets/Test.asset");
+		editor->ctrl = true;
+	}
+	switch(editor->tabPanel.CurrentTab)
+	{
+		case 0: // Shader Editor
+		{
+			if (Key == VK_F5)
+			{	
+				DX12Pipeline* pipeline = editor->shaderEditor.CreatePipeline();
+				
+				if (pipeline)
+				{
+					memcpy(pipeline->PipelineName, "MaterialEditorPipeline", strlen("MaterialEditorPipeline"));
+					editor->objectManager->AddPipeline3D("MaterialEditorPipeline", pipeline);
+				}
+			}
+			break;
+		}
+		case 1: // Material Editor
+		{
+			if (editor->ctrl && Key == 'S')
+			{
+				editor->SaveAsset("Assets/Test.asset");
+			}
+			break;
+		}
+	}
+}
+void Editor_OnKeyUp(void* Parent, u32 Key)
+{
+	Editor* editor = (Editor*)Parent;
+	if (Key == VK_CONTROL)
+	{
+		editor->ctrl = false;
 	}
 }
 void Editor::Init()
 {
-	
+	ctrl = false;
+	PipelineChanged = false;
 	f32 PanelWidth = (float)GEngine.pWindow->width * 0.2f;
 	f32 TabsHeight = 20;
 	f32 HeaderHeight = 20;
@@ -35,16 +69,18 @@ void Editor::Init()
 
 	GEngine.pObjManager2D->AddTexture(&SceneViewport.Texture);
 	ViewportObject = GEngine.pObjManager2D->AddObject(ViewportPosition, ViewportDim, { 0.0f,0.0f }, { 0,0,0,1 }, "TopLeft", "SceneViewport", "Ortho");
-	ObjectManager = (ObjectManager2D*)GEngine.Global.Allocate(sizeof(ObjectManager2D));
-	ObjectManager->Init(GEngine.pRendererInterface, &SceneViewport.PipelineManager);
+	objectManager = (ObjectManager*)GEngine.Global.Allocate(sizeof(ObjectManager));
+	objectManager->Init(GEngine.pRendererInterface, &SceneViewport.PipelineManager);
 	
-	shaderEditor.Init(&SceneViewport.MManager, &SceneViewport.KManager, ObjectManager, PanelWidth, {0,HeaderHeight,1},ViewportDim,Color);
-	materialEditor.Init(&SceneViewport.MManager,ObjectManager, this,{ 0.0f, HeaderHeight, 1.0f }, { PanelWidth,(float)GEngine.pWindow->height - HeaderHeight },Color);
+	shaderEditor.Init(&SceneViewport.MManager, &SceneViewport.KManager, objectManager, PanelWidth, {0,HeaderHeight,1},ViewportDim,Color);
+	materialEditor.Init(&SceneViewport.MManager, objectManager, this,{ 0.0f, HeaderHeight, 1.0f }, { PanelWidth,(float)GEngine.pWindow->height - HeaderHeight },Color);
 	OnRegisterChangedParams params;
 	params.Parent = &materialEditor;
 	
 	shaderEditor.RegisterOnPSRegisterChanged(MaterialEditor_OnPSRegistersChanged,params);
 	materialEditor.MaterialOptions.AddOnPropertyAddedCallback(&shaderEditor,ShaderEditor_OnPropertyChanged);
+	
+	materialEditor.AddOnObjectChangedCallback(&shaderEditor,ShaderEditor_OnObjectChanged);
 	kCallbacks.IsEnabled = true;
 	kCallbacks.OnKeyDown = Editor_OnKeyDown;
 	kCallbacks.OnKeyUp = NULL;
@@ -87,7 +123,7 @@ void Editor::Draw()
 			break;
 		}
 	}
-	ObjectManager->Draw(&SceneViewport.Queue);
+	objectManager->Draw(&SceneViewport.Queue);
 
 	SceneViewport.StopRender();
 	
@@ -99,8 +135,9 @@ void Editor::Draw()
 void Editor::SaveAsset(const char* FilePath)
 {
 	Asset* asset;
-	DX12Object3D* Obj = &ObjectManager->Meshes3D[materialEditor.Object->MeshID];
+	DX12Object3D* Obj = &objectManager->Meshes3D[materialEditor.Object->MeshID];
 
+	
 	File file;
 	file.Open(FilePath, "wb");
 	//write header.
@@ -125,7 +162,26 @@ void Editor::SaveAsset(const char* FilePath)
 		file.Write(shaderEditor.Editors[i].Contents.data, shaderEditor.Editors[i].Contents.elementCount);
 	}
 	DX12Pipeline* List = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, SceneViewport.PipelineManager.PipelineList3D);
-	file.Write(&List[materialEditor.Object->PipelineID].FilePath, MAX_PATH);
+	if (List[materialEditor.Object->PipelineID].FilePath && strlen(List[materialEditor.Object->PipelineID].FilePath) > 0)
+	{
+		file.Write(&List[materialEditor.Object->PipelineID].FilePath, MAX_PATH);
+	}
+	else
+	{
+		u32 Index = GetLastCharIndex(FilePath, '/');
+		char buffer[260] = {0};
+		sprintf_s(buffer, "Application/Shaders/CompiledShaders%sPipeline.desc",&FilePath[Index]);
+		File PipelineFile;
+		PipelineFile.Open(buffer, "wb");
+		DX12PipelineDesc2 desc = shaderEditor.GetPipelineDesc();
+		u32 Size = 0;
+		void* Data = desc.Serialize(&Size);
+		PipelineFile.Write(Data, Size);
+		PipelineFile.Close();
+
+		file.Write(buffer,MAX_PATH);
+
+	}
 
 	file.Write(Obj->VertList, VertexSize);
 	file.Write(Obj->IndexList,IndexSize);

@@ -23,7 +23,7 @@ struct DX12Object2D
 	DX12VertexBuffer VertexBuffer;
 
 	DX12VertexBuffer InstancedVB;
-	//TODO hack move this to ObjectManager2D
+	//TODO hack move this to ObjectManager
 	u32 InstancedTextureID;
 
 	u32 InstanceCount;

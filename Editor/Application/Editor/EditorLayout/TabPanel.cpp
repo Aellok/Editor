@@ -19,7 +19,7 @@ void TabPanel_LButtonDown(void* Parent,Mouse mouse)
 	}
 	
 }
-void TabPanel::Init(void* Parent,ObjectManager2D* InManager,Vector PanelDim,Vector PanelPos,Vector Color)
+void TabPanel::Init(void* Parent,ObjectManager* InManager,Vector PanelDim,Vector PanelPos,Vector Color)
 {
 	Manager2D = InManager;
 	CurrentTab = 0;

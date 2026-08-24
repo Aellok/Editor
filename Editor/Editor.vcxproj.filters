@@ -162,9 +162,6 @@
     <ClCompile Include="Engine\System\Renderer\ObjectManager2D.cpp">
       <Filter>Engine\System\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Renderer\ObjectManager3D.cpp">
-      <Filter>Engine\System\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Renderer\Font\FontRenderer.cpp">
       <Filter>Engine\System\Renderer\Font</Filter>
     </ClCompile>
@@ -414,9 +411,6 @@
       <Filter>Engine\System\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Renderer\ObjectManager2D.h">
-      <Filter>Engine\System\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Renderer\ObjectManager3D.h">
       <Filter>Engine\System\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Renderer\Font\FontRenderer.h">

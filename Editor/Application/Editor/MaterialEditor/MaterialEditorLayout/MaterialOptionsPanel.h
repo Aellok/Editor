@@ -15,7 +15,7 @@ struct MaterialOptionsPanel
 	//FileSelector
 	DynamicArray Selectors;
 	
-	ObjectManager2D* ObjectManager;
+	ObjectManager* objectManager;
 
 	//OnRegisterChanged
 	DynamicArray OnPropertyAddedCallbacks;
@@ -26,7 +26,7 @@ struct MaterialOptionsPanel
 	bool UpdateNeeded;
 	bool DefferAdd;
 	u32 Type;
-	void Init(ObjectManager2D* Manager, Vector Pos, Vector Dim, Vector Color);
+	void Init(ObjectManager* Manager, Vector Pos, Vector Dim, Vector Color);
 	void AddSelector(MouseManager* MManager, Vector Pos, const char* Label, const char* Contents);
 	void Update();
 	void Draw();

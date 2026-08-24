@@ -179,6 +179,7 @@ void Viewport::StartRender(bool RenderToTexture)
 
 	for (u32 i = 0; i < PipelineManager.PipelineList2D.elementCount; i++)
 	{
+		pipeline2D[i].FrameIndex = DX12->frameIndex;
 		PipelineManager.GetPipeline2D(pipeline2D[i].PipelineName)->UpdateVSOnResize(&OnResize);
 	}
 	DX12Camera* Cam = CManager.GetCamera(Camera3D);
@@ -190,6 +191,7 @@ void Viewport::StartRender(bool RenderToTexture)
 	//3d
 	for (u32 i = 0; i < PipelineManager.PipelineList3D.elementCount; i++)
 	{
+		pipeline3D[i].FrameIndex = DX12->frameIndex;
 		PipelineManager.GetPipeline3D(pipeline3D[i].PipelineName)->UpdateVSOnResize(&OnResize3D);
 	}
 }

@@ -30,7 +30,7 @@ struct ShaderEditor
 	//OnRegisterChangedParams
 	DynamicArray PSRegistersChangedParams;
 
-	void Init(MouseManager* mManager, KeyboardManager* kManager, ObjectManager2D* SceneObjManager, f32 PanelWidth, Vector Pos, Vector ViewportDim, Vector Color);
+	void Init(MouseManager* mManager, KeyboardManager* kManager, ObjectManager* SceneObjManager, f32 PanelWidth, Vector Pos, Vector ViewportDim, Vector Color);
 	void Draw();
 	void Update(bool Enabled);
 	DX12PipelineDesc2 GetPipelineDesc();
@@ -41,3 +41,4 @@ struct ShaderEditor
 };
 
 void ShaderEditor_OnPropertyChanged(OnPropertyAddedParams Param);
+void ShaderEditor_OnObjectChanged(ObjectChangeInfo Info);

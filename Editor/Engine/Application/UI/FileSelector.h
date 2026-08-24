@@ -38,7 +38,7 @@ struct FileSelector
 	char FilePath[MAX_PATH];
 
 	u32 textSize;
-	ObjectManager2D* ObjectManager;
+	ObjectManager* objectManager;
 	Vector BasePosition;
 
 	//ParentCallbackPair
@@ -47,7 +47,7 @@ struct FileSelector
 	bool LabelModified;
 	bool ContentsModified;
 
-	void Init(MouseManager* MManager, ObjectManager2D* Manager, Vector Pos, u32 TextSize, const char* LabelName, const char* FileName);
+	void Init(MouseManager* MManager, ObjectManager* Manager, Vector Pos, u32 TextSize, const char* LabelName, const char* FileName);
 	void Update();
 	void Draw();
 	void AddPropertyChangeCallback(void* Parent,PropertyChanged UserCallback);

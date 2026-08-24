@@ -32,7 +32,7 @@ void ShaderEditorInterface_OnKeyUp(void* Parent,u32 Key)
 	ShaderEditor* SEI = (ShaderEditor*)Parent;
 	switch(Key)
 	{
-		case VK_F3:
+		case VK_F1:
 		{
 			DX12PipelineDesc2 desc = SEI->GetPipelineDesc();
 			if (!desc.IsValid())
@@ -47,14 +47,6 @@ void ShaderEditorInterface_OnKeyUp(void* Parent,u32 Key)
 				return;
 			}
 			WinDialog_Save(data, TotalSize);
-			break;
-		}
-		case VK_F4:
-		{
-			u32 FileSize = 0;
-			DialogInfo Data = WinDialog_Load();
-			DX12PipelineDesc desc;
-			desc.Deserialize(Data.data);
 			break;
 		}
 	}
@@ -72,9 +64,9 @@ void ShaderEditorInterface_DragDrop(void* Parent, Mouse mouse, char* FileName)
 	CurrentEditor->Changed = true;
 	file.Close();
 }
-void ShaderEditor::Init(MouseManager* mManager, KeyboardManager* kManager,ObjectManager2D* SceneObjManager,f32 PanelWidth,Vector Pos,Vector ViewportDim,Vector Color)
+void ShaderEditor::Init(MouseManager* mManager, KeyboardManager* kManager,ObjectManager* SceneObjManager,f32 PanelWidth,Vector Pos,Vector ViewportDim,Vector Color)
 {
-	ObjectManager2D* Manager = GEngine.pObjManager2D;
+	ObjectManager* Manager = GEngine.pObjManager2D;
 
 	RegisterCount = 0;
 	RegisterNames.Init(8, sizeof(DataString));
@@ -331,8 +323,12 @@ DX12Pipeline* ShaderEditor::CreatePipeline()
 	res = (DX12Pipeline*)calloc(1,sizeof(DX12Pipeline));
 
 	DX12PipelineDesc2 desc = GetPipelineDesc();
-
-	//res->Create(GEngine.pRendererInterface->device,desc,false,true);
+	if (!desc.IsValid())
+	{
+		return nullptr;
+	}
+	//TODO: MSAA and Depth shouldnt be hard coded.
+	res->Create(GEngine.pRendererInterface->device,desc,true,false);
 	return res;
 }
 void ShaderEditor::UpdatePSRegisters()
@@ -392,5 +388,15 @@ void ShaderEditor_OnPropertyChanged(OnPropertyAddedParams Param)
 		char Buffer[255] = {0};
 		sprintf_s(Buffer, 255, "TEXTURE Texture2D Tex%d : register(t%d);\n", Param.NumberOfProperties, Param.NumberOfProperties);
 		Editor->Contents.InsertArray(0,Buffer,strlen(Buffer));
+	}
+}
+
+void ShaderEditor_OnObjectChanged(ObjectChangeInfo Info)
+{
+	ShaderEditor* shaderEditor = (ShaderEditor*)Info.Parent;
+	for (u32 i = 0; i < 5; i++)
+	{
+		shaderEditor->Editors[i].Contents.Copy((void*)Info.ShaderFileData[i], Info.ShaderSize[i]);
+		shaderEditor->Editors[i].Changed = true;
 	}
 }

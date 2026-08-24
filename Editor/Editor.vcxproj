@@ -214,7 +214,6 @@
     <ClInclude Include="Engine\System\Renderer\Object2D.h" />
     <ClInclude Include="Engine\System\Renderer\Object3D.h" />
     <ClInclude Include="Engine\System\Renderer\ObjectManager2D.h" />
-    <ClInclude Include="Engine\System\Renderer\ObjectManager3D.h" />
     <ClInclude Include="Engine\System\Renderer\Viewport.h" />
     <ClInclude Include="Engine\System\String.h" />
     <ClInclude Include="Engine\System\Temp.h" />
@@ -296,7 +295,6 @@
     <ClCompile Include="Engine\System\Renderer\Object2D.cpp" />
     <ClCompile Include="Engine\System\Renderer\Object3D.cpp" />
     <ClCompile Include="Engine\System\Renderer\ObjectManager2D.cpp" />
-    <ClCompile Include="Engine\System\Renderer\ObjectManager3D.cpp" />
     <ClCompile Include="Engine\System\Renderer\Viewport.cpp" />
     <ClCompile Include="Engine\System\String.cpp" />
     <ClCompile Include="Engine\System\Temp.cpp" />

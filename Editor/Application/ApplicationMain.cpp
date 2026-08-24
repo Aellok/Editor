@@ -12,12 +12,7 @@
 #include "System\Renderer\Viewport.h"
 #include "Platform\Windows\Utils\MonitorScale.h"
 
-void global_MouseMove(void* parent,Mouse mouse)
-{
-	Vector* Pos = (Vector*)parent;
-	Pos->m128_f32[0] = min( mouse.x ,2560);
-	Pos->m128_f32[1] = min( mouse.y ,1440);
-}
+
 void ApplicationMain()
 {
 	EngineSpec spec = {0};
@@ -27,12 +22,6 @@ void ApplicationMain()
 	spec.height = GetSystemMetrics(SM_CYSCREEN);
 
 	GEngine.Init(spec);
-
-	MouseCallbacks callbacks = { 0 };
-	Vector MousePos;
-	callbacks.Parent = &MousePos;
-	callbacks.OnMove = global_MouseMove;
-	GEngine.pWindow->mouseManager.Register(&callbacks);
 
 	Editor editor;
 	editor.Init();

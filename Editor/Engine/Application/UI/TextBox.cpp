@@ -25,7 +25,7 @@ void TextBox_LButtonDown(void* Parent, Mouse mouse)
 	}
 }
 
-void TextBox::Init(ObjectManager2D* Manager2D,MouseManager* MManager,KeyboardManager* KManager,Vector Pos, Vector Dim,void(*OnChanged)())
+void TextBox::Init(ObjectManager* Manager2D,MouseManager* MManager,KeyboardManager* KManager,Vector Pos, Vector Dim,void(*OnChanged)())
 {
 	IsClicked = false;
 	Content.Init(255, sizeof(char));

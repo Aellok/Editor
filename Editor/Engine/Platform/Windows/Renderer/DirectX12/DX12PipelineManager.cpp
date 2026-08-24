@@ -123,3 +123,11 @@ void DX12PipelineManager::SetPipeline3D(DX12CommandQueue* Queue, u32 FrameIndex,
 	Pipelines[Index].Bind(Queue, FrameIndex, Reset);
 	CurrentPipeline = &Pipelines[Index];
 }
+void DX12PipelineManager::DeletePipeline2D(u32 Index)
+{
+	PipelineList2D.Delete(Index);
+}
+void DX12PipelineManager::DeletePipeline3D(u32 Index)
+{
+	PipelineList3D.Delete(Index);
+}

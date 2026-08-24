@@ -46,7 +46,7 @@ const char* ShaderPanelButtonNames[SPBCount]
 	"Geometry Shader",
 	"Pixel Shader"
 };
-void ShaderEditorPanel::Init(MouseManager* mManager,ObjectManager2D* Manager,Vector Pos,Vector Dim,Vector Color)
+void ShaderEditorPanel::Init(MouseManager* mManager,ObjectManager* Manager,Vector Pos,Vector Dim,Vector Color)
 {
 	Background = Manager->AddObject({ 0.0f,Pos.m128_f32[1],1.0f}, {Dim.m128_f32[0],(float)GEngine.pWindow->height - Pos.m128_f32[1]},
 		{ 0.0f,0.0f }, Color, "TopLeft", NULL, "Ortho");

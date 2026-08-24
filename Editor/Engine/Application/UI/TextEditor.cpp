@@ -282,7 +282,7 @@ u32 TextEditor::GetStringIndexFromXY(u32 LineX, u32 LineY)
 	}
 	return Result + LineX;
 }
-void TextEditor::Init(ObjectManager2D* ObjManager,Vector InPos,Vector InDim, u32 TextSize,const char* DEBUG_fileName)
+void TextEditor::Init(ObjectManager* ObjManager,Vector InPos,Vector InDim, u32 TextSize,const char* DEBUG_fileName)
 {
 	Changed = false;
 	IsShiftDown = false;

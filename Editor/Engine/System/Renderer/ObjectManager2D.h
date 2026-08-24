@@ -32,7 +32,7 @@ struct ObjectDesc
 	bool Networked;
 	
 };
-struct ObjectManager2D
+struct ObjectManager
 {
 	void* PlatformInterface;
 	
@@ -101,6 +101,7 @@ struct ObjectManager2D
 	void		  AddMesh3D(const char* MeshName,void* VertexData, u32 VertexCount, u32 VertexSize, void* IndexData, u32 IndexCount, u32 IndexSize);
 	void		  AddPipeline2D( const char* Name, const char* fileName, bool Depth, bool MSAA);
 	void		  AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA);
+	void		  AddPipeline3D(const char* Name, DX12Pipeline* Pipeline);
 	void          UpdateString(String2D* StringObj, char* String, u32 Size);
 	void		  RemoveObject(Object2D* Obj);
 	u32           GetStringLength( const char* String, const char* FontName, u32 Size);

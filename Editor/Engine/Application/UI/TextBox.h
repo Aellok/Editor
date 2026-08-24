@@ -11,13 +11,13 @@ struct TextBox
 	KeyboardCallbacks kCallbacks;
 	MouseCallbacks mCallbacks;
 
-	ObjectManager2D* Manager;
+	ObjectManager* Manager;
 	DynamicArray Content;
 	Object2D* Background;
 	String2D* String;
 
 	bool IsClicked;
-	void Init(ObjectManager2D* Manager2D, MouseManager* MManager, KeyboardManager* KManager, Vector Pos, Vector Dim, void(*OnChanged)());
+	void Init(ObjectManager* Manager2D, MouseManager* MManager, KeyboardManager* KManager, Vector Pos, Vector Dim, void(*OnChanged)());
 	void Update();
 	void Draw();
 };

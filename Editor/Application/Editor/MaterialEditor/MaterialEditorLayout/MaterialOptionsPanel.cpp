@@ -9,11 +9,11 @@ void MaterialOptionsPanel_AddNewSelector(void* Parent,Mouse mouse)
 	Options->OnPropertyAdded(eSelector, 0);
 }
 
-void MaterialOptionsPanel::Init(ObjectManager2D* Manager, Vector Pos, Vector Dim, Vector Color)
+void MaterialOptionsPanel::Init(ObjectManager* Manager, Vector Pos, Vector Dim, Vector Color)
 {
 	UpdateNeeded = true;
 	DefferAdd = false;
-	ObjectManager = Manager;
+	objectManager = Manager;
 	Selectors.Init(64, sizeof(FileSelector));
 	Background = Manager->AddObject(Pos, Dim, { 0,0 }, Color, "TopLeft", NULL, "Ortho");
 	Pos.m128_f32[2] = 0.1f; 
@@ -40,7 +40,7 @@ void MaterialOptionsPanel::AddSelector(MouseManager* MManager, Vector Pos, const
 	FileSelector Selector;
 	Selectors.Add(&Selector);
 	FileSelector* selectors = &(DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Selectors)[Selectors.elementCount - 1]);
-	selectors->Init(MManager, ObjectManager, Pos, 24, Label, Contents);
+	selectors->Init(MManager, objectManager, Pos, 24, Label, Contents);
 	NewSelectorButton.desc.Pos.m128_f32[1] = Pos.m128_f32[1] + 60;
 	NewSelectorButton.SetPos(NewSelectorButton.desc.Pos);
 }

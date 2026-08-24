@@ -39,8 +39,7 @@ void Engine::Init(EngineSpec spec)
 
 	pRendererInterface = (DirectX12*)Global.Allocate(sizeof(DirectX12));
 	pPipelineManager = (DX12PipelineManager*)Global.Allocate(sizeof(DX12PipelineManager));
-	pObjManager3D = (ObjectManager3D*)Global.Allocate(sizeof(ObjectManager3D));
-	pObjManager2D = (ObjectManager2D*)Global.Allocate(sizeof(ObjectManager2D));
+	pObjManager2D = (ObjectManager*)Global.Allocate(sizeof(ObjectManager));
 	pPhysicsManager2D = (PhysicsManager2D*)Global.Allocate(sizeof(PhysicsManager2D));
 	
 	pCamManager = (CameraManager*)Global.Allocate(sizeof(CameraManager));
@@ -54,7 +53,6 @@ void Engine::Init(EngineSpec spec)
 	pWindow->Create(winSpec);
 	pPipelineManager->Init();
 	pRendererInterface->OnInit(((Win32_Window*)pWindow->platformWindow)->hwnd, pWindow->width, pWindow->height);
-	pObjManager3D->Init(pRendererInterface);
 	pObjManager2D->Init(pRendererInterface,pRendererInterface->PipelineManager);
 	pPhysicsManager2D->Init();
 	

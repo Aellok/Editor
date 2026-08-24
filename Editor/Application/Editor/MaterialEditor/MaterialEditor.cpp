@@ -4,7 +4,7 @@
 #include "Application\Editor\Editor.h"
 #include "System/Utils/ObjLoader.h"
 #include "System\Utils\File.h"
-#include "Application/Asset/Asset.h"
+
 
 enum MaterialEditor_DragDropTypes
 {
@@ -100,39 +100,95 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			desc.Dim = { 1,1,1 };
 			desc.Pos = { 0,0,0 };
 			desc.Color = { 1,1,1,1 };
-			desc.TextureName = "Textures/BlankTextureSheet.png";
-			desc.PipelineName = "Default";
+			desc.TextureName = NULL;
+			desc.PipelineName = "MaterialEditorPipeline";
 			desc.ModelFileName = FileName;
+
+			MatEditor->ObjManager->AddPipeline3D("MaterialEditorPipeline", "Application/Shaders/CompiledShaders/DefaultShader.desc", true, false);
+			
+
 			MatEditor->Object = MatEditor->ObjManager->AddObject3D(desc);
+
+			File VSShader;
+			File PSShader;
+			
+			VSShader.Load("Application/Shaders/HLSLShaders/DefaultVS.hlsl");
+			PSShader.Load("Application/Shaders/HLSLShaders/DefaultPS.hlsl");
+
+			ObjectChangeInfo Params = {0};
+			Params.PipelineName = "MaterialEditorPipeline";
+
+			Params.ShaderSize[eVertexShader] = VSShader.FileSize;
+			Params.ShaderSize[ePixelShader] = PSShader.FileSize;
+
+			Params.ShaderFileData[eVertexShader] = (char*)VSShader.Data;
+			Params.ShaderFileData[ePixelShader] = (char*)PSShader.Data;
+
+			ObjectChanged* Callbacks = DYNAMIC_ARR_GET_CAST_DATA(ObjectChanged, MatEditor->OnObjectChanged);
+			ObjectChangeInfo* Parents = DYNAMIC_ARR_GET_CAST_DATA(ObjectChangeInfo, MatEditor->OnObjectChangedParent);
+			for (u32 i = 0; i < MatEditor->OnObjectChanged.elementCount; i++)
+			{
+				Params.Parent = Parents;
+				Callbacks[i](Params);
+			}
+			VSShader.Close();
+			PSShader.Close();
+			
 			break;
 		}
 		case eME_Asset:
 		{
-			Asset* asset = LoadAsset(FileName);
+			
+			MatEditor->CurrentAsset = LoadAsset(FileName);
 			
 			ObjectDesc desc = { 0 };
 			desc.Dim = { 1,1,1 };
 			desc.Pos = { 0,0,0 };
 			desc.Color = { 1,1,1,1 };
-			desc.TextureName = asset->Textures[0];
-			desc.PipelineName = "Test";
+			desc.TextureName = MatEditor->CurrentAsset->Textures[0];
+			desc.PipelineName = "MaterialEditorPipeline";
 			desc.ModelFileName = FileName;
 
-			MatEditor->ObjManager->AddMesh3D(FileName, asset->Verticies, asset->Header.VertexCount, asset->Header.VertexSize, asset->Indicies, asset->Header.IndexCount, asset->Header.IndexSize);
-			MatEditor->ObjManager->AddTexture(asset->Textures[0]);
+			MatEditor->ObjManager->AddMesh3D(FileName, MatEditor->CurrentAsset->Verticies, MatEditor->CurrentAsset->Header.VertexCount, 
+													   MatEditor->CurrentAsset->Header.VertexSize, MatEditor->CurrentAsset->Indicies, 
+													   MatEditor->CurrentAsset->Header.IndexCount, MatEditor->CurrentAsset->Header.IndexSize);
+
+			MatEditor->ObjManager->AddTexture(MatEditor->CurrentAsset->Textures[0]);
 			//add pipeline.
-			MatEditor->ObjManager->AddPipeline3D("Test", asset->PipelineName, true, false);
+			MatEditor->ObjManager->AddPipeline3D("MaterialEditorPipeline", MatEditor->CurrentAsset->PipelineName, true, false);
 			MatEditor->Object = MatEditor->ObjManager->AddObject3D(desc);
+			
+			ObjectChangeInfo Params;
+			Params.PipelineName = "MaterialEditorPipeline";
+			memcpy(Params.ShaderSize, MatEditor->CurrentAsset->Header.ShaderSize,sizeof(u32) * SPBCount );
+			
+			for (u32 i = 0; i < SPBCount; i++)
+			{
+				Params.ShaderFileData[i] = Params.ShaderSize[i] > 0 ? MatEditor->CurrentAsset->ShaderName[i] : (char*)NULL;
+			}
+
+			ObjectChanged* Callbacks = DYNAMIC_ARR_GET_CAST_DATA(ObjectChanged, MatEditor->OnObjectChanged);
+			ObjectChangeInfo* Parents = DYNAMIC_ARR_GET_CAST_DATA(ObjectChangeInfo, MatEditor->OnObjectChangedParent);
+			for (u32 i = 0; i < MatEditor->OnObjectChanged.elementCount; i++)
+			{
+				Params.Parent = Parents;
+				Callbacks[i](Params);
+			}
+
 			break;
 		}
 	}
 }
 
-void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager2D* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color)
+void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color)
 {
 	editor = InEditor;
 	ObjManager = Manager;
-	Object = Manager->AddObject3D({ 0,0,0 }, { 0.5f,0.5f,0.5f }, { 0,0,0 }, { 1,1,1,1 }, "Models/Sphere.obj", "Textures/BlankTextureSheet.png", "Default");
+	Object = NULL;// Manager->AddObject3D({ 0,0,0 }, { 0.5f,0.5f,0.5f }, { 0,0,0 }, { 1,1,1,1 }, "Models/Sphere.obj", "Textures/BlankTextureSheet.png", "Default");
+
+	OnObjectChanged.Init(4,sizeof(ObjectChanged));
+	OnObjectChangedParent.Init(4, sizeof(void*));
+
 	MaterialOptions.Init(GEngine.pObjManager2D, Pos, Dim, Color);
 	MaterialOptions.AddOnPropertyChangedCallback(this,MaterialEditor_OnPropertyChanged);
 	
@@ -147,7 +203,11 @@ void MaterialEditor::Update(bool Enabled)
 	{
 		Callbacks.IsEnabled = true;
 		MaterialOptions.EnableInputs();
-		Object->Rot.m128_f32[1] += 0.01f;
+		if (Object)
+		{
+			Object->Rot.m128_f32[1] += 0.01f;
+		}
+		
 		MaterialOptions.Update();
 	}
 	else
@@ -159,6 +219,15 @@ void MaterialEditor::Update(bool Enabled)
 void MaterialEditor::Draw()
 {
 	MaterialOptions.Draw(); 
-	Object->Draw();
+	if (Object)
+	{
+		Object->Draw();
+	}
+	
 };
 
+void MaterialEditor::AddOnObjectChangedCallback(void* Parent, ObjectChanged Callback)
+{
+	OnObjectChanged.Add(&Callback);
+	OnObjectChangedParent.Add(Parent);
+}

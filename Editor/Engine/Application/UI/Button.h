@@ -12,7 +12,7 @@ struct ButtonDesc
 	Vector Dim;
 	const char* Text;
 	u32 TextSize;
-	ObjectManager2D* ObjectManager;
+	ObjectManager* ObjectManager;
 	Vector Color;
 	Vector SelectedColor;
 	//UserInput

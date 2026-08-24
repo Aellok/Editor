@@ -42,7 +42,6 @@ void FreeCamera_KeyDown(void* Parent, u32 KeyCode)
 		cam->Directions[1] = (KeyCode == 'D') ? true : cam->Directions[1];
 		cam->Directions[2] = (KeyCode == 'W') ? true : cam->Directions[2];
 		cam->Directions[3] = (KeyCode == 'S') ? true : cam->Directions[3];
-		printf("Input\n");
 	}
 }
 void FreeCamera_KeyUp(void* Parent, u32 KeyCode)

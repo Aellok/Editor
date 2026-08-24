@@ -17,3 +17,13 @@ struct OnPropertyAddedParams
 
 typedef void (*OnPropertyAddedCallback)(OnPropertyAddedParams);
 
+struct ObjectChangeInfo
+{
+	void* Parent;
+	u32 ShaderSize[5];
+	const char* ShaderFileData[5];
+	const char* PipelineName;
+};
+
+typedef void(*ObjectChanged)(ObjectChangeInfo);
+

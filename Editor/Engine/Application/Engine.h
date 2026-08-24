@@ -3,7 +3,6 @@
 
 #include "Platform/Windows/Renderer/DirectX12/DirectX.h"
 #include "System/Camera/CameraManager.h"
-#include "System/Renderer/ObjectManager3D.h"
 #include "System/Renderer/ObjectManager2D.h"
 #include "System/Window.h"
 #include "System/Types.h"
@@ -56,8 +55,7 @@ struct Engine
 	
 	DirectX12* pRendererInterface;
 	DX12PipelineManager* pPipelineManager;
-	ObjectManager3D* pObjManager3D;
-	ObjectManager2D* pObjManager2D;
+	ObjectManager* pObjManager2D;
 	PhysicsManager2D* pPhysicsManager2D;
 	
 	//Network

@@ -33,4 +33,7 @@ struct DX12PipelineManager
 	DX12Pipeline* GetPipeline3D(const char* Name);
 	void AddPipeline3D(DX12Pipeline* pipeline);
 	void AddPipeline3D(ID3D12Device* Device, const char* Name, const char* fileName, bool Depth, bool MSAA);
+	void DeletePipeline2D(u32 Index);
+	void DeletePipeline3D(u32 Index);
+
 };

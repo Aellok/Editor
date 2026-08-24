@@ -19,7 +19,7 @@ struct ShaderEditorPanel
 	UIButton* ShaderPanelButtons;
 	Object2D* Background;
 
-	void Init(MouseManager* mManager, ObjectManager2D* Manager, Vector Pos, Vector Dim, Vector Color);
+	void Init(MouseManager* mManager, ObjectManager* Manager, Vector Pos, Vector Dim, Vector Color);
 	void Update();
 	void Draw();
 	void SelectEditor(EShaderPanelButtons Editor);

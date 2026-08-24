@@ -46,6 +46,10 @@ CameraIndex CameraManager::AddCamera(f32 FOV,u32 ScreenWidth,u32 ScreenHeight,Ve
 }
 void CameraManager::Resize(u32 width, u32 height)
 {
+	if (width == 0 || height == 0)
+	{
+		return;
+	}
 	for (u32 Type = 0; Type < eCamCount;Type++)
 	{
 		DX12Camera* Cams = DYNAMIC_ARR_GET_CAST_DATA(DX12Camera, CameraList[Type]);

@@ -7,8 +7,9 @@
 #define GET_S_INSTANCED_OFFSET(mID,tID) (((mID) * MAX_TEXTURES * OBJECT2D_MAX_STATIC_INSTANCE) + ((tID) * OBJECT2D_MAX_STATIC_INSTANCE))
 #define GET_D_INSTANCED_OFFSET(mID,tID) (((mID) * MAX_TEXTURES * OBJECT2D_MAX_DYNAMIC_INSTANCE) + ((tID) * OBJECT2D_MAX_DYNAMIC_INSTANCE))
 
+#define MAX_OBJECTS 1024
 
-void CreateNewDefaultCenteredMesh(ObjectManager2D* ObjManager,void* pPlatformInterface, MemoryArena* Arena)
+void CreateNewDefaultCenteredMesh(ObjectManager* ObjManager,void* pPlatformInterface, MemoryArena* Arena)
 {
 	Vertex2D VertexList[6] =
 	{
@@ -34,7 +35,7 @@ void CreateNewDefaultCenteredMesh(ObjectManager2D* ObjManager,void* pPlatformInt
 	ObjManager->Meshes[ObjManager->MeshCount].IsCentered = true;
 	ObjManager->LoadedMeshList[ObjManager->MeshCount++] = "Centered";
 }
-void CreateNewDefaultTopLeftMesh(ObjectManager2D* ObjManager, void* pPlatformInterface, MemoryArena* Arena)
+void CreateNewDefaultTopLeftMesh(ObjectManager* ObjManager, void* pPlatformInterface, MemoryArena* Arena)
 {
 	Vertex2D VertexList[6] =
 	{
@@ -60,7 +61,7 @@ void CreateNewDefaultTopLeftMesh(ObjectManager2D* ObjManager, void* pPlatformInt
 	ObjManager->Meshes[ObjManager->MeshCount].IsCentered = false;
 	ObjManager->LoadedMeshList[ObjManager->MeshCount++] = "TopLeft";
 }
-void ObjectManager2D::Init(void* pPlatformInterface,DX12PipelineManager* PipelineManager)
+void ObjectManager::Init(void* pPlatformInterface,DX12PipelineManager* PipelineManager)
 {
 
 	PlatformInterface = pPlatformInterface;
@@ -93,8 +94,12 @@ void ObjectManager2D::Init(void* pPlatformInterface,DX12PipelineManager* Pipelin
 	CreateNewDefaultTopLeftMesh(this, pPlatformInterface, &Arena);
 #endif
 	VecList = (Vector*)GEngine.Global.Allocate(10240 * sizeof(Vector));
+
+	LoadedTextureList[TextureCount] = "NULL";
+	Textures[TextureCount++].InitFromFile(&GEngine.pRendererInterface->MainCommandQueue, (DirectX12*)PlatformInterface, NULL);
+	
 }
-void ObjectManager2D::AddMesh3D(const char* MeshName,void* VertexData,u32 VertexCount,u32 VertexSize,void* IndexData,u32 IndexCount,u32 IndexSize)
+void ObjectManager::AddMesh3D(const char* MeshName,void* VertexData,u32 VertexCount,u32 VertexSize,void* IndexData,u32 IndexCount,u32 IndexSize)
 {
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	DX12VertexBufferDesc VDesc = { VertexCount,VertexData,VertexSize,VertexSize / VertexCount };
@@ -111,19 +116,40 @@ void ObjectManager2D::AddMesh3D(const char* MeshName,void* VertexData,u32 Vertex
 
 	LoadedMeshList3D[MeshCount3D++] = MeshName;
 }
-void ObjectManager2D::AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA)
+void ObjectManager::AddPipeline3D(const char* Name, DX12Pipeline* Pipeline)
 {
+	u32 Index = pipelineManager->GetPipelineIndex3D(Name);
+	if (Index != -1)
+	{
+		pipelineManager->DeletePipeline3D(Index);
+	}
+	pipelineManager->AddPipeline3D(Pipeline);
+	DynamicArray arr = { 0 };
+	PipelineObjects3D.Add(&arr);
+}
+void ObjectManager::AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA)
+{
+	u32 Index = pipelineManager->GetPipelineIndex3D(Name);
+	if(Index != -1)
+	{
+		pipelineManager->DeletePipeline3D(Index);
+	}
 	pipelineManager->AddPipeline3D(((DirectX12*)PlatformInterface)->device,Name,fileName,Depth,MSAA );
 	DynamicArray arr = {0};
 	PipelineObjects3D.Add(&arr);
 }
-void ObjectManager2D::AddPipeline2D(const char* Name, const char* fileName, bool Depth, bool MSAA)
+void ObjectManager::AddPipeline2D(const char* Name, const char* fileName, bool Depth, bool MSAA)
 {
+	u32 Index = pipelineManager->GetPipelineIndex2D(Name);
+	if (Index != -1)
+	{
+		pipelineManager->DeletePipeline2D(Index);
+	}
 	pipelineManager->AddPipeline3D(((DirectX12*)PlatformInterface)->device, Name, fileName, Depth, MSAA);
 	DynamicArray arr = { 0 };
 	PipelineObjects3D.Add(&arr);
 }
-void ObjectManager2D::AddTexture(void* Texture,const char* TextureName,u32 TextureWidth,u32 TextureHeight)
+void ObjectManager::AddTexture(void* Texture,const char* TextureName,u32 TextureWidth,u32 TextureHeight)
 {
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	if (DX12->LoadCommandQueue.IsClosed)
@@ -134,7 +160,7 @@ void ObjectManager2D::AddTexture(void* Texture,const char* TextureName,u32 Textu
 	LoadedTextureList[TextureCount++] = TextureName;
 	DX12->LoadCommandQueue.ExecuteAndWait();
 }
-void ObjectManager2D::AddTexture(const char* TextureName)
+void ObjectManager::AddTexture(const char* TextureName)
 {
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	if (DX12->LoadCommandQueue.IsClosed)
@@ -145,13 +171,13 @@ void ObjectManager2D::AddTexture(const char* TextureName)
 	Textures[TextureCount++].InitFromFile(&DX12->LoadCommandQueue, (DirectX12*)PlatformInterface, TextureName);
 	DX12->LoadCommandQueue.ExecuteAndWait();
 }
-void ObjectManager2D::AddTexture(DX12Texture* Texture)
+void ObjectManager::AddTexture(DX12Texture* Texture)
 {
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	LoadedTextureList[TextureCount] = Texture->TextureName;
 	Textures[TextureCount++] = *Texture;
 }
-Object2D* ObjectManager2D::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName,const char* PipelineName)
+Object2D* ObjectManager::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName,const char* PipelineName)
 {
 	DynamicArray* PipelineObjectList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineObjects2D);
 	s32 PipelineIndex = pipelineManager->GetPipelineIndex2D(PipelineName);
@@ -200,7 +226,7 @@ Object2D* ObjectManager2D::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector 
 	return Obj;
 	
 }
-Object2D* ObjectManager2D::AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, DX12Texture* Texture)
+Object2D* ObjectManager::AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, DX12Texture* Texture)
 {
 	DirectX12* DX12 = (DirectX12*)PlatformInterface;
 	s32 MeshID = GetStringIndex(LoadedMeshList, MeshCount, ModelFileName);
@@ -230,16 +256,16 @@ Object2D* ObjectManager2D::AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vect
 	ObjectCount++;
 	return Obj;
 }
-Object2D* ObjectManager2D::AddObject(ObjectDesc Desc)
+Object2D* ObjectManager::AddObject(ObjectDesc Desc)
 {
 	return AddObject(Desc.Pos, Desc.Dim, Desc.Rot, Desc.Color, Desc.ModelFileName, Desc.TextureName,Desc.PipelineName);
 }
 
-Object3D* ObjectManager2D::AddObject3D(ObjectDesc Desc)
+Object3D* ObjectManager::AddObject3D(ObjectDesc Desc)
 {
 	return AddObject3D(Desc.Pos,Desc.Dim,Desc.Rot,Desc.Color,Desc.ModelFileName,Desc.TextureName,Desc.PipelineName);
 }
-Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName)
+Object3D* ObjectManager::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName)
 {
 	DynamicArray* PipelineObjectList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineObjects3D);
 	s32 PipelineIndex = pipelineManager->GetPipelineIndex3D(PipelineName);
@@ -289,6 +315,7 @@ Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vecto
 		LoadedMeshList3D[MeshCount3D++] = ModelFileName;
 		MeshID = MeshCount3D - 1;
 	}
+	
 	s32 TextureID = GetStringIndex(LoadedTextureList, TextureCount, (TextureName == NULL) ? "NULL" : TextureName);
 	if (TextureID == -1)
 	{
@@ -296,6 +323,8 @@ Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vecto
 		TextureID = TextureCount;
 		Textures[TextureCount++].InitFromFile(&DX12->MainCommandQueue, (DirectX12*)PlatformInterface, TextureName);
 	}
+	
+	
 	Object3D* Obj = &Objects3D[ObjectCount3D];
 
 	Obj->Init(Pos, Dim, Rot);
@@ -318,7 +347,7 @@ Object3D* ObjectManager2D::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vecto
 	ObjectCount3D++;
 	return Obj;
 }
-void ObjectManager2D::RemoveObject(Object2D* Obj)
+void ObjectManager::RemoveObject(Object2D* Obj)
 {
 	
 }
@@ -335,7 +364,7 @@ void RemoveControlChars(char* String)
 	}
 	
 }
-void ObjectManager2D::UpdateString(String2D* StringObj, char* String, u32 Size)
+void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size)
 {
 	Font* font = GEngine.GetClosestFont(Size);
 
@@ -383,7 +412,7 @@ void ObjectManager2D::UpdateString(String2D* StringObj, char* String, u32 Size)
 	}
 }
 
-String2D* ObjectManager2D::AddString(const char* String, Vector Pos, u32 Size,const char* PipelineName)
+String2D* ObjectManager::AddString(const char* String, Vector Pos, u32 Size,const char* PipelineName)
 {
 	Font* font = GEngine.GetClosestFont(Size);
 	DX12String2D* DX12String = &StringMeshs[StringCount];
@@ -428,7 +457,7 @@ String2D* ObjectManager2D::AddString(const char* String, Vector Pos, u32 Size,co
 	//Strings[StringCount].PixelLength = VecList[StringMeshs[StringCount].Length - 1].m128_f32[0] - Pos.m128_f32[0] + Size;
 	return Result;
 }
-void ObjectManager2D::Draw(DX12CommandQueue* Queue)
+void ObjectManager::Draw(DX12CommandQueue* Queue)
 { 
 	Update();
 #if !SERVER_MODE
@@ -513,7 +542,7 @@ void ObjectManager2D::Draw(DX12CommandQueue* Queue)
 #endif
 }
 
-u32 ObjectManager2D::GetStringLength(const char* String,const char* FontName,u32 Size)
+u32 ObjectManager::GetStringLength(const char* String,const char* FontName,u32 Size)
 {
 #if !SERVER_MODE
 	s32 FontIndex = GetStringIndex(LoadedFonts, FontCount, FontName);
@@ -531,7 +560,7 @@ u32 ObjectManager2D::GetStringLength(const char* String,const char* FontName,u32
 	
 }
 
-void ObjectManager2D::Update()
+void ObjectManager::Update()
 {
 	//DX12Pipeline* pipelines = DYNAMIC_ARR_GET_CAST_DATA();
 	//for (u32 i = 0; i < )

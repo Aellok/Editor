@@ -1,22 +1,31 @@
 #pragma once
 #include "MaterialEditorLayout\MaterialOptionsPanel.h"
 #include "Application\Editor\ShaderEditor\ShaderEditorCallbackDefines.h"
+#include "Application/Asset/Asset.h"
 struct ShaderEditor;
 struct Editor;
 struct MaterialEditor
 {
 	MaterialOptionsPanel MaterialOptions;
+	Asset* CurrentAsset;
 	Object3D* Object;
 	Editor* editor;
+
 
 	//OnPropertyChanged
 	DynamicArray OnPropertyChanged;
 
-	ObjectManager2D* ObjManager;
+	//ObjectChanged
+	DynamicArray OnObjectChanged;
+	//void*
+	DynamicArray OnObjectChangedParent;
+
+	ObjectManager* ObjManager;
 
 	MouseCallbacks Callbacks;
 	
-	void Init(MouseManager* ViewportManager,ObjectManager2D* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color);
+	void AddOnObjectChangedCallback(void* Parent,ObjectChanged Callback);
+	void Init(MouseManager* ViewportManager,ObjectManager* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color);
 	void Update(bool Enabled);
 	void Draw();
 };

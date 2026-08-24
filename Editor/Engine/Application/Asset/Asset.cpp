@@ -45,15 +45,6 @@ Asset* LoadAsset(const char* Path)
 	file.Read(asset->PipelineName, MAX_PATH);
 	file.Read(asset->Verticies, asset->Header.VertexSize);
 	
-	printf("alignof(Vertex) = %zu\n", alignof(Vertex));
-	printf("vertex address %% alignment = %llu\n",
-		(unsigned long long)((uintptr_t)asset->Verticies % alignof(Vertex)));
-
-	for (u32 i = 0; i < asset->Header.VertexCount; i++)
-	{
-		Vertex vert = ((Vertex*)asset->Verticies)[i];
-		printf("%f%f%f\n",vert.position.x, vert.position.y, vert.position.z);
-	}
 	file.Read(asset->Indicies, asset->Header.IndexSize);
 	for (u32 i = 0; i < asset->Header.TextureCount; i++)
 	{

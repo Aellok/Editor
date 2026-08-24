@@ -8,7 +8,7 @@ struct TextEditor
 {
 	KeyboardCallbacks kCallbacks;
 	MouseCallbacks mCallbacks;
-	ObjectManager2D* ObjManager2D;
+	ObjectManager* ObjManager2D;
 	Vector Pos;
 	Vector Dim;
 
@@ -28,7 +28,7 @@ struct TextEditor
 
 	bool Changed;
 
-	void Init(ObjectManager2D* ObjManager,Vector InPos,Vector InDim,u32 Size, const char* DEBUG_fileName);
+	void Init(ObjectManager* ObjManager,Vector InPos,Vector InDim,u32 Size, const char* DEBUG_fileName);
 	
 	void Update();
 	void Draw();

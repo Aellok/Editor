@@ -27,17 +27,17 @@ void FileSelector_LButtonDown(void* Parent,Mouse mouse)
 	}
 }
 
-void FileSelector::Init(MouseManager* MManager,ObjectManager2D* Manager, Vector Pos, u32 TextSize, const char* LabelName,const char* FileName)
+void FileSelector::Init(MouseManager* MManager,ObjectManager* Manager, Vector Pos, u32 TextSize, const char* LabelName,const char* FileName)
 {
 	textSize = TextSize;
-	ObjectManager = Manager;
+	objectManager = Manager;
 	BasePosition = Pos;
 	Callbacks.Init(8, sizeof(ParentCallbackPair));
-	Label = ObjectManager->AddString(LabelName, Pos, TextSize, "Font");
+	Label = objectManager->AddString(LabelName, Pos, TextSize, "Font");
 	
 	Pos.m128_f32[0] += Label->PixelLength + 10;
 
-	FileString = ObjectManager->AddString(FileName, Pos, TextSize, "Font");
+	FileString = objectManager->AddString(FileName, Pos, TextSize, "Font");
 	Contents.Init(32, sizeof(char*));
 	UpdateContent((char*)FileName, strlen(FileName));
 
@@ -73,12 +73,12 @@ void FileSelector::Update()
 {
 	if (ContentsModified)
 	{
-		ObjectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize);
+		objectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize);
 		ContentsModified = false;
 	}
 	if (LabelModified)
 	{
-		ObjectManager->UpdateString(Label, DYNAMIC_ARR_GET_CAST_DATA(char, LabelString), textSize);
+		objectManager->UpdateString(Label, DYNAMIC_ARR_GET_CAST_DATA(char, LabelString), textSize);
 		LabelModified = false;
 	}
 	

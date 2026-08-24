@@ -26,9 +26,12 @@ struct Editor
 	Viewport SceneViewport;
 	DX12Texture ViewportTexture;
 	Object2D* ViewportObject;
-	ObjectManager2D* ObjectManager;
+	ObjectManager* objectManager;
 
 	bool PipelineChanged;
+
+	//TODO: pass whether control is down to the key up/down functions.
+	bool ctrl;
 
 	void Init();
 	void Update();
