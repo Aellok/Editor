@@ -3,7 +3,7 @@
 
 #include "Platform/Windows/Renderer/DirectX12/DirectX.h"
 #include "System/Camera/CameraManager.h"
-#include "System/Renderer/ObjectManager2D.h"
+#include "System/Renderer/ObjectManager.h"
 #include "System/Window.h"
 #include "System/Types.h"
 #include "System/Utils/Timer.h"

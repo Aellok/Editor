@@ -1,6 +1,6 @@
 #include "ShaderEditor.h"
 #include "Application\Engine.h"
-#include "System\Renderer\ObjectManager2D.h"
+#include "System\Renderer\ObjectManager.h"
 #include "ShaderCompiler\Parser\Parser.h"
 #include "ShaderCompiler\Lexer\Lexer.h"
 #include "ShaderCompiler\Builders\InputLayoutBuilder.h"
@@ -399,4 +399,5 @@ void ShaderEditor_OnObjectChanged(ObjectChangeInfo Info)
 		shaderEditor->Editors[i].Contents.Copy((void*)Info.ShaderFileData[i], Info.ShaderSize[i]);
 		shaderEditor->Editors[i].Changed = true;
 	}
+	shaderEditor->UpdatePSRegisters();
 }

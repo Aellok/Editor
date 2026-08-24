@@ -3,7 +3,7 @@
 #include "System\Vector.h"
 #include "System\Renderer\Object2D.h"
 #include "System\Physics\AABB2D.h"
-#include "System\Renderer\ObjectManager2D.h"
+#include "System\Renderer\ObjectManager.h"
 #include "Platform\Windows\Renderer\DirectX12\DX12Object2D.h"
 #pragma pack(push, 16) // or simply reset to default before the definition
 

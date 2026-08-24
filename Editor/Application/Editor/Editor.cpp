@@ -93,6 +93,23 @@ void Editor::Update()
 {
 	shaderEditor.Update(tabPanel.CurrentTab == 0);
 	materialEditor.Update(tabPanel.CurrentTab == 1);
+	if (materialEditor.RebuildPipeline)
+	{
+		for (u32 i = 0; i < SPBCount; i++)
+		{
+			shaderEditor.Editors[i].Update();
+		}
+		
+
+		DX12Pipeline* pipeline = shaderEditor.CreatePipeline();
+
+		if (pipeline)
+		{
+			memcpy(pipeline->PipelineName, "MaterialEditorPipeline", strlen("MaterialEditorPipeline"));
+			objectManager->AddPipeline3D("MaterialEditorPipeline", pipeline);
+		}
+		materialEditor.RebuildPipeline = false;
+	}
 	tabPanel.Update();
 }
 void Editor::Draw()

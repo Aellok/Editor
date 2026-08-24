@@ -11,7 +11,8 @@ struct Object3D
 	Vector Color;
 
 	s32 MeshID;
-	s32 TextureID;
+	u32 TextureCount;
+	s32 TextureID[8];
 	s32 PhysicsID;
 	u64 NetworkID;
 	s32 PipelineID;

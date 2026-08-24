@@ -64,10 +64,10 @@ void FileSelector::UpdateLabel(char* NewName,u32 Length)
 	LabelModified = true;
 	LabelString.Copy((void*)NewName, strlen(NewName));
 }
-void FileSelector::UpdateContent(char* NewFileName,u32 Length)
+void FileSelector::UpdateContent(const char* NewFileName,u32 Length)
 {
 	ContentsModified = true;
-	Contents.Copy((void*)NewFileName, strlen(NewFileName));
+	Contents.Copy((void*)NewFileName, Length);
 }
 void FileSelector::Update()
 {

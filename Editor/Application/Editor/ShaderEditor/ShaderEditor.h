@@ -2,7 +2,7 @@
 #include "System\Types.h"
 #include "System\Renderer\Object2D.h"
 #include "System\Renderer\Viewport.h"
-#include "System\Renderer\ObjectManager2D.h"
+#include "System\Renderer\ObjectManager.h"
 #include "Application/UI/Button.h"
 #include "Application/Editor/ShaderEditor/ShaderEditorCallbackDefines.h"
 

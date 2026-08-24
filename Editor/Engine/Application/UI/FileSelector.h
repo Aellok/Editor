@@ -1,6 +1,6 @@
 #pragma once
 #include "System/MouseManager.h"
-#include "System/Renderer/ObjectManager2D.h"
+#include "System/Renderer/ObjectManager.h"
 #include "Application\UI\Button.h"
 #include "Platform/Windows/Utils/WinSaveInterface.h"
 
@@ -52,5 +52,5 @@ struct FileSelector
 	void Draw();
 	void AddPropertyChangeCallback(void* Parent,PropertyChanged UserCallback);
 	void UpdateLabel(char* NewName,u32 Length);
-	void UpdateContent(char* NewFileName,u32 Length);
+	void UpdateContent(const char* NewFileName,u32 Length);
 };

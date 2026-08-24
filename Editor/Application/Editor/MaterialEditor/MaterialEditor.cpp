@@ -21,11 +21,24 @@ void MaterialEditor_OnPropertyChanged(PropertyChangeInfo Info)
 		case 0: // File Selector
 		{
 			FileSelector* fs = (FileSelector*)Info.PropertyObject;
+			FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
+
+			u32 TextureIndex = 0;
+			for (u32 i = 0; i < Editor->MaterialOptions.Selectors.elementCount; i++)
+			{
+				if (&Selectors[i] == fs)
+				{
+					TextureIndex = i;
+				}
+			}
+
 			char* Contents = (char*)Info.NewData;
 			if (strlen(Contents) > 0)
 			{
 				Editor->ObjManager->AddTexture(Contents);
-				Editor->Object->TextureID = Editor->ObjManager->TextureCount - 1;
+				Editor->Object->TextureID[TextureIndex] = Editor->ObjManager->TextureCount - 1;
+				Editor->Object->TextureCount++;
+				Editor->RebuildPipeline = true;
 			}			
 			break;
 		}
@@ -100,7 +113,7 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			desc.Dim = { 1,1,1 };
 			desc.Pos = { 0,0,0 };
 			desc.Color = { 1,1,1,1 };
-			desc.TextureName = NULL;
+			memset(desc.TextureName, 0, sizeof(const char*) * 8);
 			desc.PipelineName = "MaterialEditorPipeline";
 			desc.ModelFileName = FileName;
 
@@ -145,15 +158,20 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			desc.Dim = { 1,1,1 };
 			desc.Pos = { 0,0,0 };
 			desc.Color = { 1,1,1,1 };
-			desc.TextureName = MatEditor->CurrentAsset->Textures[0];
+			
 			desc.PipelineName = "MaterialEditorPipeline";
 			desc.ModelFileName = FileName;
 
 			MatEditor->ObjManager->AddMesh3D(FileName, MatEditor->CurrentAsset->Verticies, MatEditor->CurrentAsset->Header.VertexCount, 
 													   MatEditor->CurrentAsset->Header.VertexSize, MatEditor->CurrentAsset->Indicies, 
 													   MatEditor->CurrentAsset->Header.IndexCount, MatEditor->CurrentAsset->Header.IndexSize);
+			
+			for (u32 i = 0; i < MatEditor->CurrentAsset->Header.TextureCount; i++)
+			{
+				MatEditor->ObjManager->AddTexture(MatEditor->CurrentAsset->Textures[i]);
+				desc.TextureName[i] = MatEditor->CurrentAsset->Textures[i];
+			}
 
-			MatEditor->ObjManager->AddTexture(MatEditor->CurrentAsset->Textures[0]);
 			//add pipeline.
 			MatEditor->ObjManager->AddPipeline3D("MaterialEditorPipeline", MatEditor->CurrentAsset->PipelineName, true, false);
 			MatEditor->Object = MatEditor->ObjManager->AddObject3D(desc);
@@ -168,11 +186,25 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			}
 
 			ObjectChanged* Callbacks = DYNAMIC_ARR_GET_CAST_DATA(ObjectChanged, MatEditor->OnObjectChanged);
-			ObjectChangeInfo* Parents = DYNAMIC_ARR_GET_CAST_DATA(ObjectChangeInfo, MatEditor->OnObjectChangedParent);
+			void** Parents = DYNAMIC_ARR_GET_CAST_DATA(void*, MatEditor->OnObjectChangedParent);
 			for (u32 i = 0; i < MatEditor->OnObjectChanged.elementCount; i++)
 			{
-				Params.Parent = Parents;
+				Params.Parent = Parents[i];
 				Callbacks[i](Params);
+			}
+			
+			FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, MatEditor->MaterialOptions.Selectors);
+
+			for (u32 i = 0; i < MatEditor->MaterialOptions.Selectors.elementCount; i++)
+			{
+				const char* Texture = MatEditor->CurrentAsset->Textures[i];
+				u32 ExtIndex = GetLastCharIndex(Texture, '.');
+				u32 SlashIndex = GetLastCharIndex(Texture, '/');
+				u32 BackSlashIndex = GetLastCharIndex(Texture, '\\');
+				u32 Start = (SlashIndex == 0 ? BackSlashIndex : SlashIndex) + 1;
+
+				Selectors[i].UpdateContent(Texture + Start, ExtIndex - Start);
+				strcpy_s(Selectors[i].ContentFileInfo.FilePath, Texture);
 			}
 
 			break;
@@ -182,6 +214,7 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 
 void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color)
 {
+	RebuildPipeline = false;
 	editor = InEditor;
 	ObjManager = Manager;
 	Object = NULL;// Manager->AddObject3D({ 0,0,0 }, { 0.5f,0.5f,0.5f }, { 0,0,0 }, { 1,1,1,1 }, "Models/Sphere.obj", "Textures/BlankTextureSheet.png", "Default");
@@ -229,5 +262,5 @@ void MaterialEditor::Draw()
 void MaterialEditor::AddOnObjectChangedCallback(void* Parent, ObjectChanged Callback)
 {
 	OnObjectChanged.Add(&Callback);
-	OnObjectChangedParent.Add(Parent);
+	OnObjectChangedParent.Add(&Parent);
 }

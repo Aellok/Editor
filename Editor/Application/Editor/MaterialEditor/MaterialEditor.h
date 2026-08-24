@@ -24,6 +24,8 @@ struct MaterialEditor
 
 	MouseCallbacks Callbacks;
 	
+	bool RebuildPipeline;
+
 	void AddOnObjectChangedCallback(void* Parent,ObjectChanged Callback);
 	void Init(MouseManager* ViewportManager,ObjectManager* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color);
 	void Update(bool Enabled);

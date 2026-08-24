@@ -2,7 +2,7 @@
 #include "System\Renderer\Font\String2D.h"
 #include "System\Renderer\Object2D.h"
 #include "System\MouseManager.h"
-#include "System\Renderer\ObjectManager2D.h"
+#include "System\Renderer\ObjectManager.h"
 
 struct ButtonDesc
 {

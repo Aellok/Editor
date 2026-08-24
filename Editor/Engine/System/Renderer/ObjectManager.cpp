@@ -1,4 +1,4 @@
-#include "ObjectManager2D.h"
+#include "ObjectManager.h"
 #include "System/String.h"
 #include "Platform/Windows/Renderer/DirectX12/VertexDef.h"
 #include "Application\Engine.h"
@@ -258,14 +258,14 @@ Object2D* ObjectManager::AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vector
 }
 Object2D* ObjectManager::AddObject(ObjectDesc Desc)
 {
-	return AddObject(Desc.Pos, Desc.Dim, Desc.Rot, Desc.Color, Desc.ModelFileName, Desc.TextureName,Desc.PipelineName);
+	return AddObject(Desc.Pos, Desc.Dim, Desc.Rot, Desc.Color, Desc.ModelFileName, Desc.TextureName[0], Desc.PipelineName);
 }
 
 Object3D* ObjectManager::AddObject3D(ObjectDesc Desc)
 {
-	return AddObject3D(Desc.Pos,Desc.Dim,Desc.Rot,Desc.Color,Desc.ModelFileName,Desc.TextureName,Desc.PipelineName);
+	return AddObject3D(Desc.Pos,Desc.Dim,Desc.Rot,Desc.Color,Desc.ModelFileName,Desc.TextureName, Desc.PipelineName);
 }
-Object3D* ObjectManager::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName)
+Object3D* ObjectManager::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char** TextureName, const char* PipelineName)
 {
 	DynamicArray* PipelineObjectList = DYNAMIC_ARR_GET_CAST_DATA(DynamicArray, PipelineObjects3D);
 	s32 PipelineIndex = pipelineManager->GetPipelineIndex3D(PipelineName);
@@ -315,21 +315,24 @@ Object3D* ObjectManager::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector 
 		LoadedMeshList3D[MeshCount3D++] = ModelFileName;
 		MeshID = MeshCount3D - 1;
 	}
-	
-	s32 TextureID = GetStringIndex(LoadedTextureList, TextureCount, (TextureName == NULL) ? "NULL" : TextureName);
-	if (TextureID == -1)
+	Object3D* Obj = &Objects3D[ObjectCount3D];
+	Obj->Init(Pos, Dim, Rot);
+
+	for (u32 i = 0; TextureName[i] != nullptr; i++)
 	{
-		LoadedTextureList[TextureCount] = TextureName;
-		TextureID = TextureCount;
-		Textures[TextureCount++].InitFromFile(&DX12->MainCommandQueue, (DirectX12*)PlatformInterface, TextureName);
+		s32 TextureID = GetStringIndex(LoadedTextureList, TextureCount, (TextureName[i] == NULL) ? "NULL" : TextureName[i]);
+		if (TextureID == -1)
+		{
+			LoadedTextureList[TextureCount] = TextureName[i];
+			TextureID = TextureCount;
+			Textures[TextureCount++].InitFromFile(&DX12->MainCommandQueue, (DirectX12*)PlatformInterface, TextureName[i]);
+		}
+		Obj->TextureID[i] = TextureID;
+		Obj->TextureCount++;
 	}
 	
 	
-	Object3D* Obj = &Objects3D[ObjectCount3D];
-
-	Obj->Init(Pos, Dim, Rot);
 	Obj->MeshID = MeshID;
-	Obj->TextureID = TextureID;
 	Obj->PipelineID = PipelineIndex;
 	Obj->Color = Color;
 	if (!PipelineObjectList[PipelineIndex].data)
@@ -478,11 +481,16 @@ void ObjectManager::Draw(DX12CommandQueue* Queue)
 		for (u32 ObjIndex = 0; ObjIndex < PipelineLists[i].elementCount; ObjIndex++)
 		{
 			Object3D* Obj = &Objects3D[ObjectIDs[ObjIndex]];
+			u32 Index = 2;
 			if (Obj->Visible)
 			{
 				Obj->Update();
 				Meshes3D[Obj->MeshID].Model = Obj->GetModelMatrix();
-				Textures[Obj->TextureID].SetTexture(Queue);
+				for (u32 i = 0; i < Obj->TextureCount; i++)
+				{
+					Textures[Obj->TextureID[i]].SetTexture(Queue,2 + i);
+				}
+				
 				Meshes3D[Obj->MeshID].Draw(Queue, pipelineManager->CurrentPipeline);
 				Obj->Visible = false;
 			}
@@ -508,7 +516,7 @@ void ObjectManager::Draw(DX12CommandQueue* Queue)
 			if (Obj->Visible)
 			{
 				Meshes[Obj->MeshID].Model = Obj->GetModelMatrix();
-				Textures[Obj->TextureID].SetTexture(Queue);
+				Textures[Obj->TextureID].SetTexture(Queue,2);
 				Meshes[Obj->MeshID].Draw(Queue, pipelineManager->CurrentPipeline,Obj->Color);
 				Obj->Update(Meshes[Obj->MeshID].IsCentered);
 				Obj->Visible = false;
@@ -532,7 +540,7 @@ void ObjectManager::Draw(DX12CommandQueue* Queue)
 			String2D* Str = &Strings[StringIDs[ObjIndex]];
 			if (Str->Visible)
 			{
-				GEngine.GetClosestFont(Str->TextSize)->TextureArray.SetTexture(Queue);
+				GEngine.GetClosestFont(Str->TextSize)->TextureArray.SetTexture(Queue,2);
 				StringMeshs[Str->StringIndex].Draw(Queue, pipelineManager->CurrentPipeline);
 				Str->Visible = false;
 			}

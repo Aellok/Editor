@@ -90,7 +90,7 @@ void MouseManager::DragDrop(Mouse mouse,char* FileName)
 	MouseCallbacks** Callbacks = DYNAMIC_ARR_GET_CAST_DATA(MouseCallbacks*, CallbackList);
 	for (u32 i = 0; i < CallbackList.elementCount; i++)
 	{
-		if (Callbacks[i]->OnDragDrop && Callbacks[i]->IsEnabled)
+		if (Callbacks[i] && Callbacks[i]->OnDragDrop && Callbacks[i]->IsEnabled)
 		{
 			Callbacks[i]->OnDragDrop(Callbacks[i]->Parent, mouse,FileName);
 		}

@@ -25,7 +25,7 @@ struct ObjectDesc
 	Vector Color;
 	const char* PipelineName;
 	const char* ModelFileName;
-	const char* TextureName;
+	const char* TextureName[8];
 	bool IsStatic;
 	bool HasAlpha;
 	bool PhysEnabled;
@@ -95,7 +95,7 @@ struct ObjectManager
 	Object2D*     AddObject(ObjectDesc Desc);
 	Object2D*	  AddObject(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName);
 	Object3D*	  AddObject3D(ObjectDesc Desc);
-	Object3D*	  AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, const char* PipelineName);
+	Object3D*	  AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char** TextureName, const char* PipelineName);
 	Object2D*     AddObjectRaw(Vector Pos, Vector Dim, Vector Rot, Vector Color, const char* ModelFileName, const char* TextureName, DX12Texture* Texture);
 	String2D*	  AddString(const char* String, Vector Pos, u32 Size, const char* PipelineName);
 	void		  AddMesh3D(const char* MeshName,void* VertexData, u32 VertexCount, u32 VertexSize, void* IndexData, u32 IndexCount, u32 IndexSize);

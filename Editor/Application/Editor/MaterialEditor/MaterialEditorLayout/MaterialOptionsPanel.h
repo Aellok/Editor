@@ -35,4 +35,5 @@ struct MaterialOptionsPanel
 	void AddOnPropertyChangedCallback(void* Parent, PropertyChanged UserCallback);
 	void AddOnPropertyAddedCallback(void* Parent,OnPropertyAddedCallback Callback);
 	void OnPropertyAdded(u32 NewPropertyType, u32 NewPropertySubType);
+	
 };

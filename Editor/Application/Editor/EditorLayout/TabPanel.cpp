@@ -1,5 +1,5 @@
 #include "TabPanel.h"
-#include "System/Renderer/ObjectManager2D.h"
+#include "System/Renderer/ObjectManager.h"
 #include "Application/UI/Button.h"
 #include "Application/Engine.h"
 

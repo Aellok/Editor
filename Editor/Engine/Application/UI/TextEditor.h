@@ -2,7 +2,7 @@
 #include "System\MouseManager.h"
 #include "System\KeyboardManager.h"
 #include "System\Renderer\Font\String2D.h"
-#include "System\Renderer\ObjectManager2D.h"
+#include "System\Renderer\ObjectManager.h"
 #include "System\Memory\DynamicArray.h"
 struct TextEditor
 {

@@ -4,9 +4,13 @@
 void DX12Object2D::Init(DirectX12* Context,MemoryArena* Arena, DX12VertexBufferDesc VDesc, DX12IndexBufferDesc IDesc, InstanceDataDesc IDDesc)
 {
 	DX12 = Context;
-
-	VertexBuffer.Initialize(DX12->device, &DX12->MainCommandQueue, VDesc);
-	IndexBuffer.Initialize(DX12->device, &DX12->MainCommandQueue, IDesc);
+	if (DX12->LoadCommandQueue.IsClosed)
+	{
+		DX12->LoadCommandQueue.Reset(nullptr);
+	}
+	
+	VertexBuffer.Initialize(DX12->device, &DX12->LoadCommandQueue, VDesc);
+	IndexBuffer.Initialize(DX12->device, &DX12->LoadCommandQueue, IDesc);
 
 	VertList = Arena->Allocate(VDesc.Size);
 	memcpy(VertList, VDesc.Data, VDesc.Size);
@@ -23,10 +27,10 @@ void DX12Object2D::Init(DirectX12* Context,MemoryArena* Arena, DX12VertexBufferD
 		desc.ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(desc.Size);
 		desc.Stride = IDDesc.InstanceElementSize;
 
-		InstancedVB.Initialize(DX12->device, &DX12->MainCommandQueue, desc);
+		InstancedVB.Initialize(DX12->device, &DX12->LoadCommandQueue, desc);
 
 	}
-	
+	DX12->LoadCommandQueue.ExecuteAndWait();
 	
 }
 

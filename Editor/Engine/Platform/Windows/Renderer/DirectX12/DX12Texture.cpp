@@ -157,9 +157,9 @@ void DX12Texture::InitFromFile(DX12CommandQueue* Queue,DirectX12* dx12, const ch
 	InitFromData(Queue, dx12, "NULL", (void*)&c, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, false);
 	
 }
-void DX12Texture::SetTexture(DX12CommandQueue* Queue)
+void DX12Texture::SetTexture(DX12CommandQueue* Queue,u32 Index)
 {
-	Queue->SetDescriptorTable(2, TextureHandleGPU);
+	Queue->SetDescriptorTable(Index, TextureHandleGPU);
 }
 void DX12Texture::Update(DX12CommandQueue* Queue,void* TextureData,u32 Width,u32 Height)
 {
