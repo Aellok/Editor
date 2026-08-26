@@ -15,6 +15,8 @@ struct MaterialOptionsPanel
 	//FileSelector
 	DynamicArray Selectors;
 	
+	DynamicArray TextureSelectorSlots;
+
 	ObjectManager* objectManager;
 
 	//OnRegisterChanged

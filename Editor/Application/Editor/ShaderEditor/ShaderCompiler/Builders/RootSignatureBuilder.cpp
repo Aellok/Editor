@@ -57,6 +57,22 @@ void ProcessPSRSParamInfo(PSParserResult psInfo, RootSignature& rootSig)
 	DataString* VarNames = DYNAMIC_ARR_GET_CAST_DATA(DataString, psInfo.registers.VarNames);
 	DataString* DataTypes = DYNAMIC_ARR_GET_CAST_DATA(DataString, psInfo.registers.DataTypes);
 	//D3D12_ROOT_PARAMETER* Params = DYNAMIC_ARR_GET_CAST_DATA(D3D12_ROOT_PARAMETER, RootParam);
+	
+	u32 BaseIndex = rootSig.RootParams.elementCount;
+
+	for (u32 i = 0; i < psInfo.registers.Types.elementCount; i++)
+	{
+		if (Types[i] == eTEXTURE)
+		{
+			D3D12_ROOT_PARAMETER rootParam;
+			memset(&rootParam, 0, sizeof(D3D12_ROOT_PARAMETER));
+			RootSignatureTypes type;
+			memset(&type, 0, sizeof(RootSignatureTypes));
+
+			rootSig.RootParams.Add(&rootParam);
+			rootSig.RootParamTypes.Add(&type);
+		}
+	}
 	for (u32 i = 0; i < psInfo.registers.Types.elementCount; i++)
 	{
 		if (rootSig.RootParams.elementCount > 64) // MaxParams
@@ -83,10 +99,13 @@ void ProcessPSRSParamInfo(PSParserResult psInfo, RootSignature& rootSig)
 				rootParam.DescriptorTable = descTable;
 				rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 				rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+			
+				RootSignatureTypes* ParamTypes = DYNAMIC_ARR_GET_CAST_DATA(RootSignatureTypes, rootSig.RootParamTypes);
+				D3D12_ROOT_PARAMETER* Params = DYNAMIC_ARR_GET_CAST_DATA(D3D12_ROOT_PARAMETER, rootSig.RootParams);
 
-				rootSig.RootParams.Add(&rootParam);
-				RootSignatureTypes type = eRS_TEXTURE;
-				rootSig.RootParamTypes.Add(&type);
+				
+				Params[BaseIndex + Slots[i]] = rootParam;
+				ParamTypes[BaseIndex + Slots[i]] = eRS_TEXTURE;
 
 				break;
 			}

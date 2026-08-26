@@ -7,23 +7,26 @@ void FileSelector_LButtonDown(void* Parent,Mouse mouse)
 
 	u32 FileSize = 0;
 	fs->ContentFileInfo = WinDialog_Load();
-	u32 ExtIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '.');
-	u32 SlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '/');
-	u32 BackSlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '\\');
-	u32 Start = (SlashIndex == 0 ? BackSlashIndex : SlashIndex) + 1;
-	
-	fs->UpdateContent(&fs->ContentFileInfo.FilePath[Start], ExtIndex - Start);
-
-	for (u32 i = 0; i < fs->Callbacks.elementCount;i++)
+	if (fs->ContentFileInfo.FilePath && strlen(fs->ContentFileInfo.FilePath))
 	{
-		ParentCallbackPair* CallbackList = DYNAMIC_ARR_GET_CAST_DATA(ParentCallbackPair, fs->Callbacks);
-		PropertyChangeInfo Info;
-		Info.PropertyType = 0;
-		Info.Size = fs->ContentFileInfo.Size; // char has size 1
-		Info.Parent = CallbackList[i].Parent;
-		Info.PropertyObject = fs;
-		Info.NewData = fs->ContentFileInfo.FilePath;
-		CallbackList[i].Callback(Info);
+		u32 ExtIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '.');
+		u32 SlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '/');
+		u32 BackSlashIndex = GetLastCharIndex(fs->ContentFileInfo.FilePath, '\\');
+		u32 Start = (SlashIndex == 0 ? BackSlashIndex : SlashIndex) + 1;
+
+		fs->UpdateContent(&fs->ContentFileInfo.FilePath[Start], ExtIndex - Start);
+
+		for (u32 i = 0; i < fs->Callbacks.elementCount; i++)
+		{
+			ParentCallbackPair* CallbackList = DYNAMIC_ARR_GET_CAST_DATA(ParentCallbackPair, fs->Callbacks);
+			PropertyChangeInfo Info;
+			Info.PropertyType = 0;
+			Info.Size = fs->ContentFileInfo.Size; // char has size 1
+			Info.Parent = CallbackList[i].Parent;
+			Info.PropertyObject = fs;
+			Info.NewData = fs->ContentFileInfo.FilePath;
+			CallbackList[i].Callback(Info);
+		}
 	}
 }
 
@@ -71,17 +74,19 @@ void FileSelector::UpdateContent(const char* NewFileName,u32 Length)
 }
 void FileSelector::Update()
 {
-	if (ContentsModified)
-	{
-		objectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize);
-		ContentsModified = false;
-	}
 	if (LabelModified)
 	{
 		objectManager->UpdateString(Label, DYNAMIC_ARR_GET_CAST_DATA(char, LabelString), textSize);
+		
 		LabelModified = false;
 	}
-	
+	if (ContentsModified)
+	{
+		FileString->Pos.m128_f32[0] = Label->PixelLength + 10;
+		objectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize);
+		
+		ContentsModified = false;
+	}
 	Vector Pos = BasePosition;
 	Pos.m128_f32[0] += Label->PixelLength + 10;
 	Pos.m128_f32[0] += FileString->PixelLength + 10;

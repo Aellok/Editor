@@ -21,6 +21,8 @@ struct ShaderEditor
 	u32 RegisterCount;
 	//DataString
 	DynamicArray RegisterNames;
+	//u32 
+	DynamicArray RegisterSlots;
 
 	f32 ParseTimer;
 
@@ -35,7 +37,7 @@ struct ShaderEditor
 	void Update(bool Enabled);
 	DX12PipelineDesc2 GetPipelineDesc();
 	DX12Pipeline* CreatePipeline();
-	void UpdatePSRegisters();
+	void UpdatePSRegisters(bool reset);
 	void RegisterOnPSRegisterChanged(OnRegisterChanged Callback,OnRegisterChangedParams PSRegistersChangedParams);
 
 };

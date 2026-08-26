@@ -17,7 +17,7 @@ void MaterialOptionsPanel::Init(ObjectManager* Manager, Vector Pos, Vector Dim, 
 	Selectors.Init(64, sizeof(FileSelector));
 	Background = Manager->AddObject(Pos, Dim, { 0,0 }, Color, "TopLeft", NULL, "Ortho");
 	Pos.m128_f32[2] = 0.1f; 
-
+	TextureSelectorSlots = { 0 };
 	ButtonDesc desc = {0};
 	desc.Callbacks.OnLButtonUp = MaterialOptionsPanel_AddNewSelector;
 	desc.Color = {0,0,0,1};

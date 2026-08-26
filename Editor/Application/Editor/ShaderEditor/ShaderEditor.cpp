@@ -63,6 +63,7 @@ void ShaderEditorInterface_DragDrop(void* Parent, Mouse mouse, char* FileName)
 	CurrentEditor->Contents.Copy(file.Data, file.FileSize);
 	CurrentEditor->Changed = true;
 	file.Close();
+	SEI->UpdatePSRegisters(true);
 }
 void ShaderEditor::Init(MouseManager* mManager, KeyboardManager* kManager,ObjectManager* SceneObjManager,f32 PanelWidth,Vector Pos,Vector ViewportDim,Vector Color)
 {
@@ -70,6 +71,7 @@ void ShaderEditor::Init(MouseManager* mManager, KeyboardManager* kManager,Object
 
 	RegisterCount = 0;
 	RegisterNames.Init(8, sizeof(DataString));
+	RegisterSlots.Init(8, sizeof(u32));
 	PSRegistersChanged.Init(4, sizeof(OnRegisterChanged));
 	PSRegistersChangedParams.Init(4, sizeof(OnRegisterChangedParams));
 	ParseTimer = 0;
@@ -224,7 +226,7 @@ void ShaderEditor::Update(bool Enabled)
 	//do this once a second.
 	if (UpdatePS && ParseTimer > 1)
 	{
-		UpdatePSRegisters();
+		UpdatePSRegisters(false);
 		ParseTimer = 0;
 	}
 	ParseTimer += GEngine.GetFrameTime();
@@ -331,9 +333,10 @@ DX12Pipeline* ShaderEditor::CreatePipeline()
 	res->Create(GEngine.pRendererInterface->device,desc,true,false);
 	return res;
 }
-void ShaderEditor::UpdatePSRegisters()
+void ShaderEditor::UpdatePSRegisters(bool reset)
 {
 	RegisterNames.Clear();
+	RegisterSlots.Clear();
 	RegisterCount = 0;
 	PSParserResult ParsedPSShader = { 0 };
 	
@@ -354,11 +357,13 @@ void ShaderEditor::UpdatePSRegisters()
 	
 	DataString* Names = DYNAMIC_ARR_GET_CAST_DATA(DataString, ParsedPSShader.registers.VarNames);
 	u32* Types = DYNAMIC_ARR_GET_CAST_DATA(u32, ParsedPSShader.registers.Types);
+	u32* Slots = DYNAMIC_ARR_GET_CAST_DATA(u32, ParsedPSShader.registers.Slots);
 	for (u32 i = 0; i < RegisterCount; i++)
 	{
 		if (Types[i] == eTEXTURE)
 		{
 			RegisterNames.Add(&Names[i]);
+			RegisterSlots.Add(&Slots[i]);
 			printf("Texture Slot found: %s\n", Names[i]);
 		}	
 	}
@@ -369,6 +374,8 @@ void ShaderEditor::UpdatePSRegisters()
 	{
 		Params[i].RegisterCount = RegisterNames.elementCount;
 		Params[i].RegisterNames = RegisterNames;
+		Params[i].Slots = RegisterSlots;
+		Params[i].reset = reset;
 		Callbacks[i](Params[i]);		
 	}
 }
@@ -389,6 +396,7 @@ void ShaderEditor_OnPropertyChanged(OnPropertyAddedParams Param)
 		sprintf_s(Buffer, 255, "TEXTURE Texture2D Tex%d : register(t%d);\n", Param.NumberOfProperties, Param.NumberOfProperties);
 		Editor->Contents.InsertArray(0,Buffer,strlen(Buffer));
 	}
+	shaderEditor->UpdatePSRegisters(false);
 }
 
 void ShaderEditor_OnObjectChanged(ObjectChangeInfo Info)
@@ -399,5 +407,5 @@ void ShaderEditor_OnObjectChanged(ObjectChangeInfo Info)
 		shaderEditor->Editors[i].Contents.Copy((void*)Info.ShaderFileData[i], Info.ShaderSize[i]);
 		shaderEditor->Editors[i].Changed = true;
 	}
-	shaderEditor->UpdatePSRegisters();
+	shaderEditor->UpdatePSRegisters(true);
 }

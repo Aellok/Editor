@@ -28,4 +28,5 @@ struct DynamicArray
 	void Clear();
 	void ResizeBuffer(u32 Size);
 	void Free();
+	
 };

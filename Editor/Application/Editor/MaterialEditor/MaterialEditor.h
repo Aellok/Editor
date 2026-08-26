@@ -23,7 +23,7 @@ struct MaterialEditor
 	ObjectManager* ObjManager;
 
 	MouseCallbacks Callbacks;
-	
+
 	bool RebuildPipeline;
 
 	void AddOnObjectChangedCallback(void* Parent,ObjectChanged Callback);

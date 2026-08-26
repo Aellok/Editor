@@ -37,7 +37,7 @@ void MaterialEditor_OnPropertyChanged(PropertyChangeInfo Info)
 			{
 				Editor->ObjManager->AddTexture(Contents);
 				Editor->Object->TextureID[TextureIndex] = Editor->ObjManager->TextureCount - 1;
-				Editor->Object->TextureCount++;
+				Editor->Object->TextureCount = Editor->MaterialOptions.Selectors.elementCount;
 				Editor->RebuildPipeline = true;
 			}			
 			break;
@@ -52,15 +52,22 @@ void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 {
 	MaterialEditor* Editor = (MaterialEditor*)params.Parent;
 	DataString* Names = DYNAMIC_ARR_GET_CAST_DATA(DataString, params.RegisterNames);
+	DynamicArray* CurrentTextureSlots = &Editor->MaterialOptions.TextureSelectorSlots;
+	FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
+	u32* Slots = DYNAMIC_ARR_GET_CAST_DATA(u32, params.Slots);
 
-	for (s32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i >= (s32)params.RegisterCount; i--)
+	if (Editor->MaterialOptions.Selectors.elementCount > 0)
 	{
-		//delete the other ones.
-		Editor->MaterialOptions.Selectors.Delete(i);
+		for (s32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i > params.RegisterCount; i--)
+		{
+			//delete the other ones.
+			Editor->MaterialOptions.Selectors.Delete(i);
+		}
 	}
+	
 	for (u32 i = Editor->MaterialOptions.Selectors.elementCount; i < params.RegisterCount; i++)
 	{
-		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
+			
 		Vector BasePos = { 0,20,0.1 };
 		if (i > 0)
 		{
@@ -68,18 +75,17 @@ void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 			BasePos.m128_f32[1] += 60;
 		}
 
-		Editor->MaterialOptions.AddSelector(&GEngine.pWindow->mouseManager, BasePos, Names[i].Buffer, "");
+		Editor->MaterialOptions.AddSelector(&GEngine.pWindow->mouseManager, BasePos, "", "");
 
 		Selectors[i].AddPropertyChangeCallback(params.Parent, MaterialEditor_OnPropertyChanged);
 	}
 
-
 	for (u32 i = 0; i < params.RegisterCount; i++)
 	{
 		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
-		Selectors[i].UpdateLabel(Names[i].Buffer, strlen(Names[i].Buffer));
+		Selectors[i].UpdateLabel(Names[Slots[i]].Buffer, strlen(Names[Slots[i]].Buffer));
 	}
-
+	
 }
 
 
@@ -138,10 +144,10 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			Params.ShaderFileData[ePixelShader] = (char*)PSShader.Data;
 
 			ObjectChanged* Callbacks = DYNAMIC_ARR_GET_CAST_DATA(ObjectChanged, MatEditor->OnObjectChanged);
-			ObjectChangeInfo* Parents = DYNAMIC_ARR_GET_CAST_DATA(ObjectChangeInfo, MatEditor->OnObjectChangedParent);
+			void** Parents = DYNAMIC_ARR_GET_CAST_DATA(void*, MatEditor->OnObjectChangedParent);
 			for (u32 i = 0; i < MatEditor->OnObjectChanged.elementCount; i++)
 			{
-				Params.Parent = Parents;
+				Params.Parent = Parents[i];
 				Callbacks[i](Params);
 			}
 			VSShader.Close();

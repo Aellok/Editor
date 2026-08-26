@@ -46,7 +46,7 @@ void MouseManager::OnLRelease(Mouse mouse)
 	MouseCallbacks** Callbacks = DYNAMIC_ARR_GET_CAST_DATA(MouseCallbacks*, CallbackList);
 	for (u32 i = 0; i < CallbackList.elementCount; i++)
 	{
-		if (Callbacks[i]->OnLButtonUp && Callbacks[i]->IsEnabled)
+		if (Callbacks[i] && Callbacks[i]->OnLButtonUp && Callbacks[i]->IsEnabled)
 		{
 			Callbacks[i]->OnLButtonUp(Callbacks[i]->Parent, mouse);
 		}
