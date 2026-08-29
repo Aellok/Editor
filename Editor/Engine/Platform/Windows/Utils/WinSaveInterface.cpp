@@ -6,13 +6,64 @@
 #include "System\Utils\File.h"
 #include "System\String.h"
 
+const char* WinDialog_SaveSelector()
+{
+	File f;
+	bool Success = false;
 
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	if (FAILED(hr))
+	{
+		return nullptr;
+	}
+	IFileSaveDialog* pSaveDialog;
+	hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pSaveDialog));
+	if (FAILED(hr))
+	{
+		goto SaveDialog;
+	}
+
+	hr = pSaveDialog->Show(NULL);
+	if (FAILED(hr))
+	{
+		goto GetResult;
+	}
+
+	IShellItem* pItem;
+	hr = pSaveDialog->GetResult(&pItem);
+	if (FAILED(hr))
+	{
+		goto GetResult;
+	}
+	PWSTR filePath;
+	hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
+	if (FAILED(hr))
+	{
+		goto GetDisplayName;
+	}
+	//Write out the data.
+	s8 FilePathBuffer[FILENAME_MAX];
+	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, FilePathBuffer, FILENAME_MAX, NULL, NULL);
+
+	BackSlashToForwardSlash(FilePathBuffer);
+
+
+	CoTaskMemFree(filePath);
+GetDisplayName:
+	pItem->Release();
+GetResult:
+	pSaveDialog->Release();
+SaveDialog:
+	CoUninitialize();
+
+	return FilePathBuffer;
+}
 
 bool WinDialog_Save(void* FileData,u32 FileSize)
 {
 	File f;
 	bool Success = false;
-
+	
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if (FAILED(hr))
 	{
@@ -47,6 +98,8 @@ bool WinDialog_Save(void* FileData,u32 FileSize)
 	s8 FilePathBuffer[FILENAME_MAX];
 	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, FilePathBuffer, FILENAME_MAX, NULL, NULL);
 	
+	BackSlashToForwardSlash(FilePathBuffer);
+
 
 	f.Open(FilePathBuffer, "wb");
 	f.Write(FileData, FileSize);
@@ -68,6 +121,8 @@ DialogInfo WinDialog_Load()
 
 	File f;
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	const char* fp;
+	u32 Length;
 	if (FAILED(hr))
 	{
 		return {0,0,0};
@@ -98,7 +153,12 @@ DialogInfo WinDialog_Load()
 	}
 	//Write out the data.
 	
-	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, info.FilePath, FILENAME_MAX, NULL, NULL);
+	char Buffer[MAX_PATH];
+	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, Buffer, FILENAME_MAX, NULL, NULL);
+
+	BackSlashToForwardSlash(Buffer);
+	fp = GetEngineRelativePath(Buffer);
+	memcpy(info.FilePath, fp, strlen(fp));
 
 	f.Load(info.FilePath);
 

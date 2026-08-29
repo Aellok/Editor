@@ -100,9 +100,8 @@ void ShaderEditor::Init(MouseManager* mManager, KeyboardManager* kManager,Object
 	Editors = (TextEditor*)GEngine.Global.Allocate(sizeof(TextEditor) * SPBCount);
 	for (u32 i = 0; i < SPBCount;i++)
 	{
-		Editors[i].Init(SceneObjManager, { 0,0 }, ViewportDim, 24, DEBUG_Arr[i]);
-		mManager->Register(&Editors[i].mCallbacks);
-		kManager->Register(&Editors[i].kCallbacks);
+		Editors[i].Init(SceneObjManager,mManager,kManager, { 0,0 }, ViewportDim, 24, DEBUG_Arr[i],Color);
+		
 	}
 	
 	Editors[Panel.CurrentEditor].Focused = true;
@@ -188,8 +187,7 @@ void ShaderEditor::Update(bool Enabled)
 	kcb.IsEnabled = Enabled;
 	for (u32 i = 0; i < SPBCount; i++)
 	{
-		Editors[i].mCallbacks.IsEnabled = Enabled;
-		Editors[i].kCallbacks.IsEnabled = Enabled;
+		Editors[i].SetReceiveInput(Enabled);
 		Editors[i].Focused = Panel.CurrentEditor == i;
 	}
 

@@ -367,6 +367,8 @@ void RemoveControlChars(char* String)
 	}
 	
 }
+
+
 void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size)
 {
 	Font* font = GEngine.GetClosestFont(Size);

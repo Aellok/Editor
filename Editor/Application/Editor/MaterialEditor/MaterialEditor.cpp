@@ -152,7 +152,7 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 			}
 			VSShader.Close();
 			PSShader.Close();
-			
+
 			break;
 		}
 		case eME_Asset:
@@ -220,6 +220,7 @@ void MaterialEditor_OnDragDrop(void* Parent, Mouse mouse,char* FileName)
 
 void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager* Manager,Editor* InEditor, Vector Pos, Vector Dim, Vector Color)
 {
+	CurrentAsset = NULL;
 	RebuildPipeline = false;
 	editor = InEditor;
 	ObjManager = Manager;
@@ -238,6 +239,7 @@ void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager* Manager,E
 };
 void MaterialEditor::Update(bool Enabled)
 {
+	
 	if (Enabled)
 	{
 		Callbacks.IsEnabled = true;

@@ -58,6 +58,7 @@ void TextBox::Init(ObjectManager* Manager2D,MouseManager* MManager,KeyboardManag
 	MManager->Register(&mCallbacks);
 	KManager->Register(&kCallbacks);
 
+	
 }
 void TextBox::Update()
 {

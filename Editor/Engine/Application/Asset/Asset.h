@@ -14,6 +14,7 @@ struct Asset
 		u32 TextureCount;
 	} Header;
 
+	char* FilePath;
 	//Debug Only
 	char* ShaderName[5];
 	

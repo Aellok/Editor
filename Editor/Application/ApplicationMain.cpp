@@ -16,8 +16,8 @@
 void ApplicationMain()
 {
 	EngineSpec spec = {0};
-	spec.fullscreen = false;
-	spec.windowName = "Tower Defence";
+	spec.fullscreen = true;
+	spec.windowName = "Editor";
 	spec.width = GetSystemMetrics(SM_CXSCREEN);
 	spec.height = GetSystemMetrics(SM_CYSCREEN);
 

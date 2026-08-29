@@ -16,6 +16,8 @@ struct TextBox
 	Object2D* Background;
 	String2D* String;
 
+	
+
 	bool IsClicked;
 	void Init(ObjectManager* Manager2D, MouseManager* MManager, KeyboardManager* KManager, Vector Pos, Vector Dim, void(*OnChanged)());
 	void Update();

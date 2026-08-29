@@ -2,6 +2,7 @@
 #include <memory>
 #include "Windows.h"
 #include "System/String.h"
+#include <direct.h>
 bool File::Open(const s8* FilePath,const s8* Mode)
 {
 	memcpy(Path, FilePath, strlen(FilePath) + 1);
@@ -138,6 +139,7 @@ int GetLastCharIndex(const char* FilePath, char c)
 			return i;
 		}
 	}
+	return -1;
 }
 void GetFileExtension(const char* FilePath, char* Buffer,u32 BufferLength)
 {
@@ -149,4 +151,35 @@ void GetFileExtension(const char* FilePath, char* Buffer,u32 BufferLength)
 		return;
 	}
 	memcpy(Buffer, &FilePath[i], Length - i);
+}
+
+char* GetEngineRelativePath(char* FilePath)
+{
+	char* Buffer = _getcwd(NULL, 0);
+	if (Buffer == NULL)
+	{
+		return nullptr;
+	}
+	BackSlashToForwardSlash(Buffer);
+	u32 WDLength = strlen(Buffer);
+	u32 Length = strlen(FilePath);
+	if (Length < WDLength)
+	{
+		return NULL;
+	}
+	if (memcmp(FilePath,Buffer, WDLength))
+	{
+		return NULL;
+	}
+	char* res = FilePath + WDLength + 1;
+	free(Buffer);
+	return res;
+
+}
+void BackSlashToForwardSlash(char* Buffer)
+{
+	for (u32 i = 0; i < strlen(Buffer); i++)
+	{
+		Buffer[i] = (Buffer[i] == '\\') ? '/' : Buffer[i];
+	}
 }

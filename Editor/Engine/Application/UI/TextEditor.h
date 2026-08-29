@@ -4,6 +4,8 @@
 #include "System\Renderer\Font\String2D.h"
 #include "System\Renderer\ObjectManager.h"
 #include "System\Memory\DynamicArray.h"
+#include "ScrollBar.h"
+
 struct TextEditor
 {
 	KeyboardCallbacks kCallbacks;
@@ -28,8 +30,9 @@ struct TextEditor
 
 	bool Changed;
 
-	void Init(ObjectManager* ObjManager,Vector InPos,Vector InDim,u32 Size, const char* DEBUG_fileName);
-	
+	ScrollBar scrollBar;
+
+	void Init(ObjectManager* ObjManager, MouseManager* MManager, KeyboardManager* KManager, Vector InPos,Vector InDim,u32 Size, const char* DEBUG_fileName,Vector BackgroundColor);
 	void Update();
 	void Draw();
 	Vector GetCursorPosition(u32 X, u32 Y);
@@ -37,4 +40,5 @@ struct TextEditor
 	void AddChar(u32 Char, u32 ContentIndex);
 	u32 GetStringIndexFromXY(u32 LineX, u32 LineY);
 	void DeleteCharacter(u32 x, u32 y);
+	void SetReceiveInput(bool Enabled);
 };

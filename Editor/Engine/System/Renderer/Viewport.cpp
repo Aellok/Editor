@@ -31,10 +31,10 @@ void Viewport_MButtonDown(void* Parent, Mouse mouse)
 void Viewport_LButtonUp(void* Parent, Mouse mouse)
 {
 	Viewport* View = (Viewport*)Parent;
-	if (ContainsPoint(mouse, View->Pos, View->Dim))
-	{
+	//if (ContainsPoint(mouse, View->Pos, View->Dim))
+	//{
 		View->MManager.OnLRelease(mouse);
-	}
+	//}
 }
 void Viewport_RButtonUp(void* Parent, Mouse mouse)
 {

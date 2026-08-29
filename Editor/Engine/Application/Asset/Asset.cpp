@@ -14,6 +14,9 @@ Asset* LoadAsset(const char* Path)
 
 	char* Cursor = (char*)asset + sizeof(Asset);
 
+	asset->FilePath = Cursor;
+	Cursor += MAX_PATH;
+
 	for (u32 i = 0; i < ShaderCount; i++)
 	{
 		asset->ShaderName[i] = Cursor;
@@ -36,8 +39,9 @@ Asset* LoadAsset(const char* Path)
 		asset->Textures[i] = Cursor;
 		Cursor += MAX_PATH;
 	}
-
+	
 	//init
+	file.Read(asset->FilePath,MAX_PATH);
 	for (u32 i = 0; i < ShaderCount; i++)
 	{
 		file.Read(asset->ShaderName[i], asset->Header.ShaderSize[i]);

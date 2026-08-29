@@ -160,6 +160,7 @@
     <ClInclude Include="Engine\Application\Engine.h" />
     <ClInclude Include="Engine\Application\UI\Button.h" />
     <ClInclude Include="Engine\Application\UI\FileSelector.h" />
+    <ClInclude Include="Engine\Application\UI\ScrollBar.h" />
     <ClInclude Include="Engine\Application\UI\TextBox.h" />
     <ClInclude Include="Engine\Application\UI\TextEditor.h" />
     <ClInclude Include="Engine\Platform\Windows\Networking\UPnP.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="Engine\Application\Engine.cpp" />
     <ClCompile Include="Engine\Application\UI\Button.cpp" />
     <ClCompile Include="Engine\Application\UI\FileSelector.cpp" />
+    <ClCompile Include="Engine\Application\UI\ScrollBar.cpp" />
     <ClCompile Include="Engine\Application\UI\TextBox.cpp" />
     <ClCompile Include="Engine\Application\UI\TextEditor.cpp" />
     <ClCompile Include="Engine\Platform\Windows\Networking\UPnP.cpp" />

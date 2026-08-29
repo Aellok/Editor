@@ -333,6 +333,9 @@
     <ClCompile Include="Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.cpp">
       <Filter>Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Application\UI\ScrollBar.cpp">
+      <Filter>Engine\Application\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\ApplicationMain.h">
@@ -595,6 +598,9 @@
     </ClInclude>
     <ClInclude Include="Application\Editor\ShaderEditor\ShaderEditorLayout\ShaderEditorPanel.h">
       <Filter>Application\Editor\ShaderEditor\ShaderEditorLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Application\UI\ScrollBar.h">
+      <Filter>Engine\Application\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

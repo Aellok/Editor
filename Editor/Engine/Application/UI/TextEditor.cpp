@@ -217,6 +217,21 @@ void TextEditor_Move(void* Parent, Mouse pMouse)
 		return;
 	}
 }
+
+void TextEditor_OnScrollUpdate(void* Parent,f32 Percentage)
+{
+	/*
+	TextEditor* Editor = (TextEditor*)Parent;
+	u32 TotalLines = Editor->String->Info.LineCount;
+	Editor->FirstLineOffset = Percentage * TotalLines; // 0.5 / 1500; = 750
+
+	u32 CharOffset;
+	for (u32 i = 0; i < Editor->FirstLineOffset; i++)
+	{
+		CharOffset += Editor->String->Info.LineInfo->CharCount;
+	}
+	*/
+}
 Vector TextEditor::GetCursorPosition(u32 X, u32 Y)
 {
 	Font* font = GEngine.GetClosestFont(Size);
@@ -282,7 +297,7 @@ u32 TextEditor::GetStringIndexFromXY(u32 LineX, u32 LineY)
 	}
 	return Result + LineX;
 }
-void TextEditor::Init(ObjectManager* ObjManager,Vector InPos,Vector InDim, u32 TextSize,const char* DEBUG_fileName)
+void TextEditor::Init(ObjectManager* ObjManager,MouseManager* MManager,KeyboardManager* KManager,Vector InPos,Vector InDim, u32 TextSize,const char* DEBUG_fileName,Vector BackgroundColor)
 {
 	Changed = false;
 	IsShiftDown = false;
@@ -311,12 +326,21 @@ void TextEditor::Init(ObjectManager* ObjManager,Vector InPos,Vector InDim, u32 T
 	CREATE_MOUSE_CALLBACK(this,mCallbacks,TextEditor);
 	CREATE_KEYBOARD_CALLBACK(this, kCallbacks, TextEditor);
 
+	Vector ScrollBarDim = { 30,Dim.m128_f32[1] };
+	f32 scrollBarX = Pos.m128_f32[0] + Dim.m128_f32[0] - (ScrollBarDim.m128_f32[0] / 2);
+	f32 scrollBarY = Pos.m128_f32[1];
+
+	scrollBar.Init(ObjManager, MManager, { scrollBarX, scrollBarY,1 }, ScrollBarDim, { 0,0,0,0 }, BackgroundColor, { 0.5f,0.5f,0.5,1.0f },TextEditor_OnScrollUpdate,this);
+	
+	MManager->Register(&mCallbacks);
+	KManager->Register(&kCallbacks);
+
 }
 void TextEditor::Draw() 
 {
 	static f32 Timer = 0;
 	static bool displayCursor = 0;
-	if (this->Focused)
+	if (Focused)
 	{
 		if (Timer > 0.6)
 		{
@@ -331,6 +355,7 @@ void TextEditor::Draw()
 			Cursor->Draw();
 		}
 		Cursor->Draw();
+		scrollBar.Draw();
 	}
 }
 Vector TextEditor::UpdateCursor()
@@ -364,4 +389,10 @@ void TextEditor::Update()
 void TextEditor::DeleteCharacter(u32 x, u32 y)
 {
 	Contents.Delete(GetStringIndexFromXY(x, y));
+}
+void TextEditor::SetReceiveInput(bool Enabled)
+{
+	kCallbacks.IsEnabled = Enabled;
+	mCallbacks.IsEnabled = Enabled;
+	scrollBar.MCallbacks.IsEnabled = Enabled;
 }

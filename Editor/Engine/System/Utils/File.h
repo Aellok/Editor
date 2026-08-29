@@ -37,5 +37,8 @@ struct FileSystem
 	void CloseDirectory();
 };
 
+void BackSlashToForwardSlash(char* FilePath);
+
 int GetLastCharIndex(const char* FilePath, char c);
 void GetFileExtension(const char* FilePath, char* Buffer, u32 Size);
+char* GetEngineRelativePath(char* FilePath);
