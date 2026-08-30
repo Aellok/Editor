@@ -93,7 +93,13 @@ void UIButton::SetPos(Vector Pos)
 	Base->Pos = Pos;
 	Text->Pos = Pos;
 	desc.Pos = Pos;
+	if (desc.Center)
+	{
+		Text->Pos.m128_f32[0] = desc.Pos.m128_f32[0] + (desc.Dim.m128_f32[0] / 2) - (Text->PixelLength / 2);
+		Text->Pos.m128_f32[1] = desc.Pos.m128_f32[1] + (desc.Dim.m128_f32[1] / 2) - (Text->PixelHeight / 2);
+	}
 	desc.ObjectManager->UpdateString(Text, (char*)desc.Text, desc.TextSize, 0);
+	
 }
 void UIButton::SetAcceptInput(bool Value)
 {

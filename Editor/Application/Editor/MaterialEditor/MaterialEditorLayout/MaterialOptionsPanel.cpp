@@ -21,7 +21,7 @@ void MaterialOptionsPanel::Init(ObjectManager* Manager, Vector Pos, Vector Dim, 
 	ButtonDesc desc = {0};
 	desc.Callbacks.OnLButtonUp = MaterialOptionsPanel_AddNewSelector;
 	desc.Color = {0,0,0,1};
-	desc.Dim = { 20,20 };
+	desc.Dim = { 32,32 };
 	desc.Pos = { ((Pos.m128_f32[0] + Dim.m128_f32[0]) / 2) - (desc.Dim.m128_f32[0] / 2),(Pos.m128_f32[1] + (desc.Dim.m128_f32[1] / 2))};
 	desc.Manager = &GEngine.pWindow->mouseManager;
 	desc.ObjectManager = Manager;

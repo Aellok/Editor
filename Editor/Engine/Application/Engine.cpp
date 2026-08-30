@@ -121,7 +121,7 @@ void Engine::EndFrame(DX12CommandQueue* Queue)
 	FrameCounter++;
 #if !SERVER_MODE
 	sprintf_s(FrameTimeStr, "Frame Time: %f", FrameTimer.LastTime);
-	sprintf_s(MemoryStr, "Total Memory Useage %u / %u", Global.writePtr - Global.Data , Global.TotalSize);
+	sprintf_s(MemoryStr, "Total Memory Useage %llu / %llu", Global.writePtr - Global.Data , Global.TotalSize);
 	pRendererInterface->Present( Queue);
 #endif
 	FrameTimer.Stop();
