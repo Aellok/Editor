@@ -675,7 +675,7 @@ PNG LoadPNG(const char* FileName)
 			//R G B R G B
 			//R G B A R G B A
 			
-			for (int x = 0; x < FileHeader.Width; x++)
+			for (u32 x = 0; x < FileHeader.Width; x++)
 			{
 				((unsigned char*)DecodedPNG.Data)[RGBAPos++] = ((unsigned char*)UnFilteredData)[RGBDataPos++];
 				((unsigned char*)DecodedPNG.Data)[RGBAPos++] = ((unsigned char*)UnFilteredData)[RGBDataPos++];

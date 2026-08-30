@@ -6,7 +6,7 @@
 //TODO: Implement commandqueue class like in https://github.com/microsoft/DirectX-Graphics-Samples/blob/master/MiniEngine/Core/CommandListManager.cpp
 bool DirectX12::OnInit(HWND hwnd, u32 Width, u32 Height)
 {
-	vport.Init(0.0f, 0.0f, Width, Height);
+	vport.Init(0, 0, (f32)Width, (f32)Height);
 	frameIndex = 0;
 	rtvDescriptorSize = 0;
 
@@ -234,7 +234,7 @@ void DirectX12::Resize( u32 width, u32 height)
 		renderTargets[i]->Initialize(device, Resource, D3D12_RESOURCE_STATE_PRESENT, rtvHeap, i,{ 0,0,0,1 });
 	}
 	
-	vport.Resize(width, height);
+	vport.Resize((f32)width, (f32)height);
 }
 void DirectX12::PrintMessages()
 {

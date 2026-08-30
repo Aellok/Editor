@@ -48,6 +48,7 @@ bool DX12CommandQueue::Initialize(ID3D12Device* Device)
 
 	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	CommandListLocks[CommandListID].unlock();
+	return true;
 }
 void DX12CommandQueue::Execute(ID3D12CommandList* const* commandLists,u32 Count)
 {

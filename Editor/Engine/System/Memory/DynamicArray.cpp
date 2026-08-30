@@ -63,7 +63,7 @@ void DynamicArray::Insert(u32 Index, void* Element)
 {
 	if (elementCount + 1 > maxCount)
 	{
-		ResizeBuffer(maxCount * 1.5f);
+		ResizeBuffer((u32)(maxCount * 1.5f));
 	}
 
 	memcpy(data + ((Index + 1) * elementSize),data + (Index * elementSize),((elementCount - Index) * elementSize));
@@ -74,7 +74,7 @@ void DynamicArray::InsertArray(u32 Index, void* Element,u32 Count)
 {
 	while (elementCount + Count + 1 > maxCount)
 	{
-		ResizeBuffer(maxCount * 1.5f);
+		ResizeBuffer((u32)(maxCount * 1.5f));
 	}
 
 	memcpy(data + ((Index + Count) * elementSize), data + (Index * elementSize), ((elementCount - Index) * elementSize));
@@ -85,7 +85,7 @@ void DynamicArray::Add(void* Element)
 {
 	if (elementCount + 1 >= maxCount)
 	{
-		ResizeBuffer(maxCount * 1.5f);
+		ResizeBuffer((u32)(maxCount * 1.5f));
 	}
 	Replace(elementCount++,Element);
 }
@@ -93,7 +93,7 @@ void DynamicArray::PartialAdd(void* Element, u32 Size)
 {
 	if (elementCount + 1 >= maxCount)
 	{
-		ResizeBuffer(maxCount * 1.5f);
+		ResizeBuffer((u32)(maxCount * 1.5f));
 	}
 	PartialReplace(elementCount++, Element,Size);
 }
@@ -101,7 +101,7 @@ void DynamicArray::Copy(void* Data,u32 Size)
 {
 	while (Size >= maxSize)
 	{
-		ResizeBuffer(maxCount * 1.5f);
+		ResizeBuffer((u32)(maxCount * 1.5f));
 	}
 	elementCount = Size / elementSize;
 	memset(data, 0, maxSize);

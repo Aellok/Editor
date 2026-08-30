@@ -188,6 +188,6 @@ Win32_Window* Win32_CreateWindow(Win32_WindowSpec spec)
 	AllocConsole();
 	freopen("CONOUT$", "w", stdout);
 #endif
-	srand(time(NULL));
+	srand((u32)time(NULL));
 	return window;
 }

@@ -17,7 +17,7 @@ s32 GetStringIndex(const char** StrList, u32 StrCount, const char* TargetString)
 }
 wchar_t* CharToWChar(s8* String)
 {
-	u32 StringLength = strlen(String) + 1;
+	u32 StringLength = (u32)strlen(String) + 1;
 	wchar_t* Result = (wchar_t*)calloc(StringLength, sizeof(wchar_t));
 	u64 BytesConverted = 0;
 
@@ -27,7 +27,7 @@ wchar_t* CharToWChar(s8* String)
 }
 char* WCharToChar(wchar_t* String)
 {
-	u32 Length = wcslen(String);
+	u32 Length = (u32)wcslen(String);
 	char* Buffer = (char*)calloc(1,Length + 1);
 	wcstombs(Buffer,String,Length);
 	return Buffer;

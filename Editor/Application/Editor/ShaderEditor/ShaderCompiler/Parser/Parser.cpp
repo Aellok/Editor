@@ -282,7 +282,6 @@ ParsedRegisters ParseRegisters(LexerResult& Input)
 	Registers->VarNames.Init(8, sizeof(DataString));
 
 	u32 RegisterCount = 0;
-	u32 TokenIndicies[64];
 
 	Token* t = DYNAMIC_ARR_GET_CAST_DATA(Token, Input.tokens);
 	if (Input.tokens.elementCount < 5)
@@ -324,8 +323,8 @@ ParsedPSInput ParsePSInput(LexerResult& Input)
 	res.SemanticFlags.Init(8, sizeof(u32));
 
 	
-	s32 Start = 0;
-	s32 End = 0;
+	u32 Start = 0;
+	u32 End = 0;
 
 	Token* t = DYNAMIC_ARR_GET_CAST_DATA(Token, Input.tokens);
 
@@ -335,7 +334,7 @@ ParsedPSInput ParsePSInput(LexerResult& Input)
 
 	//format
 	u32 InputMask = eType | eName | eSemanticSeperator | eSemantic;
-	for (s32 i = Start; i < End - 3; i++)
+	for (u32 i = Start; i < End - 3; i++)
 	{
 		u32 TypeMask = t[i].Type | t[i + 1].Type | t[i + 2].Type | t[i + 3].Type;
 		if (TypeMask == InputMask)
@@ -363,7 +362,7 @@ void DEBUG_PrintRegisters(ParsedRegisters& Registers)
 		DataString* DataTypeName = DYNAMIC_ARR_GET_CAST_DATA(DataString, Registers.DataTypes);
 		DataString* VarName = DYNAMIC_ARR_GET_CAST_DATA(DataString, Registers.VarNames);
 		u32* Slots = DYNAMIC_ARR_GET_CAST_DATA(u32, Registers.Slots);
-		printf("	%s %s %s : register(%d)\n", DefineStrings[Type[i]], DataTypeName[i], VarName[i], Slots[i]);
+		printf("	%s %s %s : register(%d)\n", DefineStrings[Type[i]], DataTypeName[i].Buffer, VarName[i].Buffer, Slots[i]);
 	}
 }
 void DEBUG_PrintPSInput(ParsedPSInput& Input)

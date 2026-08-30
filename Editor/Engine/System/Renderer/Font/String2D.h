@@ -9,8 +9,8 @@ struct String2D
 	u32 PipelineIndex;
 	bool Visible;
 	u32 StringIndex;
-	u32 PixelLength;
-	u32 PixelHeight;
+	f32 PixelLength;
+	f32 PixelHeight;
 	f32 YPadding;
 	u32 TextSize;
 	StringInfo Info;

@@ -10,7 +10,7 @@
 
 stbtt_fontinfo font;
 
-f32 KerningPairs[65536];
+s32 KerningPairs[65536];
 #define GET_KERNING_PAIR(lc,rc) KerningPairs[((s32)(lc) * 255) + (s32)(rc)]
 u8* AddAlphaChannel(u8* Data,u32 Width,u32 Height)
 {
@@ -58,7 +58,6 @@ void Font::LoadFont(DirectX12* pDX12,const char* FileName,u32 Size)
 {
 	DX12 = pDX12;
 	size = Size;
-	u32 FontFileSize;
 	File file;
 	file.Load(FileName);
 
@@ -69,7 +68,7 @@ void Font::LoadFont(DirectX12* pDX12,const char* FileName,u32 Size)
 	}
 	for (u32 i = 0; i < 255;i++)
 	{
-		Scale[i] = stbtt_ScaleForPixelHeight(&font, i);
+		Scale[i] = stbtt_ScaleForPixelHeight(&font, (f32)i);
 		stbtt_GetCodepointHMetrics(&font, i, &advanceWidth[i], &lsb[i]);
 		stbtt_GetCodepointBox(&font, i, &x0[i], &y0[i], &x1[i], &y1[i]);
 	}
@@ -85,9 +84,6 @@ void Font::LoadFont(DirectX12* pDX12,const char* FileName,u32 Size)
 	u32 c = 0;
 	for (u32 i = 0; i < 255; i++)
 	{
-		char TextureName[8] = { 'F','o','n','t',i };
-		s32 x = 0;
-		s32 y = 0;
 		u8* DataMono = stbtt_GetCodepointBitmap(&font, Scale[Size], Scale[Size], i, &Glyphs[i].BitmapWidth, &Glyphs[i].BitmapHeight, &Glyphs[i].XOffset, &Glyphs[i].YOffset);
 		UniformTexture = (u8*)Arena.Allocate(Size * Size * 4);
 		TextureCount++;
@@ -97,16 +93,13 @@ void Font::LoadFont(DirectX12* pDX12,const char* FileName,u32 Size)
 		{
 			u8* Data = AddAlphaChannel(DataMono, Glyphs[i].BitmapWidth, Glyphs[i].BitmapHeight);
 			
-			for (u32 SrcRow = 0; SrcRow < Glyphs[i].BitmapHeight; SrcRow++)
+			for (s32 SrcRow = 0; SrcRow < Glyphs[i].BitmapHeight; SrcRow++)
 			{
-				u32 DestRow = SrcRow * Size * 4 ;
+				s32 DestRow = SrcRow * Size * 4 ;
 				c += (Glyphs[i].BitmapWidth * 4);
 				memcpy(&UniformTexture[DestRow], &Data[SrcRow * Glyphs[i].BitmapWidth * 4], (Glyphs[i].BitmapWidth * 4));
 				TotalWritten += (Glyphs[i].BitmapWidth * 4);
 			}
-			
-			//Glyphs[i].Texture.InitFromData(&DX12->MainCommandQueue,DX12, TextureName, Data, (u32)Glyphs[i].BitmapWidth, (u32)Glyphs[i].BitmapHeight, DXGI_FORMAT_R8G8B8A8_UNORM,true);
-
 			stbtt_GetFontVMetrics(&font, &ascent, &decent, &LineGap);
 
 			MaxWidth = MaxWidth < Glyphs[i].BitmapWidth ? Glyphs[i].BitmapWidth : MaxWidth;
@@ -142,14 +135,14 @@ void Font::GetStringPositions(char* String,Vector Start,u32 Size, StringInfo* Ou
 		char* LastNewLine = String;	
 		for (char* NewLine = strchr(String, '\n'); NewLine != NULL; NewLine = strchr(NewLine + 1, '\n') )
 		{
-			u32 LineLength = NewLine - LastNewLine;
+			u32 LineLength = (u32)(NewLine - LastNewLine);
 			OutInfo->LineInfo[OutInfo->LineCount++].Contents.Copy( LastNewLine, LineLength );
 			LastNewLine = NewLine + 1;
 		}
-		OutInfo->LineInfo[OutInfo->LineCount++].Contents.Copy( LastNewLine, strlen(LastNewLine));
+		OutInfo->LineInfo[OutInfo->LineCount++].Contents.Copy( LastNewLine, (u32)strlen(LastNewLine));
 	}
 	//this is the highest point of the font.
-	s32 ScaledA = (ascent * GetScale(Size));
+	f32 ScaledA = (ascent * GetScale(Size));
 	
 	f32 BaseLineY = Start.m128_f32[1] + ScaledA; // set the baseline so that the BaselineY - Ascent = StartY.
 	
@@ -189,10 +182,9 @@ void Font::GetStringPositions(char* String,Vector Start,u32 Size, StringInfo* Ou
 	OutInfo->PixelHeight = (ascent - decent) * GetScale(Size);
 	OutInfo->YPadding = ascent * GetScale(Size);
 }
-u32 Font::GetFontStringLength(const char* String)
+s32 Font::GetFontStringLength(const char* String)
 {
-	f32 OriginX = 0;
-	f32 OriginY = ascent;
+	s32 OriginX = 0;
 
 	for (u32 i = 0; i < strlen(String); i++)
 	{
@@ -211,7 +203,7 @@ f32 Font::GetScale(u32 FontSize)
 {
 	return Scale[FontSize];
 }
-f32 Font::GetCursorSize(f32 FontSize)
+f32 Font::GetCursorSize(u32 FontSize)
 {
 	return (ascent - decent) * GetScale(FontSize);
 }
@@ -245,12 +237,12 @@ void StringInfo::Clear()
 }
 
 
-u8 Font::GetAsciiFromVK(u32 VK_Code)
+u8 Font::GetAsciiFromVK(u64 VK_Code)
 {
 	u16 c;
 	BYTE ks[256];
 	GetKeyboardState(ks);
 	KeyboardManager* Manager = &GEngine.pWindow->keyboardManager;
-	ToAscii(VK_Code, MapVirtualKey(VK_Code, MAPVK_VK_TO_VSC) , ks, &c, 0);
-	return c;
+	ToAscii((u32)VK_Code, MapVirtualKey((u32)VK_Code, MAPVK_VK_TO_VSC) , ks, &c, 0);
+	return (u8)c;
 }

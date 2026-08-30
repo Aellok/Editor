@@ -48,7 +48,7 @@ s32 IsDefine(char* Word)
 {
 	for (u32 i = 0; i < eDefineCount; i++)
 	{
-		u32 length = min(strlen(Word), strlen(DefineStrings[i]));
+		u32 length = (u32)min(strlen(Word), strlen(DefineStrings[i]));
 		if (!strcmp(Word, DefineStrings[i]))
 		{
 			return i;
@@ -79,7 +79,7 @@ s32 IsSemantic(char* Word)
 {
 	for (u32 i = 0; i < eSemanticCount; i++)
 	{
-		u32 Length = min(strlen(Word), strlen(SemanticStrings[i]));
+		u32 Length = (u32)min(strlen(Word), strlen(SemanticStrings[i]));
 		if (!strcmp(Word, SemanticStrings[i]))
 		{
 			return i;
@@ -89,7 +89,7 @@ s32 IsSemantic(char* Word)
 }
 s32 IsSlot(char* Word)
 {
-	u32 MinLength = strlen("register");
+	u32 MinLength = (u32)strlen("register");
 	if (strlen(Word) <= MinLength)
 	{
 		return -1;
@@ -98,7 +98,7 @@ s32 IsSlot(char* Word)
 }
 u32 IsInst(char* Word)
 {
-	u32 MinLength = strlen("INSTANCE_");
+	u32 MinLength = (u32)strlen("INSTANCE_");
 	if (strlen(Word) < MinLength)
 	{
 		return 0;
@@ -107,7 +107,7 @@ u32 IsInst(char* Word)
 }
 u32 GetSemanticSlot(char* Semantic)
 {
-	char* SlotStart = Semantic + strlen(Semantic) - 1;
+	char* SlotStart = Semantic + (u32)strlen(Semantic) - 1;
 	if (!(*SlotStart >= '0' && *SlotStart <= '9')) // there isnt a slot specified.
 	{
 		return 0;

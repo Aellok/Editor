@@ -65,9 +65,9 @@ struct Font
 	DX12Texture Texture;
 	void Init(void* pPlatformInterface, MemoryArena* Arena);
 	void LoadFont(DirectX12* DX12,const char* FileName, u32 Size);
-	u32 GetFontStringLength(const char* String);
+	s32 GetFontStringLength(const char* String);
 	void GetStringPositions(char* String, Vector Start, u32 Size, StringInfo* OutInfo,u32 StartLineOffset);
 	f32 GetScale(u32 FontSize);
-	f32 GetCursorSize(f32 FontSize);
-	u8 GetAsciiFromVK(u32 VK_Code);
+	f32 GetCursorSize(u32 FontSize);
+	u8 GetAsciiFromVK(u64 VK_Code);
 };

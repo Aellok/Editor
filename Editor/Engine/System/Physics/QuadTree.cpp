@@ -25,6 +25,7 @@ bool QuadTreeNode::ContainsPoint(Vector Pos)
 			return true;
 		}
 	}
+	return false;
 }
 //Base->QTNodes = (QuadTreeNode**)Nodes.Allocate(sizeof(QuadTreeNode*) * 4);
 void QuadTreeNode::Add(Object2D* Object)

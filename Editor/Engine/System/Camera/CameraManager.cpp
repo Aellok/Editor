@@ -25,7 +25,7 @@ void CameraManager::SetCamera(CameraIndex Index)
 		return;
 	}
 }
-CameraIndex CameraManager::AddCamera(f32 FOV,u32 ScreenWidth,u32 ScreenHeight,Vector pos, CameraType Type)
+CameraIndex CameraManager::AddCamera(f32 FOV,f32 ScreenWidth,f32 ScreenHeight,Vector pos, CameraType Type)
 {
 	DX12Camera camera;
 
@@ -44,7 +44,7 @@ CameraIndex CameraManager::AddCamera(f32 FOV,u32 ScreenWidth,u32 ScreenHeight,Ve
 	
 	return { CameraList[Type].elementCount - 1,Type };
 }
-void CameraManager::Resize(u32 width, u32 height)
+void CameraManager::Resize(f32 width, f32 height)
 {
 	if (width == 0 || height == 0)
 	{

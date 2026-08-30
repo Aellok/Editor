@@ -64,8 +64,8 @@ void Engine::Init(EngineSpec spec)
 		DefaultFont[i].LoadFont(pRendererInterface, "Textures/Roboto-Black.ttf", DefaultFontSizes[i]);
 	}
 
-	Camera2D = pCamManager->AddCamera(45 * (PI / 180), pWindow->width, pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eOrthoCam);
-	Camera3D = pCamManager->AddCamera(45 * (PI / 180), pWindow->width, pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eFreeCam);
+	Camera2D = pCamManager->AddCamera(45 * (PI / 180), (f32)pWindow->width, (f32)pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eOrthoCam);
+	Camera3D = pCamManager->AddCamera(45 * (PI / 180), (f32)pWindow->width, (f32)pWindow->height, { (float)0.0f,(float)0.0f,-6.0 }, eFreeCam);
 }
 void Engine::StartFrame()
 {
@@ -73,7 +73,7 @@ void Engine::StartFrame()
 #if !SERVER_MODE
 	if (((Win32_Window*)pWindow->platformWindow)->Resized)
 	{
-		pCamManager->Resize(((Win32_Window*)pWindow->platformWindow)->width, ((Win32_Window*)pWindow->platformWindow)->height);
+		pCamManager->Resize((f32)((Win32_Window*)pWindow->platformWindow)->width, (f32)((Win32_Window*)pWindow->platformWindow)->height);
 		pRendererInterface->Resize(((Win32_Window*)pWindow->platformWindow)->width, ((Win32_Window*)pWindow->platformWindow)->height);
 		((Win32_Window*)pWindow->platformWindow)->Resized = false;
 	}
@@ -121,7 +121,7 @@ void Engine::EndFrame(DX12CommandQueue* Queue)
 	FrameCounter++;
 #if !SERVER_MODE
 	sprintf_s(FrameTimeStr, "Frame Time: %f", FrameTimer.LastTime);
-	sprintf_s(MemoryStr, "Total Memory Useage %llu / %llu", Global.writePtr - Global.Data , Global.TotalSize);
+	sprintf_s(MemoryStr, "Total Memory Useage %llu / %u", Global.writePtr - Global.Data , Global.TotalSize);
 	pRendererInterface->Present( Queue);
 #endif
 	FrameTimer.Stop();

@@ -32,9 +32,9 @@ Matrix GetAlignmentRotation_3D(Vector target, Vector start)
 			{w.m128_f32[2] ,0               ,-w.m128_f32[0],0},
 			{-w.m128_f32[1],w.m128_f32[0]   ,0             ,0},
 			{0,0,0,0} };
-	f32 Angle = acos((DirectX::XMVector3Dot(target, start)).m128_f32[0]);
+	f64 Angle = acos((DirectX::XMVector3Dot(target, start)).m128_f32[0]);
 
-	return DirectX::XMMatrixIdentity() + (sin(Angle) * K) + ((1 - cos(Angle)) * (K * K));
+	return DirectX::XMMatrixIdentity() + ((f32)sin(Angle) * K) + ((f32)(1.0f - cos(Angle)) * (K * K));
 }
 
 f32 GetAlignmentRotation_2D(Vector target, Vector start)

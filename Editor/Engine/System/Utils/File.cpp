@@ -44,7 +44,7 @@ bool File::Load(const s8* FilePath)
 	Data = (u8*)calloc(1,FileSize);
 	if (Data)
 	{
-		u32 ReadBytes = fread(Data, 1, FileSize - 1, fp);
+		u32 ReadBytes = (u32)fread(Data, 1, FileSize - 1, fp);
 		Data[ReadBytes] = '\0';
 		readPtr = Data;
 		return true;
@@ -78,6 +78,7 @@ bool FileSystem::IsFileExtWhiteListed(s8* FileExt)
 			return true;
 		}
 	}
+	return false;
 }
 bool FileSystem::IsFileExtWhiteListed(wchar_t* FileExt)
 {
@@ -132,7 +133,7 @@ void FileSystem::CloseDirectory()
 }
 int GetLastCharIndex(const char* FilePath, char c)
 {
-	for (u32 i = strlen(FilePath); i > 0; i--)
+	for (u32 i = (u32)strlen(FilePath); i > 0; i--)
 	{
 		if (FilePath[i] == c)
 		{
@@ -143,7 +144,7 @@ int GetLastCharIndex(const char* FilePath, char c)
 }
 void GetFileExtension(const char* FilePath, char* Buffer,u32 BufferLength)
 {
-	u32 Length = strlen(FilePath);
+	u32 Length = (u32)strlen(FilePath);
 	u32 i = GetLastCharIndex(FilePath, '.') + 1; // +1 skips the .
 	if (Length - i > BufferLength)
 	{
@@ -161,8 +162,8 @@ char* GetEngineRelativePath(char* FilePath)
 		return nullptr;
 	}
 	BackSlashToForwardSlash(Buffer);
-	u32 WDLength = strlen(Buffer);
-	u32 Length = strlen(FilePath);
+	u32 WDLength = (u32)strlen(Buffer);
+	u32 Length = (u32)strlen(FilePath);
 	if (Length < WDLength)
 	{
 		return NULL;

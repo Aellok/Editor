@@ -2,7 +2,7 @@
 #include "System\Utils\File.h"
 #include "Application\Engine.h"
 #include "Platform\Windows\Utils\WinSaveInterface.h"
-void TextEditor_KeyDown(void* Parent, u32 Key)
+void TextEditor_KeyDown(void* Parent, u64 Key)
 {
 	TextEditor* Editor = (TextEditor*)Parent;
 	if (!Editor->Focused)
@@ -84,7 +84,7 @@ void TextEditor_KeyDown(void* Parent, u32 Key)
 	
 	}
 }
-void TextEditor_KeyUp(void* Parent, u32 Key)
+void TextEditor_KeyUp(void* Parent, u64 Key)
 {
 	TextEditor* Editor = (TextEditor*)Parent;
 	if (!Editor->Focused)
@@ -222,16 +222,16 @@ void TextEditor_OnScrollUpdate(void* Parent,f32 Percentage)
 {
 	TextEditor* Editor = (TextEditor*)Parent;
 	u32 TotalLines = Editor->String->Info.LineCount;
-	Editor->FirstLineOffset = Percentage * TotalLines; // 0.5 / 1500; = 750
+	Editor->FirstLineOffset = (u32)(Percentage * TotalLines); // 0.5 / 1500; = 750
 	Editor->Changed = true;
 }
 Vector TextEditor::GetCursorPosition(u32 X, u32 Y)
 {
 	Font* font = GEngine.GetClosestFont(Size);
-	s32 ScaledAscent = ceilf(font->ascent * font->GetScale(Size));
+	f32 ScaledAscent = ceilf(font->ascent * font->GetScale(Size));
 
 	Vector Result = { 0 };
-	u32 StartY = Pos.m128_f32[1];
+	f32 StartY = Pos.m128_f32[1];
 	for (u32 i = 0; i < String->Info.LineCount; i++)
 	{
 		if (Y > StartY && Y <= String->Info.LineInfo[i].NewLineYPosition)
@@ -251,7 +251,7 @@ Vector TextEditor::GetCursorPosition(u32 X, u32 Y)
 	{
 		Vector Position = Info->GetPosition(CursorPosX - 1);
 		Width = Info->GetWidth(CursorPosX - 1);
-		if (X > Position.m128_f32[0] + Width)
+		if (X > (u32)(Position.m128_f32[0] + Width))
 		{
 			Result.m128_f32[0] = Position.m128_f32[0] + Width;
 			return Result;
@@ -260,12 +260,12 @@ Vector TextEditor::GetCursorPosition(u32 X, u32 Y)
 	//Clicking within the string
 	for (u32 i = 0; i < Info->CharCount; i++)
 	{
-		u32 StartX = Info->GetPosition(i).m128_f32[0];
-		u32 EndX = StartX + ceilf(Info->GetWidth(i));
-		if (X >= StartX && X <= EndX)
+		f32 StartX = Info->GetPosition(i).m128_f32[0];
+		f32 EndX = StartX + ceilf(Info->GetWidth(i));
+		if (X >= (u32)StartX && X <= (u32)EndX)
 		{
-			u32 CenterX = (StartX + EndX) / 2;
-			if (X < CenterX)
+			f32 CenterX = (StartX + EndX) / 2;
+			if (X < (u32)CenterX)
 			{
 				CursorPosX = i;
 				Result.m128_f32[0] = StartX;
@@ -355,7 +355,7 @@ void TextEditor::Draw()
 Vector TextEditor::UpdateCursor()
 {
 	Font* font = GEngine.GetClosestFont(Size);
-	s32 ScaledAscent = ceilf(font->ascent * font->GetScale(Size));
+	f32 ScaledAscent = ceilf(font->ascent * font->GetScale(Size));
 
 	Vector result = {0};
 	StringLineInfo* Info = &String->Info.LineInfo[CursorPosY];

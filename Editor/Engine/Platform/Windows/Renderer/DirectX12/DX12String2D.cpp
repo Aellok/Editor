@@ -4,8 +4,9 @@
 void DX12String2D::Init(const s8* str,u32 InstanceElementSize)
 {
 	data.Init(255, 1);
-	data.Copy((void*)str, strlen(str));
-	Length = (strlen(str) < 255 ? 255 : strlen(str));
+	u32 strLen = (u32)strlen(str);
+	data.Copy((void*)str, strLen);
+	Length = (strLen < 255 ? 255 : strLen);
 
 	InstanceBufferData.Init(Length, InstanceElementSize);
 

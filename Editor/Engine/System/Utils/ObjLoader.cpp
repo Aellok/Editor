@@ -17,7 +17,6 @@ f32 ParseValue(char** Str)
 {
 	char Buffer[255] = {0};
 	u32 i = 0;
-	char c;
 	while (**Str != ' ' && **Str != '\n')
 	{
 		Buffer[i++] = *((*Str)++);
@@ -28,7 +27,7 @@ f32 ParseValue(char** Str)
 		}
 	}
 
-	return atof(Buffer);
+	return (f32)atof(Buffer);
 }
 Vector ParseVertexData(char** Str)
 {
@@ -100,13 +99,14 @@ ObjData LoadObj(const char* FileName)
 				Result.VertexList = (Vector*)realloc(Result.VertexList, Result.VertexListSize);
 			}
 			Result.VertexList[Result.VertexCount] = ParseVertexData(&Str);
-			Result.BoundingBox.Min.m128_f32[0] = fmin(Result.VertexList[Result.VertexCount].m128_f32[0],Result.BoundingBox.Min.m128_f32[0]);
-			Result.BoundingBox.Min.m128_f32[1] = fmin(Result.VertexList[Result.VertexCount].m128_f32[1], Result.BoundingBox.Min.m128_f32[1]);
-			Result.BoundingBox.Min.m128_f32[2] = fmin(Result.VertexList[Result.VertexCount].m128_f32[2], Result.BoundingBox.Min.m128_f32[2]);
+			
+			Result.BoundingBox.Min.m128_f32[0] = fminf(Result.VertexList[Result.VertexCount].m128_f32[0],Result.BoundingBox.Min.m128_f32[0]);
+			Result.BoundingBox.Min.m128_f32[1] = fminf(Result.VertexList[Result.VertexCount].m128_f32[1], Result.BoundingBox.Min.m128_f32[1]);
+			Result.BoundingBox.Min.m128_f32[2] = fminf(Result.VertexList[Result.VertexCount].m128_f32[2], Result.BoundingBox.Min.m128_f32[2]);
 
-			Result.BoundingBox.Max.m128_f32[0] = fmax(Result.VertexList[Result.VertexCount].m128_f32[0], Result.BoundingBox.Max.m128_f32[0]);
-			Result.BoundingBox.Max.m128_f32[1] = fmax(Result.VertexList[Result.VertexCount].m128_f32[1], Result.BoundingBox.Max.m128_f32[1]);
-			Result.BoundingBox.Max.m128_f32[2] = fmax(Result.VertexList[Result.VertexCount++].m128_f32[2], Result.BoundingBox.Max.m128_f32[2]);
+			Result.BoundingBox.Max.m128_f32[0] = fmaxf(Result.VertexList[Result.VertexCount].m128_f32[0], Result.BoundingBox.Max.m128_f32[0]);
+			Result.BoundingBox.Max.m128_f32[1] = fmaxf(Result.VertexList[Result.VertexCount].m128_f32[1], Result.BoundingBox.Max.m128_f32[1]);
+			Result.BoundingBox.Max.m128_f32[2] = fmaxf(Result.VertexList[Result.VertexCount++].m128_f32[2], Result.BoundingBox.Max.m128_f32[2]);
 			Result.BoundingBox.Center.m128_f32[0] = (Result.BoundingBox.Max.m128_f32[0] + Result.BoundingBox.Min.m128_f32[0]) * 0.5f;
 			Result.BoundingBox.Center.m128_f32[1] = (Result.BoundingBox.Max.m128_f32[1] + Result.BoundingBox.Min.m128_f32[1]) * 0.5f;
 			Result.BoundingBox.Center.m128_f32[2] = (Result.BoundingBox.Max.m128_f32[2] + Result.BoundingBox.Min.m128_f32[2]) * 0.5f;

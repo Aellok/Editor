@@ -80,11 +80,11 @@ LexerResult ParseHLSL(StringInfo& HLSL)
 		while (Start - HLSL.LineInfo[i].Contents.data < HLSL.LineInfo[i].Contents.elementCount)
 		{	
 			char* Space = strchr(Start, ' ');
-			u32 Length = (Space ? Space - Start : HLSL.LineInfo[i].Contents.elementCount - (Start - HLSL.LineInfo[i].Contents.data));
-			Token t = GetTokenFromWord(Start,Length  , LastToken);
+			u32 Length = (u32)(Space ? Space - Start : HLSL.LineInfo[i].Contents.elementCount - (Start - HLSL.LineInfo[i].Contents.data));
+			Token t = GetTokenFromWord(Start,Length, LastToken);
 			if (t.Type != 0xffffffff)
 			{
-				if (t.Type == eSemantic)
+				if (t.Type & eSemantic)
 				{
 					t.Subtype = t.Subtype << 31 | GetSemanticSlot(t.Buffer);
 				}

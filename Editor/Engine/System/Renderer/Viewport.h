@@ -36,7 +36,7 @@ struct Viewport
 	void (*FillCommandQueue)();
 
 
-	void Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u32 ScreenHeight,const char* Name);
+	void Initialize(ID3D12Device* Device, f32 x, f32 y, f32 ScreenWidth, f32 ScreenHeight,const char* Name);
 	void SetPipeline(DX12Pipeline* pipeline);
 	void StartRender(bool RenderToTexture);
 	void StopRender();

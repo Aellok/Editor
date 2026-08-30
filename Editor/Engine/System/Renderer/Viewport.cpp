@@ -6,8 +6,8 @@ void Viewport_LButtonDown(void* Parent, Mouse mouse)
 	if (ContainsPoint(mouse, View->Pos,View->Dim))
 	{
 		View->Focused = true;
-		mouse.x -= View->Pos.m128_f32[0];
-		mouse.y -= View->Pos.m128_f32[1];
+		mouse.x -= (u32)View->Pos.m128_f32[0];
+		mouse.y -= (u32)View->Pos.m128_f32[1];
 
 		View->MManager.OnLClick(mouse);
 	}
@@ -57,12 +57,12 @@ void Viewport_Move(void* Parent, Mouse mouse)
 	Viewport* View = (Viewport*)Parent;
 	if (ContainsPoint(mouse, View->Pos, View->Dim))
 	{
-		mouse.x -= View->Pos.m128_f32[0];
-		mouse.y -= View->Pos.m128_f32[1];
+		mouse.x -= (u32)View->Pos.m128_f32[0];
+		mouse.y -= (u32)View->Pos.m128_f32[1];
 		View->MManager.Move(mouse);
 	}
 }
-void Viewport_KeyUp(void* Parent, u32 Key)
+void Viewport_KeyUp(void* Parent, u64 Key)
 {
 	Viewport* View = (Viewport*)Parent;
 	if (View->Focused)
@@ -70,7 +70,7 @@ void Viewport_KeyUp(void* Parent, u32 Key)
 		View->KManager.OnKeyUp(Key);
 	}
 }
-void Viewport_KeyDown(void* Parent,u32 Key)
+void Viewport_KeyDown(void* Parent,u64 Key)
 {
 	Viewport* View = (Viewport*)Parent;
 	if (View->Focused)
@@ -86,7 +86,7 @@ void Viewport_DragDrop(void* Parent,Mouse mouse,char* FileName)
 		View->MManager.DragDrop(mouse,FileName);
 	}
 }
-void Viewport::Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u32 ScreenHeight,const char* Name)
+void Viewport::Initialize(ID3D12Device* Device, f32 x, f32 y, f32 ScreenWidth, f32 ScreenHeight,const char* Name)
 {
 	PipelineManager.Init();
 	//Engine specific pipelines.
@@ -101,8 +101,8 @@ void Viewport::Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u
 	PipelineManager.AddPipeline2D(GEngine.pRendererInterface->device, "Font2", "Engine/Platform/Windows/Renderer/DirectX12/HLSL/SavedPipelines/temp/Font2Pipeline.desc", false, false);
 
 	Focused = false;
-	Pos = { (f32)x,(f32)y };
-	Dim = { (f32)ScreenWidth,(f32)ScreenWidth };
+	Pos = { x,y };
+	Dim = { ScreenWidth,ScreenWidth };
 
 	KManager.Init();
 	MManager.Init();
@@ -124,7 +124,7 @@ void Viewport::Initialize(ID3D12Device* Device, u32 x, u32 y, u32 ScreenWidth, u
 	Queue.Initialize(Device);
 	//Queue.CloseCommandList();
 	Vector ClearColor = { 0,0,0,1 };
-	Texture.Initialize(&Queue,GEngine.pRendererInterface,Name,ScreenWidth,ScreenHeight, DXGI_FORMAT_R8G8B8A8_UNORM,false,true, ClearColor);
+	Texture.Initialize(&Queue,GEngine.pRendererInterface,Name, (u32)ScreenWidth,(u32)ScreenHeight, DXGI_FORMAT_R8G8B8A8_UNORM,false,true, ClearColor);
 	Texture.TextureBuffer.Transition(&Queue, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	RenderTarget.Initialize(Device, Texture.TextureBuffer.Resource, D3D12_RESOURCE_STATE_RENDER_TARGET, GEngine.pRendererInterface->rtvHeap3, 0, ClearColor);
 	

@@ -25,10 +25,10 @@ CompiledShaderDesc CompileShader(const char* ShaderName,const char* Entry,const 
 		Entry, Version, D3DCOMPILE_OPTIMIZATION_LEVEL0, NULL, 0, NULL, 0, &compiledShader, &Error);
 	if (hr != S_OK)
 	{
-		printf("Failed to compile: %s\n", Error->GetBufferPointer());
+		printf("Failed to compile: %s\n", (char*)Error->GetBufferPointer());
 		return {0,0};
 	}
 	res.Blob = compiledShader->GetBufferPointer();
-	res.Size = compiledShader->GetBufferSize();
+	res.Size = (u32)compiledShader->GetBufferSize();
 	return res;
 }

@@ -1,7 +1,7 @@
 #include "Editor.h"
 #include "Application\Engine.h"
 #include "Application\Asset\Asset.h"
-void Editor_OnKeyDown(void* Parent, u32 Key)
+void Editor_OnKeyDown(void* Parent, u64 Key)
 {
 	Editor* editor = (Editor*)Parent;
 	if (Key == VK_CONTROL)
@@ -33,8 +33,9 @@ void Editor_OnKeyDown(void* Parent, u32 Key)
 					editor->SaveAsset(editor->materialEditor.CurrentAsset->FilePath);
 					return;
 				}
-				const char* FilePath = WinDialog_SaveSelector();
-				if (FilePath)
+				char FilePath[MAX_PATH];
+				bool res = WinDialog_SaveSelector(FilePath);
+				if (res)
 				{
 					editor->SaveAsset(FilePath);
 				}
@@ -170,10 +171,7 @@ void Editor::SaveAsset(const char* FilePath)
 		printf("Error: File Path: %s wasn't under the working directory.\n", FilePath);
 		return;
 	}
-	Asset* asset;
 	DX12Object3D* Obj = &objectManager->Meshes3D[materialEditor.Object->MeshID];
-
-	
 	File file;
 	file.Open(RelFilePath, "wb");
 	//write header.

@@ -9,7 +9,7 @@ void KeyboardManager::Register(KeyboardCallbacks* NewCallback)
 {
 	CallbackList.Add(&NewCallback);
 }
-void KeyboardManager::OnKeyUp(u32 KeyCode)
+void KeyboardManager::OnKeyUp(u64 KeyCode)
 {
 	KeyboardCallbacks** Callbacks = DYNAMIC_ARR_GET_CAST_DATA(KeyboardCallbacks*,CallbackList);
 	for (u32 i = 0; i < CallbackList.elementCount; i++)
@@ -20,7 +20,7 @@ void KeyboardManager::OnKeyUp(u32 KeyCode)
 		}
 	}
 }
-void KeyboardManager::OnKeyDown(u32 KeyCode)
+void KeyboardManager::OnKeyDown(u64 KeyCode)
 {
 	KeyboardCallbacks** Callbacks = DYNAMIC_ARR_GET_CAST_DATA(KeyboardCallbacks*, CallbackList);
 	for (u32 i = 0; i < CallbackList.elementCount; i++)

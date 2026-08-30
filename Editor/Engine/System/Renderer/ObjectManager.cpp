@@ -210,7 +210,7 @@ Object2D* ObjectManager::AddObject(Vector Pos, Vector Dim, Vector Rot, Vector Co
 	
 	if (!PipelineObjectList[PipelineIndex].data)
 	{
-		u32 NameLength = strlen(PipelineName);
+		u32 NameLength = (u32)strlen(PipelineName);
 		if (NameLength >= 32)
 		{
 			printf("Error: Pipeline name longer than buffer\n");
@@ -337,7 +337,7 @@ Object3D* ObjectManager::AddObject3D(Vector Pos, Vector Dim, Vector Rot, Vector 
 	Obj->Color = Color;
 	if (!PipelineObjectList[PipelineIndex].data)
 	{
-		u32 NameLength = strlen(PipelineName);
+		u32 NameLength = (u32)strlen(PipelineName);
 		if (NameLength >= 32)
 		{
 			printf("Error: Pipeline name longer than buffer\n");
@@ -356,12 +356,12 @@ void ObjectManager::RemoveObject(Object2D* Obj)
 }
 void RemoveControlChars(char* String)
 {
-	u32 TotalLength = strlen(String);
+	u32 TotalLength = (u32)strlen(String);
 	char* ptr = String;
 	u32 i = 0;
 	for (i = 0; ptr = strchr(ptr, '\r'); i++)
 	{
-		u32 relative = ptr - String;
+		u32 relative = (s32)(ptr - String);
 		memcpy(ptr, ptr + 1, --TotalLength - relative);
 		String[TotalLength] = 0;
 	}
@@ -375,10 +375,11 @@ void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size,u32
 
 	DX12String2D* str = &StringMeshs[StringObj->Index];
 	str->InstanceBufferData.Clear();
-	str->data.Copy(String, strlen(String));
+	str->Length = (u32)strlen(String);
+	str->data.Copy(String, str->Length);
 	StringObj->Info.Clear();
 
-	str->Length = strlen(String);
+	
 
 	u32 NLCount = GetNewLineCount(String) + 1;
 
@@ -434,7 +435,7 @@ String2D* ObjectManager::AddString(const char* String, Vector Pos, u32 Size,cons
 
 	if (!PipelineList[PipelineIndex].data)
 	{
-		u32 NameLength = strlen(PipelineName);
+		u32 NameLength = (u32)strlen(PipelineName);
 		if (NameLength >= 32)
 		{
 			printf("Error: Pipeline name longer than buffer\n");

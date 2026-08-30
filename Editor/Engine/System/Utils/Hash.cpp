@@ -30,7 +30,7 @@ u64 GenerateSHA256Hash(char* message,u32 Length)
 	memcpy(Buffer, message, Length);
 	//TODO this assumes that message aligns to a 8 bit boundry
 	//ie message is a u32 - 32 bit so when 1 bit is added 7 0's need to be added
-	Buffer[BufferOffset++] = 0b10000000; // + 8 bits
+	Buffer[BufferOffset++] = (char)0b10000000; // + 8 bits
 
 	for (u32 i = 0; i < (ExtraPadding - 7) / 8;i++)
 	{

@@ -1,9 +1,9 @@
 #include "DX12Viewport.h"
 
-void DX12Viewport::Init(u32 x, u32 y,u32 Width, u32 Height)
+void DX12Viewport::Init(f32 x, f32 y,f32 Width, f32 Height)
 {
-	Pos = { (f32)x,(f32)y };
-	Dim = { (f32)Width,(f32)Height };
+	Pos = { x,y };
+	Dim = { Width,Height };
 
 	viewport.Width = Width;
 	viewport.Height = Height;
@@ -12,20 +12,20 @@ void DX12Viewport::Init(u32 x, u32 y,u32 Width, u32 Height)
 	viewport.MinDepth = D3D12_MIN_DEPTH;
 	viewport.MaxDepth = D3D12_MAX_DEPTH;
 
-	scissorRect.left = x;
-	scissorRect.right = Width;
-	scissorRect.top =  y;
-	scissorRect.bottom = Height;
+	scissorRect.left = (s32)x;
+	scissorRect.right = (s32)Width;
+	scissorRect.top = (s32)y;
+	scissorRect.bottom = (s32)Height;
 }
 
-void DX12Viewport::Resize(u32 Width, u32 Height)
+void DX12Viewport::Resize(f32 Width, f32 Height)
 {
-	Dim = { (f32)Width,(f32)Height };
+	Dim = { Width,Height };
 	viewport.Width = Width;
 	viewport.Height = Height;
 
-	scissorRect.right = Width;
-	scissorRect.bottom = Height;
+	scissorRect.right = (s32)Width;
+	scissorRect.bottom = (s32)Height;
 }
 
 void DX12Viewport::SetViewport(DX12CommandQueue* Queue)

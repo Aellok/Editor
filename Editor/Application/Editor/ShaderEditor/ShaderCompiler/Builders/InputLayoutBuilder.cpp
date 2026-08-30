@@ -26,6 +26,10 @@ DXGI_FORMAT GetInputFormat(u32 Type)
 		{
 			return  DXGI_FORMAT_R32_FLOAT;
 		}
+		default:
+		{
+			return DXGI_FORMAT_UNKNOWN;
+		}
 	}
 }
 u32 GetInputSizes(u32 Type)
@@ -52,7 +56,10 @@ u32 GetInputSizes(u32 Type)
 		{
 			return 4;
 		}
-
+		default:
+		{
+			return 0xffffffff;
+		}
 	}
 }
 D3D12_INPUT_ELEMENT_DESC CreateInput(DynamicArray& SemanticNames,u32 TypeIndex,DataString SemanticName,u32 SemanticFlags)
@@ -72,7 +79,7 @@ D3D12_INPUT_ELEMENT_DESC CreateInput(DynamicArray& SemanticNames,u32 TypeIndex,D
 
 	DataString* SemanticPtr = DYNAMIC_ARR_GET_CAST_DATA(DataString, SemanticNames);
 	input->SemanticName = SemanticPtr[SemanticNames.elementCount - 1].Buffer;
-	input->SemanticIndex = SemanticFlags & ((1 << 31) - 1);
+	input->SemanticIndex = SemanticFlags & ((1u << 31) - 1u);
 
 	if (SemanticFlags & (1 << 31))
 	{

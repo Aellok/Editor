@@ -24,7 +24,7 @@ void DX12PipelineManager::AddPipeline2D(ID3D12Device* Device,const char* Name, c
 	PipelineList2D.Add(&Pipeline);
 }
 
-u32 DX12PipelineManager::GetPipelineIndex2D(DX12Pipeline* pipeline)
+s32 DX12PipelineManager::GetPipelineIndex2D(DX12Pipeline* pipeline)
 {
 	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList2D);
 
@@ -35,6 +35,7 @@ u32 DX12PipelineManager::GetPipelineIndex2D(DX12Pipeline* pipeline)
 			return i;
 		}
 	}
+	return -1;
 }
 s32 DX12PipelineManager::GetPipelineIndex2D(const char* PipelineName)
 {
@@ -65,7 +66,7 @@ void DX12PipelineManager::Update2D(u32 FrameIndex,void* OnResizeBuffer, u32 Inde
 	Pipelines[Index].FrameIndex = FrameIndex;
 	Pipelines[Index].UpdateVSOnResize(OnResizeBuffer);
 }
-u32 DX12PipelineManager::GetPipelineIndex3D(DX12Pipeline* pipeline)
+s32 DX12PipelineManager::GetPipelineIndex3D(DX12Pipeline* pipeline)
 {
 	DX12Pipeline* Pipelines = DYNAMIC_ARR_GET_CAST_DATA(DX12Pipeline, PipelineList3D);
 
@@ -76,6 +77,7 @@ u32 DX12PipelineManager::GetPipelineIndex3D(DX12Pipeline* pipeline)
 			return i;
 		}
 	}
+	return -1;
 }
 s32 DX12PipelineManager::GetPipelineIndex3D(const char* PipelineName)
 {

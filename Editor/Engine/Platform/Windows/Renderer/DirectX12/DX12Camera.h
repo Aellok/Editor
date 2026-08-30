@@ -27,8 +27,8 @@ struct DX12Camera
 	bool IsRotating;
 	bool Directions[4];
 
-	void Initialize(f32 fov,u32 ScreenWidth,u32 ScreenHeight, Vector Pos,bool IsOrthographic);
+	void Initialize(f32 fov,f32 ScreenWidth,f32 ScreenHeight, Vector Pos,bool IsOrthographic);
 
 	void Update(f32 FrameTime);
-	void Resize(u32 ScreenWidth, u32 ScreenHeight);
+	void Resize(f32 ScreenWidth, f32 ScreenHeight);
 };

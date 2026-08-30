@@ -28,8 +28,8 @@ struct CameraManager
 
 	void Init(MouseManager* pMouseManager, KeyboardManager* pKeyboardManager);
 	void SetCamera(CameraIndex Index);
-	CameraIndex AddCamera(f32 FOV, u32 ScreenWidth, u32 ScreenHeight, Vector pos, CameraType Type);
-	void Resize(u32 width, u32 height);
+	CameraIndex AddCamera(f32 FOV, f32 ScreenWidth, f32 ScreenHeight, Vector pos, CameraType Type);
+	void Resize(f32 width, f32 height);
 	void Update(f32 FrameTime);
 	//Dont save this ptr.
 	DX12Camera* GetCurrentCamera();

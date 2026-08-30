@@ -6,15 +6,14 @@
 #include "System\Utils\File.h"
 #include "System\String.h"
 
-const char* WinDialog_SaveSelector()
+bool WinDialog_SaveSelector(char* DestFilePath)
 {
-	File f;
 	bool Success = false;
 
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if (FAILED(hr))
 	{
-		return nullptr;
+		return false;
 	}
 	IFileSaveDialog* pSaveDialog;
 	hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pSaveDialog));
@@ -43,7 +42,7 @@ const char* WinDialog_SaveSelector()
 	}
 	//Write out the data.
 	s8 FilePathBuffer[FILENAME_MAX];
-	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, FilePathBuffer, FILENAME_MAX, NULL, NULL);
+	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, DestFilePath, FILENAME_MAX, NULL, NULL);
 
 	BackSlashToForwardSlash(FilePathBuffer);
 
@@ -56,14 +55,12 @@ GetResult:
 SaveDialog:
 	CoUninitialize();
 
-	return FilePathBuffer;
+	return SUCCEEDED(hr);
 }
 
 bool WinDialog_Save(void* FileData,u32 FileSize)
 {
 	File f;
-	bool Success = false;
-	
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if (FAILED(hr))
 	{
@@ -101,6 +98,7 @@ bool WinDialog_Save(void* FileData,u32 FileSize)
 	BackSlashToForwardSlash(FilePathBuffer);
 
 
+
 	f.Open(FilePathBuffer, "wb");
 	f.Write(FileData, FileSize);
 	f.Close();
@@ -122,7 +120,7 @@ DialogInfo WinDialog_Load()
 	File f;
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	const char* fp;
-	u32 Length;
+
 	if (FAILED(hr))
 	{
 		return {0,0,0};

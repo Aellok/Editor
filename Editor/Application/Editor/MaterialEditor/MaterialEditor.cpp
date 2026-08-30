@@ -58,7 +58,7 @@ void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 
 	if (Editor->MaterialOptions.Selectors.elementCount > 0)
 	{
-		for (s32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i > params.RegisterCount; i--)
+		for (u32 i = Editor->MaterialOptions.Selectors.elementCount - 1; i > params.RegisterCount; i--)
 		{
 			//delete the other ones.
 			Editor->MaterialOptions.Selectors.Delete(i);
@@ -68,7 +68,7 @@ void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 	for (u32 i = Editor->MaterialOptions.Selectors.elementCount; i < params.RegisterCount; i++)
 	{
 			
-		Vector BasePos = { 0,20,0.1 };
+		Vector BasePos = { 0.0f,20.0f,0.1f };
 		if (i > 0)
 		{
 			BasePos = Selectors[i - 1].BasePosition;
@@ -83,7 +83,7 @@ void MaterialEditor_OnPSRegistersChanged(OnRegisterChangedParams params)
 	for (u32 i = 0; i < params.RegisterCount; i++)
 	{
 		FileSelector* Selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Editor->MaterialOptions.Selectors);
-		Selectors[i].UpdateLabel(Names[Slots[i]].Buffer, strlen(Names[Slots[i]].Buffer));
+		Selectors[i].UpdateLabel(Names[Slots[i]].Buffer, (u32)strlen(Names[Slots[i]].Buffer));
 	}
 	
 }

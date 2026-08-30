@@ -1,6 +1,6 @@
 #include "DX12Camera.h"
 #include "System\Camera\FreeCamera.h"
-void DX12Camera::Initialize(f32 FieldOfView, u32 ScreenWidth, u32 ScreenHeight, Vector Pos,bool IsOrthographic)
+void DX12Camera::Initialize(f32 FieldOfView, f32 ScreenWidth, f32 ScreenHeight, Vector Pos,bool IsOrthographic)
 {
 	memset(Directions, 0, 4);
 	fov = FieldOfView;
@@ -17,7 +17,7 @@ void DX12Camera::Initialize(f32 FieldOfView, u32 ScreenWidth, u32 ScreenHeight, 
 	if (!IsOrtho)
 	{
 		VMatrix = DirectX::XMMatrixLookAtLH(Position, DirectX::XMVectorAdd(Position, Forward), { 0.0f, 1.0f, 0.0f, 0.0f });
-		PMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, (f32)ScreenWidth / (f32)ScreenHeight, 0.1f, 1000);
+		PMatrix = DirectX::XMMatrixPerspectiveFovLH(fov, ScreenWidth / ScreenHeight, 0.1f, 1000);
 		CREATE_MOUSE_CALLBACK(this, MCallbacks, FreeCamera);
 		CREATE_KEYBOARD_CALLBACK(this, KCallbacks, FreeCamera);
 	}
@@ -37,7 +37,7 @@ void DX12Camera::Update(f32 FrameTime)
 		Left = DirectX::XMVector3Rotate({ -1,0,0 }, Rotation);
 
 		Vector Vel = DirectX::XMVectorAdd(DirectX::XMVectorScale(Left, (float)(Directions[0] - Directions[1])),
-			DirectX::XMVectorScale(Forward, (Directions[2] - Directions[3])));
+			DirectX::XMVectorScale(Forward, (f32)(Directions[2] - Directions[3])));
 
 		Vel = DirectX::XMVector3Normalize(Vel);
 		Position = DirectX::XMVectorAdd(Position, DirectX::XMVectorScale(Vel, Speed * FrameTime));
@@ -49,7 +49,7 @@ void DX12Camera::Update(f32 FrameTime)
 	MCallbacks.Parent = this;
 	KCallbacks.Parent = this;
 }
-void DX12Camera::Resize(u32 ScreenWidth, u32 ScreenHeight)
+void DX12Camera::Resize(f32 ScreenWidth, f32 ScreenHeight)
 {
 	if (!IsOrtho)
 	{

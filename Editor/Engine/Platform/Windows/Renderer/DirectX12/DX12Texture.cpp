@@ -20,9 +20,13 @@ void DX12Texture::CreateTextureArray(DX12CommandQueue* Queue, void* TextureList,
 	
 	u64 size = 0;
 	Layouts = (D3D12_PLACED_SUBRESOURCE_FOOTPRINT*)malloc(sizeof(D3D12_PLACED_SUBRESOURCE_FOOTPRINT) * TextureCount);
+	if (!Layouts)
+	{
+		return;
+	}
 	DX12->device->GetCopyableFootprints(&TextureDesc, 0, TextureCount, 0, Layouts, nullptr, nullptr, &size);
 
-	TextureBuffer.Initialize(GEngine.pRendererInterface->device, TextureDesc, size, D3D12_RESOURCE_STATE_COMMON, {});
+	TextureBuffer.Initialize(GEngine.pRendererInterface->device, TextureDesc, (u32)size, D3D12_RESOURCE_STATE_COMMON, {});
 
 	for (u32 i = 0; i < TextureCount; i++)
 	{
@@ -33,7 +37,7 @@ void DX12Texture::CreateTextureArray(DX12CommandQueue* Queue, void* TextureList,
 		
 		u64 offset = Layouts[i].Offset;
 		textureData.pData = ((u8*)TextureList) + Width * Height * 4 * i;
-		TextureBuffer.UpdateSubresource(Queue,offset, i, &textureData);
+		TextureBuffer.UpdateSubresource(Queue,(u32)offset, i, &textureData);
 	}
 
 	TextureBuffer.Transition(Queue, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -86,7 +90,7 @@ void DX12Texture::Initialize(DX12CommandQueue* Queue, DirectX12* dx12, const cha
 		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
 	}
 	
-	s32 textureHeapSize = ((((Width * 4) + 255) & ~255) * (Height - 1)) + (Width * 4);
+	u32 textureHeapSize = ((((Width * 4) + 255) & ~255) * (Height - 1)) + (Width * 4);
 
 	TextureBuffer.Initialize(DX12->device, TextureDesc, textureHeapSize, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, ClearColor);
 

@@ -27,7 +27,7 @@ const char* ShaderCompileVersions[SPBCount]
 };
 
 
-void ShaderEditorInterface_OnKeyUp(void* Parent,u32 Key)
+void ShaderEditorInterface_OnKeyUp(void* Parent,u64 Key)
 {
 	ShaderEditor* SEI = (ShaderEditor*)Parent;
 	switch(Key)
@@ -134,14 +134,14 @@ void ShaderEditor::Draw()
 #define ABVS
 struct ColorCode
 {
-	u32 Start;
-	u32 End;
+	s64 Start;
+	s64 End;
 	DirectX::XMFLOAT4 Color;
 };
 ColorCode* GetColorCodePositions(char* Buffer,u32* CodeCount)
 {
 	ColorCode* Codes = (ColorCode*)calloc(128, sizeof(ColorCode));
-	u32 BufferLength = strlen(Buffer);
+	u32 BufferLength = (u32)strlen(Buffer);
 
 	for (u32 i = 0; i < eDefineCount; i++)
 	{
@@ -155,7 +155,7 @@ ColorCode* GetColorCodePositions(char* Buffer,u32* CodeCount)
 			}
 			Codes[*CodeCount].Color = { 190.0f / 255.0f,183.0f / 255.0f,1,0 };
 			Codes[*CodeCount].Start = ptr - Buffer;
-			Codes[*CodeCount].End = ((ptr - Buffer) + strlen(DefineStrings[i]));
+			Codes[*CodeCount].End = ((ptr - Buffer) + (u64)strlen(DefineStrings[i]));
 			*CodeCount += 1;
 			ptr++;
 		}
@@ -213,7 +213,7 @@ void ShaderEditor::Update(bool Enabled)
 
 			for (u32 i = 0; i < CodeCount; i++)
 			{
-				for (u32 x = Codes[i].Start; x < Codes[i].End; x++)
+				for (s64 x = Codes[i].Start; x < Codes[i].End; x++)
 				{
 					Instances[CharOffset + x].Color = Codes[i].Color;
 				}
@@ -310,7 +310,7 @@ DX12PipelineDesc2 ShaderEditor::GetPipelineDesc()
 	desc.header.InputSizes[1] = Layout.BufferSizes[1];
 
 	desc.rootSigBlob = rs.CompiledBlob->GetBufferPointer();
-	desc.header.RootSigSize = rs.CompiledBlob->GetBufferSize();
+	desc.header.RootSigSize = (u32)rs.CompiledBlob->GetBufferSize();
 	memcpy(desc.header.RootSigParamTypes, DYNAMIC_ARR_GET_CAST_DATA(u32, rs.RootParamTypes), rs.RootParamTypes.elementCount);
 	desc.header.RootSigParamCount = rs.RootParams.elementCount;
 
@@ -368,7 +368,7 @@ void ShaderEditor::UpdatePSRegisters(bool reset)
 		{
 			RegisterNames.Add(&Names[i]);
 			RegisterSlots.Add(&Slots[i]);
-			printf("Texture Slot found: %s\n", Names[i]);
+			printf("Texture Slot found: %s\n", Names[i].Buffer);
 		}	
 	}
 	//this is being called on every key press if there is already a register. need keep track of the # of registers on the last call.
@@ -398,7 +398,7 @@ void ShaderEditor_OnPropertyChanged(OnPropertyAddedParams Param)
 		Editor->Changed = true;
 		char Buffer[255] = {0};
 		sprintf_s(Buffer, 255, "TEXTURE Texture2D Tex%d : register(t%d);\n", Param.NumberOfProperties, Param.NumberOfProperties);
-		Editor->Contents.InsertArray(0,Buffer,strlen(Buffer));
+		Editor->Contents.InsertArray(0,Buffer,(u32)strlen(Buffer));
 	}
 	shaderEditor->UpdatePSRegisters(false);
 }

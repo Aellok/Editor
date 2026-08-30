@@ -12,19 +12,18 @@ struct KeyboardCallbacks
 {
 	bool IsEnabled;
 	void* Parent;
-	void (*OnKeyDown)(void* Parent,u32 KeyCode);
-	void (*OnKeyUp)(void* Parent, u32 KeyCode);
-
+	void (*OnKeyDown)(void* Parent,u64 KeyCode);
+	void (*OnKeyUp)(void* Parent, u64 KeyCode);
 };
 
 struct KeyboardManager
 {
 	//TODO: this is a hack because lparam isnt passed in
-	u32 LastlParam;
+	s64 LastlParam;
 	
 	DynamicArray CallbackList;
 	void Init();
 	void Register(KeyboardCallbacks* Callbacks);
-	void OnKeyUp(u32 KeyCode);
-	void OnKeyDown(u32 KeyCode);
+	void OnKeyUp(u64 KeyCode);
+	void OnKeyDown(u64 KeyCode);
 };

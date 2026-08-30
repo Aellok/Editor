@@ -22,8 +22,8 @@ void FreeCamera_Move(void* Parent, Mouse mouse)
 	DX12Camera* Cam = (DX12Camera*)Parent;
 	if (Cam->IsActive && Cam->IsRotating)
 	{
-		Cam->AngleX += TO_RAD(mouse.dy) * 0.5;
-		Cam->AngleY += TO_RAD(mouse.dx) * 0.5;
+		Cam->AngleX += TO_RAD(mouse.dy) * 0.5f;
+		Cam->AngleY += TO_RAD(mouse.dx) * 0.5f;
 	}
 }
 
@@ -33,7 +33,7 @@ void FreeCamera_MButtonDown(void* Parent, Mouse mouse) {}
 void FreeCamera_MButtonUp(void* Parent, Mouse mouse) {}
 
 
-void FreeCamera_KeyDown(void* Parent, u32 KeyCode)
+void FreeCamera_KeyDown(void* Parent, u64 KeyCode)
 {
 	DX12Camera* cam = (DX12Camera*)Parent;
 	if (cam->IsActive)
@@ -44,7 +44,7 @@ void FreeCamera_KeyDown(void* Parent, u32 KeyCode)
 		cam->Directions[3] = (KeyCode == 'S') ? true : cam->Directions[3];
 	}
 }
-void FreeCamera_KeyUp(void* Parent, u32 KeyCode)
+void FreeCamera_KeyUp(void* Parent, u64 KeyCode)
 {
 	DX12Camera* cam = (DX12Camera*)Parent;
 	if (cam->IsActive)

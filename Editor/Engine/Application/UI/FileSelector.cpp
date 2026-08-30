@@ -42,10 +42,10 @@ void FileSelector::Init(MouseManager* MManager,ObjectManager* Manager, Vector Po
 
 	FileString = objectManager->AddString(FileName, Pos, TextSize, "Font");
 	Contents.Init(32, sizeof(char*));
-	UpdateContent((char*)FileName, strlen(FileName));
+	UpdateContent((char*)FileName, (u32)strlen(FileName));
 
 	LabelString.Init(8, sizeof(char*));
-	UpdateLabel((char*)LabelName, strlen(LabelName));
+	UpdateLabel((char*)LabelName, (u32)strlen(LabelName));
 	
 	Pos.m128_f32[0] += FileString->PixelLength + 10;
 
@@ -65,7 +65,7 @@ void FileSelector::Init(MouseManager* MManager,ObjectManager* Manager, Vector Po
 void FileSelector::UpdateLabel(char* NewName,u32 Length)
 {
 	LabelModified = true;
-	LabelString.Copy((void*)NewName, strlen(NewName));
+	LabelString.Copy((void*)NewName, (u32)strlen(NewName));
 }
 void FileSelector::UpdateContent(const char* NewFileName,u32 Length)
 {

@@ -1,6 +1,6 @@
 #include "TextBox.h"
 
-void TextBox_OnKeyDown(void* Parent,u32 Key)
+void TextBox_OnKeyDown(void* Parent,u64 Key)
 {
 	TextBox* textBox = (TextBox*)Parent;
 	if (textBox->IsClicked)
@@ -8,7 +8,7 @@ void TextBox_OnKeyDown(void* Parent,u32 Key)
 		
 	}
 }
-void TextBox_OnKeyUp(void* Parent, u32 Key)
+void TextBox_OnKeyUp(void* Parent, u64 Key)
 {
 	TextBox* textBox = (TextBox*)Parent;
 	if (textBox->IsClicked)
@@ -30,7 +30,7 @@ void TextBox::Init(ObjectManager* Manager2D,MouseManager* MManager,KeyboardManag
 	IsClicked = false;
 	Content.Init(255, sizeof(char));
 	const char* Default = "Hello World!";
-	Content.Copy((void*)Default, strlen(Default));
+	Content.Copy((void*)Default, (u32)strlen(Default));
 	Manager = Manager2D;
 	
 	float PanelPadding = 20.0f;

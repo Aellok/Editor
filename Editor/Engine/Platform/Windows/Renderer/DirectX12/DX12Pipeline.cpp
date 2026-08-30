@@ -339,7 +339,7 @@ void* DX12PipelineDesc::Serialize(u32* TotalSize)
 	*TotalSize += InputCount * (sizeof(D3D12_INPUT_ELEMENT_DESC) - 8); // -8 due to the ptr in the struct
 	for (u32 i = 0; i < InputCount; i++)
 	{
-		*TotalSize += strlen(InputLayout[i].SemanticName);
+		*TotalSize += (u32)strlen(InputLayout[i].SemanticName);
 	}
 	*TotalSize += InputCount * sizeof(u32);
 	*TotalSize += CompiledVSSize + CompiledHSSize + CompiledDSSize + CompiledGSSize + CompiledPSSize;
@@ -355,7 +355,7 @@ void* DX12PipelineDesc::Serialize(u32* TotalSize)
 	COPY_ADVANCE_WRITE(writePtr, this, DX12_PIPELINE_HEADER_SIZE);
 	for (u32 i = 0; i < InputCount; i++)
 	{
-		u32 StringLength = strlen(InputLayout[i].SemanticName);
+		u32 StringLength = (u32)strlen(InputLayout[i].SemanticName);
 		COPY_ADVANCE_WRITE(writePtr, &StringLength,sizeof(u32));
 		COPY_ADVANCE_WRITE(writePtr, InputLayout[i].SemanticName, StringLength);
 		COPY_ADVANCE_WRITE(writePtr, (char*)&InputLayout[i] + 8, sizeof(D3D12_INPUT_ELEMENT_DESC) - 8);
@@ -437,7 +437,7 @@ void* DX12PipelineDesc2::Serialize(u32* TotalSize)
 	*TotalSize += header.InputCount * (sizeof(D3D12_INPUT_ELEMENT_DESC) - 8); // -8 due to the ptr in the struct
 	for (u32 i = 0; i < header.InputCount; i++)
 	{
-		*TotalSize += strlen(InputLayout[i].SemanticName);
+		*TotalSize += (u32)strlen(InputLayout[i].SemanticName);
 	}
 	*TotalSize += header.InputCount * sizeof(u32);
 	*TotalSize += header.CompiledVSSize + header.CompiledHSSize + header.CompiledDSSize + header.CompiledGSSize + header.CompiledPSSize;
@@ -453,7 +453,7 @@ void* DX12PipelineDesc2::Serialize(u32* TotalSize)
 	COPY_ADVANCE_WRITE(writePtr, &header, sizeof(header));
 	for (u32 i = 0; i < header.InputCount; i++)
 	{
-		u32 StringLength = strlen(InputLayout[i].SemanticName);
+		u32 StringLength = (u32)strlen(InputLayout[i].SemanticName);
 		COPY_ADVANCE_WRITE(writePtr, &StringLength, sizeof(u32));
 		COPY_ADVANCE_WRITE(writePtr, InputLayout[i].SemanticName, StringLength);
 		COPY_ADVANCE_WRITE(writePtr, (char*)&InputLayout[i] + 8, sizeof(D3D12_INPUT_ELEMENT_DESC) - 8);
