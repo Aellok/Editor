@@ -27,6 +27,7 @@ struct ParsedVSInput
 	DynamicArray DataSematicsString;
 	//u32
 	DynamicArray SemanticFlags;
+	bool IsValid;
 };
 struct ParsedVSOutput
 {

@@ -137,10 +137,18 @@ ParsedVSInput ParseVSInput(LexerResult& Input)
 	res.SemanticFlags.Init(8, sizeof(u32));
 	
 	Token* t = DYNAMIC_ARR_GET_CAST_DATA(Token, Input.tokens);
-	while (!(t->Type == eDefine && t->Subtype == eVS_INPUT))
+	u32 TokenProcessedCount = 0;
+	while ( !(t->Type == eDefine && t->Subtype == eVS_INPUT))
 	{
 		t++;
+		if (TokenProcessedCount++ >= Input.tokens.elementCount)
+		{
+			res.IsValid = false;
+			printf("Error: No VS input was found.\n");
+			return {0};
+		}
 	}
+
 
 	while (!(t->Type == eBeginEnd && t->Subtype == 1))
 	{
@@ -166,6 +174,7 @@ ParsedVSInput ParseVSInput(LexerResult& Input)
 		}
 		t++;
 	}
+	res.IsValid = true;
 	return res;
 }
 //ParsedVSOutput
@@ -246,6 +255,11 @@ VSParserResult ParseVSShader(LexerResult& VSLexerOurput)
 	res.cbvs = ParseCBV(VSLexerOurput);
 	DEBUG_PrintCBV(res.cbvs);
 	res.vsInput = ParseVSInput(VSLexerOurput);
+	if (!res.vsInput.IsValid)
+	{
+		res.IsValid = false;
+		return res;
+	}
 	DEBUG_PrintVSInput(res.vsInput);
 	res.vsOutput = ParseVSOutput(VSLexerOurput);
 	DEBUG_PrintVSOutput(res.vsOutput);

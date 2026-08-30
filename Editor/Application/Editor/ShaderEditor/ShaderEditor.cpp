@@ -57,6 +57,7 @@ void ShaderEditorInterface_DragDrop(void* Parent, Mouse mouse, char* FileName)
 
 	File file;
 	file.Load(FileName);
+	
 	TextEditor* CurrentEditor = &SEI->Editors[SEI->Panel.CurrentEditor];
 	CurrentEditor->CursorPosX = 0;
 	CurrentEditor->CursorPosY = 0;
@@ -187,7 +188,7 @@ void ShaderEditor::Update(bool Enabled)
 	kcb.IsEnabled = Enabled;
 	for (u32 i = 0; i < SPBCount; i++)
 	{
-		Editors[i].SetReceiveInput(Enabled);
+		Editors[i].SetReceiveInput(Panel.CurrentEditor == i);
 		Editors[i].Focused = Panel.CurrentEditor == i;
 	}
 
@@ -245,6 +246,11 @@ DX12PipelineDesc2 ShaderEditor::GetPipelineDesc()
 			return { 0 };
 		}
 		ParsedVSShader = ParseVSShader(VSLexerTokens);
+		if (!ParsedVSShader.IsValid)
+		{
+			printf("Error: Aborting compilation, malformed Vertex Shader\n");
+			return { 0 };
+		}
 		VSLexerTokens.tokens.Free();
 	}
 	if (Editors[ePixelShader].Contents.elementCount > 0)
