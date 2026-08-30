@@ -76,14 +76,14 @@ void FileSelector::Update()
 {
 	if (LabelModified)
 	{
-		objectManager->UpdateString(Label, DYNAMIC_ARR_GET_CAST_DATA(char, LabelString), textSize);
+		objectManager->UpdateString(Label, DYNAMIC_ARR_GET_CAST_DATA(char, LabelString), textSize, 0);
 		
 		LabelModified = false;
 	}
 	if (ContentsModified)
 	{
 		FileString->Pos.m128_f32[0] = Label->PixelLength + 10;
-		objectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize);
+		objectManager->UpdateString(FileString, DYNAMIC_ARR_GET_CAST_DATA(char, Contents), textSize, 0);
 		
 		ContentsModified = false;
 	}

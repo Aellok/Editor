@@ -102,7 +102,7 @@ struct ObjectManager
 	void		  AddPipeline2D( const char* Name, const char* fileName, bool Depth, bool MSAA);
 	void		  AddPipeline3D(const char* Name, const char* fileName, bool Depth, bool MSAA);
 	void		  AddPipeline3D(const char* Name, DX12Pipeline* Pipeline);
-	void          UpdateString(String2D* StringObj, char* String, u32 Size);
+	void          UpdateString(String2D* StringObj, char* String, u32 Size, u32 StartLineOffset);
 	void		  RemoveObject(Object2D* Obj);
 	u32           GetStringLength( const char* String, const char* FontName, u32 Size);
 	void		  AddTexture(const char* TextureName);

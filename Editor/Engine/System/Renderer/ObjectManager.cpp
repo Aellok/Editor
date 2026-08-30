@@ -369,7 +369,7 @@ void RemoveControlChars(char* String)
 }
 
 
-void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size)
+void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size,u32 StartLineOffset)
 {
 	Font* font = GEngine.GetClosestFont(Size);
 
@@ -386,14 +386,14 @@ void ObjectManager::UpdateString(String2D* StringObj, char* String, u32 Size)
 
 	if (str->Length > 0)
 	{
-		font->GetStringPositions(String, StringObj->Pos, Size, &StringObj->Info);
+		font->GetStringPositions(String, StringObj->Pos, Size, &StringObj->Info, StartLineOffset);
 
 		StringObj->PixelLength = StringObj->Info.PixelLength;
 		StringObj->PixelHeight = StringObj->Info.PixelHeight;
 		StringObj->YPadding = StringObj->Info.YPadding;
 
 		u32 StringIndex = 0;
-		for (u32 LineIndex = 0; LineIndex < StringObj->Info.LineCount; LineIndex++)
+		for (u32 LineIndex = StartLineOffset; LineIndex < StringObj->Info.LineCount; LineIndex++)
 		{
 			StringLineInfo* Info = &StringObj->Info.LineInfo[LineIndex];
 			for (u32 i = 0; i < Info->CharCount; i++)
@@ -455,9 +455,9 @@ String2D* ObjectManager::AddString(const char* String, Vector Pos, u32 Size,cons
 
 	u32 NLCount = GetNewLineCount((char*)String) + 1;
 	
-	Result->Info.Initialize(50);
+	Result->Info.Initialize(255);
 
-	UpdateString(Result, (char*)String, Size);
+	UpdateString(Result, (char*)String, Size, 0);
 	StringCount++;
 	//Strings[StringCount].PixelLength = VecList[StringMeshs[StringCount].Length - 1].m128_f32[0] - Pos.m128_f32[0] + Size;
 	return Result;

@@ -62,7 +62,7 @@ void TextBox::Init(ObjectManager* Manager2D,MouseManager* MManager,KeyboardManag
 }
 void TextBox::Update()
 {
-	Manager->UpdateString(String,Content.data,32);
+	Manager->UpdateString(String,Content.data,32, 0);
 }
 void TextBox::Draw()
 {

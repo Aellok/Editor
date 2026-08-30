@@ -78,7 +78,7 @@ void UIButton::Initialize(ButtonDesc Desc)
 		Text->Pos.m128_f32[0] = Desc.Pos.m128_f32[0] + (Desc.Dim.m128_f32[0] / 2) - (Text->PixelLength / 2);
 		Text->Pos.m128_f32[1] = Desc.Pos.m128_f32[1] + (Desc.Dim.m128_f32[1] / 2) - (Text->PixelHeight / 2);
 
-		Desc.ObjectManager->UpdateString(Text, (char*)Desc.Text, Desc.TextSize);
+		Desc.ObjectManager->UpdateString(Text, (char*)Desc.Text, Desc.TextSize ,0);
 	}
 	Base = Desc.ObjectManager->AddObject(Desc.Pos, Desc.Dim, { 0.0f,0.0f }, Desc.Color,"TopLeft",nullptr,"Ortho");
 	
@@ -93,7 +93,7 @@ void UIButton::SetPos(Vector Pos)
 	Base->Pos = Pos;
 	Text->Pos = Pos;
 	desc.Pos = Pos;
-	desc.ObjectManager->UpdateString(Text, (char*)desc.Text, desc.TextSize);
+	desc.ObjectManager->UpdateString(Text, (char*)desc.Text, desc.TextSize, 0);
 }
 void UIButton::SetAcceptInput(bool Value)
 {

@@ -32,6 +32,8 @@ struct TextEditor
 
 	ScrollBar scrollBar;
 
+	u32 FirstLineOffset;
+
 	void Init(ObjectManager* ObjManager, MouseManager* MManager, KeyboardManager* KManager, Vector InPos,Vector InDim,u32 Size, const char* DEBUG_fileName,Vector BackgroundColor);
 	void Update();
 	void Draw();

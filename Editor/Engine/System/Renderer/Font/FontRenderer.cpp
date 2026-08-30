@@ -131,7 +131,7 @@ void Font::LoadFont(DirectX12* pDX12,const char* FileName,u32 Size)
 	file.Close();
 }
 
-void Font::GetStringPositions(char* String,Vector Start,u32 Size, StringInfo* OutInfo)
+void Font::GetStringPositions(char* String,Vector Start,u32 Size, StringInfo* OutInfo,u32 LineOffset)
 {
 	//1. Split the string into substrings.
 	u32 NLCount = GetNewLineCount(String) + 1;
@@ -153,7 +153,7 @@ void Font::GetStringPositions(char* String,Vector Start,u32 Size, StringInfo* Ou
 	
 	f32 BaseLineY = Start.m128_f32[1] + ScaledA; // set the baseline so that the BaselineY - Ascent = StartY.
 	
-	for (u32 LineIndex = 0; LineIndex < NLCount; LineIndex++)
+	for (u32 LineIndex = LineOffset; LineIndex < NLCount; LineIndex++)
 	{
 		StringLineInfo* Info = &OutInfo->LineInfo[LineIndex];
 		Info->CharCount = 0;

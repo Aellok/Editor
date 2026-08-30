@@ -40,7 +40,6 @@ struct StringInfo
 	void Clear();
 };
 
-
 struct Font
 {
 	DirectX12* DX12;
@@ -67,10 +66,8 @@ struct Font
 	void Init(void* pPlatformInterface, MemoryArena* Arena);
 	void LoadFont(DirectX12* DX12,const char* FileName, u32 Size);
 	u32 GetFontStringLength(const char* String);
-	void GetStringPositions(char* String, Vector Start, u32 Size, StringInfo* OutInfo);
+	void GetStringPositions(char* String, Vector Start, u32 Size, StringInfo* OutInfo,u32 StartLineOffset);
 	f32 GetScale(u32 FontSize);
-	s32 GetYOffset(char c, u32 Size);
-	f32 GetXOffset(char c, u32 Size);
 	f32 GetCursorSize(f32 FontSize);
 	u8 GetAsciiFromVK(u32 VK_Code);
 };

@@ -220,17 +220,10 @@ void TextEditor_Move(void* Parent, Mouse pMouse)
 
 void TextEditor_OnScrollUpdate(void* Parent,f32 Percentage)
 {
-	/*
 	TextEditor* Editor = (TextEditor*)Parent;
 	u32 TotalLines = Editor->String->Info.LineCount;
 	Editor->FirstLineOffset = Percentage * TotalLines; // 0.5 / 1500; = 750
-
-	u32 CharOffset;
-	for (u32 i = 0; i < Editor->FirstLineOffset; i++)
-	{
-		CharOffset += Editor->String->Info.LineInfo->CharCount;
-	}
-	*/
+	Editor->Changed = true;
 }
 Vector TextEditor::GetCursorPosition(u32 X, u32 Y)
 {
@@ -293,12 +286,13 @@ u32 TextEditor::GetStringIndexFromXY(u32 LineX, u32 LineY)
 	for (u32 i = 0; i < String->Info.LineCount && i < LineY;i++)
 	{
 		StringLineInfo LineInfo = String->Info.LineInfo[i];
-		Result += LineInfo.CharCount + 1; // +1 for the trailing \n
+		Result += LineInfo.Contents.elementCount + 1; // +1 for the trailing \n
 	}
 	return Result + LineX;
 }
 void TextEditor::Init(ObjectManager* ObjManager,MouseManager* MManager,KeyboardManager* KManager,Vector InPos,Vector InDim, u32 TextSize,const char* DEBUG_fileName,Vector BackgroundColor)
 {
+	FirstLineOffset = 0;
 	Changed = false;
 	IsShiftDown = false;
 	Pos = InPos;
@@ -381,7 +375,7 @@ void TextEditor::Update()
 {
 	if (Changed)
 	{
-		ObjManager2D->UpdateString(String, Contents.data, Size);
+		ObjManager2D->UpdateString(String, Contents.data, Size,FirstLineOffset);
 		Changed = false;
 	}
 	Cursor->Pos = UpdateCursor();
