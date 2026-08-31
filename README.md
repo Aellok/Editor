@@ -36,11 +36,11 @@ Drag & Drop - Loads a Dragged file and its pipeline if applicable (.asset).
 
   IMPORTANT: Make sure that the correct shader is placed in the correct editor.
   ### Basic texture sampling example
-  - PS: <SolutionDir>/Editor/Applicatiob/Shaders/HLSLShaders/TexturedDefaultPS.hlsl
+  - PS: `<SolutionDir>/Editor/Applicatiob/Shaders/HLSLShaders/TexturedDefaultPS.hlsl`
   - VS: Unchanged.
   ### Phong lighting example.
-  - VS: <SolutionDir>/Editor/Applicatiob/Shaders/HLSLShaders/TexturedPhongLightingVS.hlsl
-  - PS: <SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingPS.hlsl
+  - VS: `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingVS.hlsl`
+  - PS: `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingPS.hlsl`
 
 - press F5 to recompile and move back into the material editor observe the changes. any errors will be output the the command prompt window.
 - once happy press ctrl + s while the Material tab is selected to save the .asset which then can be drag and droped into the Object viewport.
