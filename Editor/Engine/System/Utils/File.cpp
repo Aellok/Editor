@@ -7,9 +7,13 @@ bool File::Open(const s8* FilePath,const s8* Mode)
 {
 	memcpy(Path, FilePath, strlen(FilePath) + 1);
 	u32 i = fopen_s(&fp, Path, Mode);
+	if (!fp)
+	{
+		return false;
+	}
 	fseek(fp, 0, SEEK_SET);
 	Data = 0;
-	return !fp;
+	return true;
 }
 void File::Write(void* data, u32 size)
 {

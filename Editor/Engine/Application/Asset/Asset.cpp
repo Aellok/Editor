@@ -55,6 +55,6 @@ Asset* LoadAsset(const char* Path)
 		file.Read(asset->Textures[i], MAX_PATH);
 	}
 
-
+	file.Close();
 	return asset;
 }

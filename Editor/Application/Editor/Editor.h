@@ -37,5 +37,5 @@ struct Editor
 	void Update();
 	void Draw();
 
-	void SaveAsset(const char* FilePath);
+	void SaveAsset(char* FilePath);
 };

@@ -16,6 +16,12 @@ void Editor_OnKeyDown(void* Parent, u64 Key)
 			{	
 				DX12Pipeline* pipeline = editor->shaderEditor.CreatePipeline();
 				
+				for (u32 i = 0; i < SPBCount; i++)
+				{
+					editor->shaderEditor.Editors[i].Update();
+					editor->shaderEditor.UpdatePSRegisters(false);
+				}
+
 				if (pipeline)
 				{
 					memcpy(pipeline->PipelineName, "MaterialEditorPipeline", strlen("MaterialEditorPipeline"));
@@ -31,6 +37,7 @@ void Editor_OnKeyDown(void* Parent, u64 Key)
 				if (editor->materialEditor.CurrentAsset && editor->materialEditor.CurrentAsset->FilePath)
 				{
 					editor->SaveAsset(editor->materialEditor.CurrentAsset->FilePath);
+					editor->ctrl = false;
 					return;
 				}
 				char FilePath[MAX_PATH];
@@ -163,17 +170,12 @@ void Editor::Draw()
 	tabPanel.Draw();
 }
 
-void Editor::SaveAsset(const char* FilePath)
+void Editor::SaveAsset(char* FilePath)
 {
-	char* RelFilePath = GetEngineRelativePath((char*)FilePath);
-	if (!RelFilePath)
-	{
-		printf("Error: File Path: %s wasn't under the working directory.\n", FilePath);
-		return;
-	}
-	DX12Object3D* Obj = &objectManager->Meshes3D[materialEditor.Object->MeshID];
 	File file;
-	file.Open(RelFilePath, "wb");
+	file.Open(FilePath, "wb");
+	DX12Object3D* Obj = &objectManager->Meshes3D[materialEditor.Object->MeshID];
+	
 	//write header.
 	for (u32 i = 0; i < SPBCount; i++)
 	{
@@ -192,7 +194,7 @@ void Editor::SaveAsset(const char* FilePath)
 	file.Write(&TextureCount, sizeof(u32));
 
 	char Buffer[MAX_PATH] = { 0 };
-	memcpy(Buffer, RelFilePath, strlen(RelFilePath));
+	memcpy(Buffer, FilePath, strlen(FilePath));
 	file.Write(Buffer, MAX_PATH);
 
 	//shaders
@@ -207,12 +209,13 @@ void Editor::SaveAsset(const char* FilePath)
 	}
 	else
 	{
-		u32 Index = GetLastCharIndex(RelFilePath, '/') + 1;
-		u32 ExtIndex = GetLastCharIndex(RelFilePath, '.') ;
+		s32 Index = GetLastCharIndex(Buffer, '/') + 1;
 
-		RelFilePath[ExtIndex] = 0;
+		s32 ExtIndex = GetLastCharIndex(Buffer, '.') ;
+
+		Buffer[ExtIndex] = 0;
 		char buffer[260] = {0};
-		sprintf_s(buffer, "Application/Shaders/CompiledShaders/%sPipeline.desc",&RelFilePath[Index]);
+		sprintf_s(buffer, "Application/Shaders/CompiledShaders/%sPipeline.desc",&FilePath[Index]);
 		File PipelineFile;
 		PipelineFile.Open(buffer, "wb");
 		DX12PipelineDesc2 desc = shaderEditor.GetPipelineDesc();

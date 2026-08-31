@@ -9,7 +9,7 @@
 bool WinDialog_SaveSelector(char* DestFilePath)
 {
 	bool Success = false;
-
+	char* ptr;
 	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if (FAILED(hr))
 	{
@@ -41,12 +41,12 @@ bool WinDialog_SaveSelector(char* DestFilePath)
 		goto GetDisplayName;
 	}
 	//Write out the data.
-	s8 FilePathBuffer[FILENAME_MAX];
+
 	WideCharToMultiByte(CP_UTF8, 0, filePath, -1, DestFilePath, FILENAME_MAX, NULL, NULL);
 
-	BackSlashToForwardSlash(FilePathBuffer);
-
-
+	BackSlashToForwardSlash(DestFilePath);
+	ptr = GetEngineRelativePath(DestFilePath);
+	memcpy(DestFilePath, ptr, strlen(ptr) + 1);
 	CoTaskMemFree(filePath);
 GetDisplayName:
 	pItem->Release();

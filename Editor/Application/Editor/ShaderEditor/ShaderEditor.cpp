@@ -225,8 +225,8 @@ void ShaderEditor::Update(bool Enabled)
 	//do this once a second.
 	if (UpdatePS && ParseTimer > 1)
 	{
-		UpdatePSRegisters(false);
-		ParseTimer = 0;
+		//UpdatePSRegisters(false);
+		//ParseTimer = 0;
 	}
 	ParseTimer += GEngine.GetFrameTime();
 }
