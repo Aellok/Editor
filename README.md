@@ -1,47 +1,48 @@
-# Editor
-Work in progress editor
+## Editor Tab
 
-# Usage
-## Key binginds
-### Editor Tab
-F1 - Saves the current render pipeline.
+### Keyboard Shortcuts
 
-F5 - Re compiles and recreates the pipeline with an changes made to the shaders.
+* `F1` — Saves the current render pipeline.
+* `F5` — Recompiles and recreates the pipeline with any changes made to the shaders.
+* `Ctrl + S` — Saves the shader currently being edited.
 
-CTRL + S - Saves the shader you are currently looking at. 
-  - IMPORTANT: the file that is saved must be the extentsion .asset.
+  * **Important:** The file being saved must have the `.asset` extension.
+* `Ctrl + L` — Loads a file into the editor.
+* **Drag & Drop** — Dragging a file into the text editor window loads it.
 
-CTRL + L - Loads a file into the editor your currently looking at.
+## Material Tab
 
-Drag & Drop - dragging a file into the text editor window loads it in.
+### Keyboard Shortcuts
 
-### Material Tab
-CTRL + S - Saves the current shaders, pipeline ,textures into an asset.
+* `Ctrl + S` — Saves the current shaders, pipeline, and textures into an `.asset` file.
+* **Drag & Drop** — Loads a dragged file and its pipeline, if applicable (`.asset`).
 
-Drag & Drop - Loads a Dragged file and its pipeline if applicable (.asset). 
-  - IMPORTANT: Only supports .obj or .asset files.
- 
+  * **Important:** Only `.obj` and `.asset` files are supported.
+
 # Workflow
-## Creating an asset.
-- Open up the Material editor by going to the material tab.
 
-- Drag and drop in an .obj file. this will update the Shaders in the Shader editor (Editor Tab)
+## Creating an Asset
 
-- on the left assign a material using the ... button on the left of the screen.
-  - by default the .obj loads in with a default vs and ps shader which contains a texture but the texture isnt sampled.
+1. Open the **Material Editor** by going to the **Material Tab**.
+2. Drag and drop an `.obj` file into the Material Editor. This will update the shaders in the **Shader Editor** (Editor Tab).
+3. On the left side of the screen, assign a material using the `...` button.
 
-- swap over to the Editor tab.
+   * By default, the `.obj` loads with a default VS and PS shader containing a texture, but the texture is not sampled.
+4. Switch to the **Editor Tab**.
+5. Modify the shader to either sample the texture assigned in step 3 or drag and drop a pre-written shader into the editor.
 
-- Modify the shader to either Sample the texture you assigned in step 3 or drag and drop a pre written shader into the editor.
+   **Important:** Make sure the correct shader is placed in the correct editor.
 
-  IMPORTANT: Make sure that the correct shader is placed in the correct editor.
-  ### Basic texture sampling example
-  - PS: `<SolutionDir>/Editor/Applicatiob/Shaders/HLSLShaders/TexturedDefaultPS.hlsl`
-  - VS: Unchanged.
-  ### Phong lighting example.
-  - VS: `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingVS.hlsl`
-  - PS: `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingPS.hlsl`
+### Basic Texture Sampling Example
 
-- press F5 to recompile and move back into the material editor observe the changes. any errors will be output the the command prompt window.
-- once happy press ctrl + s while the Material tab is selected to save the .asset which then can be drag and droped into the Object viewport.
-  
+* **PS:** `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedDefaultPS.hlsl`
+* **VS:** Unchanged.
+
+### Phong Lighting Example
+
+* **VS:** `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingVS.hlsl`
+* **PS:** `<SolutionDir>/Editor/Application/Shaders/HLSLShaders/TexturedPhongLightingPS.hlsl`
+
+6. Press `F5` to recompile, then switch back to the **Material Editor** to observe the changes. Any compilation errors will be output to the command prompt.
+7. Once you're happy with the result, press `Ctrl + S` while the **Material Tab** is selected to save the `.asset`.
+8. The resulting `.asset` can then be dragged and dropped into the **Object Viewport**.
