@@ -60,7 +60,7 @@ void FileSelector::Init(MouseManager* MManager,ObjectManager* Manager, Vector Po
 	desc.Callbacks.OnLButtonDown = FileSelector_LButtonDown;
 	desc.TextSize = 24;
 	
-	button.Initialize(desc);
+	FilePicker.Initialize(desc);
 }
 void FileSelector::UpdateLabel(char* NewName,u32 Length)
 {
@@ -90,13 +90,13 @@ void FileSelector::Update()
 	Vector Pos = BasePosition;
 	Pos.m128_f32[0] += Label->PixelLength + 10;
 	Pos.m128_f32[0] += FileString->PixelLength + 10;
-	button.SetPos(Pos);
+	FilePicker.SetPos(Pos);
 }
 void FileSelector::Draw()
 {
 	Label->Draw();
 	FileString->Draw();
-	button.Draw();
+	FilePicker.Draw();
 }
 void FileSelector::AddPropertyChangeCallback(void* Parent,PropertyChanged UserCallback)
 {
@@ -104,4 +104,8 @@ void FileSelector::AddPropertyChangeCallback(void* Parent,PropertyChanged UserCa
 	Pair.Parent = Parent;
 	Pair.Callback = UserCallback;
 	Callbacks.Add(&Pair);
+}
+void FileSelector::SetAcceptInput(bool Enabled)
+{
+	FilePicker.SetAcceptInput(Enabled);
 }

@@ -52,33 +52,6 @@ void MaterialOptionsPanel::Update()
 	{
 		selectors[i].Update();
 	}
-	/*
-	if (DefferAdd)
-	{
-		switch(Type)
-		{
-			case eSelector:
-			{
-				char Buffer[255];
-				sprintf_s(Buffer, 255, "NewTexture%d", Selectors.elementCount);
-
-				Vector Pos = { 0 };
-				FileSelector* selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Selectors);
-				for (u32 i = 0; i < Selectors.elementCount; i++)
-				{
-					Pos = selectors[i].BasePosition;
-				}
-				Pos.m128_f32[1] += 60;
-
-				AddSelector(&GEngine.pWindow->mouseManager, Pos, Buffer, "");
-
-				break;
-			}
-		}
-		DefferAdd = false;
-		Type = 0;
-	}
-	*/
 };
 void MaterialOptionsPanel::Draw()
 {
@@ -96,7 +69,7 @@ void MaterialOptionsPanel::EnableInputs()
 	FileSelector* selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Selectors);
 	for (u32 i = 0; i < Selectors.elementCount; i++)
 	{
-		selectors[i].button.SetAcceptInput(true);
+		selectors[i].FilePicker.SetAcceptInput(true);
 	}
 	NewSelectorButton.mCallbacks.IsEnabled = true;
 }
@@ -105,7 +78,7 @@ void MaterialOptionsPanel::DisableInputs()
 	FileSelector* selectors = DYNAMIC_ARR_GET_CAST_DATA(FileSelector, Selectors);
 	for (u32 i = 0; i < Selectors.elementCount; i++)
 	{
-		selectors[i].button.SetAcceptInput(false);
+		selectors[i].FilePicker.SetAcceptInput(false);
 	}
 	NewSelectorButton.mCallbacks.IsEnabled = false;
 }

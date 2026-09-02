@@ -46,6 +46,11 @@ bool WinDialog_SaveSelector(char* DestFilePath)
 
 	BackSlashToForwardSlash(DestFilePath);
 	ptr = GetEngineRelativePath(DestFilePath);
+	if (!ptr)
+	{
+		printf("Error: File path: %s wasnt in the Editor directory.\n",DestFilePath);
+		return false;
+	}
 	memcpy(DestFilePath, ptr, strlen(ptr) + 1);
 	CoTaskMemFree(filePath);
 GetDisplayName:
@@ -156,6 +161,11 @@ DialogInfo WinDialog_Load()
 
 	BackSlashToForwardSlash(Buffer);
 	fp = GetEngineRelativePath(Buffer);
+	if (!fp)
+	{
+		printf("Error: File path: %s wasnt in the Editor directory.\n", Buffer);
+		return info;
+	}
 	memcpy(info.FilePath, fp, strlen(fp));
 
 	f.Load(info.FilePath);

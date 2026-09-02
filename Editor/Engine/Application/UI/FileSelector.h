@@ -26,7 +26,7 @@ struct FileSelector
 	Object2D* Background;
 	String2D* Label;
 	String2D* FileString;
-	UIButton button;
+	UIButton FilePicker;
 
 	DialogInfo ContentFileInfo;
 
@@ -53,4 +53,5 @@ struct FileSelector
 	void AddPropertyChangeCallback(void* Parent,PropertyChanged UserCallback);
 	void UpdateLabel(char* NewName,u32 Length);
 	void UpdateContent(const char* NewFileName,u32 Length);
+	void SetAcceptInput(bool Enabled);
 };

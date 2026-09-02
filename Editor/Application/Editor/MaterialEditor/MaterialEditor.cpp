@@ -36,6 +36,7 @@ void MaterialEditor_OnPropertyChanged(PropertyChangeInfo Info)
 			if (strlen(Contents) > 0)
 			{
 				Editor->ObjManager->AddTexture(Contents);
+				
 				Editor->Object->TextureID[TextureIndex] = Editor->ObjManager->TextureCount - 1;
 				Editor->Object->TextureCount = Editor->MaterialOptions.Selectors.elementCount;
 				Editor->RebuildPipeline = true;
@@ -239,13 +240,12 @@ void MaterialEditor::Init(MouseManager* ViewportManager,ObjectManager* Manager,E
 };
 void MaterialEditor::Update(bool Enabled)
 {
-	
 	if (Enabled)
 	{
-		Callbacks.IsEnabled = true;
-		MaterialOptions.EnableInputs();
+		Callbacks.IsEnabled = true;	
 		if (Object)
 		{
+			MaterialOptions.EnableInputs();
 			Object->Rot.m128_f32[1] += 0.01f;
 		}
 		

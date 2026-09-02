@@ -112,7 +112,7 @@ void TextEditor_KeyUp(void* Parent, u64 Key)
 				{
 					printf("Error: Failed to save editor contents.\n");
 				}
-				
+				Editor->IsCtrlDown = false;
 				return;
 			}
 			break;
